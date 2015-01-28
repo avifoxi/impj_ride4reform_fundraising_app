@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+	it "has a valid factory" do
+		expect( create(:admin) ).to be_an_instance_of(Admin)
+	end
 end
