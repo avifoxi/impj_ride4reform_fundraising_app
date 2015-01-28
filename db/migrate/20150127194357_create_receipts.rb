@@ -3,6 +3,7 @@ class CreateReceipts < ActiveRecord::Migration
     create_table :receipts do |t|
       t.references :user, index: true
       t.integer :amount
+      t.string :paypal_id
 
       t.timestamps
     end

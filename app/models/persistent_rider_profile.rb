@@ -5,11 +5,12 @@ class PersistentRiderProfile < ActiveRecord::Base
 	validates_associated :user, on: :create
 	validate :has_at_least_one_rider_year_registration
 
+
 	private
 
 	def has_at_least_one_rider_year_registration
-		unless self.rider_year_registrations.count >= 1
-      errors.add :rider_year_registrations, "Your must be registered for at least one ride to have a persistent profile."
+		unless self.user.rider_year_registrations.count >= 1
+      errors.add :rider_year_registrations, "You must be registered for at least one ride to have a persistent profile."
     end
 	end
 	

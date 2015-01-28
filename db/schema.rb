@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150127230125) do
   create_table "receipts", force: true do |t|
     t.integer  "user_id"
     t.integer  "amount"
+    t.string   "paypal_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
