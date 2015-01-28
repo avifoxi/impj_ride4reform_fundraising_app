@@ -1,0 +1,99 @@
+# encoding: UTF-8
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema.define(version: 20150127230125) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "admins", force: true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "donation_specs", force: true do |t|
+    t.integer  "rider_year_registration_id"
+    t.integer  "receipt_id"
+    t.boolean  "visible_to_public",          default: true
+    t.text     "note_to_rider"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "donation_specs", ["rider_year_registration_id"], name: "index_donation_specs_on_rider_year_registration_id", using: :btree
+
+  create_table "mailing_addresses", force: true do |t|
+    t.integer  "user_id"
+    t.text     "line_1"
+    t.text     "line_2"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mailing_addresses", ["user_id"], name: "index_mailing_addresses_on_user_id", using: :btree
+
+  create_table "persistent_rider_profiles", force: true do |t|
+    t.integer  "user_id"
+    t.text     "bio"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "receipts", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "receipts", ["user_id"], name: "index_receipts_on_user_id", using: :btree
+
+  create_table "ride_years", force: true do |t|
+    t.integer  "registration_fee"
+    t.integer  "min_fundraising_goal"
+    t.integer  "year"
+    t.date     "ride_start_date"
+    t.date     "ride_end_date"
+    t.integer  "current",              default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rider_year_registrations", force: true do |t|
+    t.integer  "ride_year_id"
+    t.integer  "user_id"
+    t.integer  "goal"
+    t.integer  "raised",         default: 0
+    t.boolean  "agree_to_terms"
+    t.string   "ride_option"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rider_year_registrations", ["ride_year_id"], name: "index_rider_year_registrations_on_ride_year_id", using: :btree
+  add_index "rider_year_registrations", ["user_id"], name: "index_rider_year_registrations_on_user_id", using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+end
