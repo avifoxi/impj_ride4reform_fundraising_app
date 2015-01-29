@@ -9,5 +9,5 @@ ryr = mickey.rider_year_registrations.create(goal: 2500, agree_to_terms: true, r
 
 r = avi.receipts.create(amount: 50)
 
-DonationSpec.create(note_to_rider: "hiya dad, ride that there bike", rider_year_registration: ryr, receipt: r)
+# DonationSpec.create(note_to_rider: "hiya dad, ride that there bike", rider_year_registration: ryr, receipt: r)
 
