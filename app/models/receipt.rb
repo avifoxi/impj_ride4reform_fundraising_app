@@ -3,5 +3,5 @@ class Receipt < ActiveRecord::Base
   has_one :donor_rider_note
 
   validates_associated :user, on: :create
-  validates :paypal_id, :presence => true
+  validates_presence_of :paypal_id, :user
 end

@@ -8,6 +8,8 @@ class CreateMailingAddresses < ActiveRecord::Migration
       t.string :state
       t.integer :zip
 
+      t.boolean :primary
+
       t.timestamps
     end
   end

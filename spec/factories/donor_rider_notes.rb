@@ -2,9 +2,10 @@
 
 FactoryGirl.define do
   factory :donor_rider_note do
-    rider_year_registration nil
-    receipt nil
-    visible_to_public false
-    note_to_rider "MyText"
+    visible_to_public true
+    note_to_rider "I donate to you for riding your bike"
+  
+    association :rider_year_registration, factory: :rider_year_registration
+    association :receipt, factory: [:receipt, :donation]
   end
 end
