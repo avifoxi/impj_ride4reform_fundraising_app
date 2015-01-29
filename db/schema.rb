@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127230125) do
+ActiveRecord::Schema.define(version: 20150129150134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150127230125) do
     t.datetime "updated_at"
   end
 
-  create_table "donation_specs", force: true do |t|
+  create_table "donor_rider_notes", force: true do |t|
     t.integer  "rider_year_registration_id"
     t.integer  "receipt_id"
     t.boolean  "visible_to_public",          default: true
@@ -32,7 +32,8 @@ ActiveRecord::Schema.define(version: 20150127230125) do
     t.datetime "updated_at"
   end
 
-  add_index "donation_specs", ["rider_year_registration_id"], name: "index_donation_specs_on_rider_year_registration_id", using: :btree
+  add_index "donor_rider_notes", ["receipt_id"], name: "index_donor_rider_notes_on_receipt_id", using: :btree
+  add_index "donor_rider_notes", ["rider_year_registration_id"], name: "index_donor_rider_notes_on_rider_year_registration_id", using: :btree
 
   create_table "mailing_addresses", force: true do |t|
     t.integer  "user_id"
