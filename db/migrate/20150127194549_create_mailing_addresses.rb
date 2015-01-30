@@ -8,7 +8,7 @@ class CreateMailingAddresses < ActiveRecord::Migration
       t.string :state
       t.integer :zip
 
-      t.integer :primary, default: 0
+      t.integer :users_primary, default: 0
 
       t.timestamps
     end

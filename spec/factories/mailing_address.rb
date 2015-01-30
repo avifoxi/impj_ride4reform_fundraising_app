@@ -5,5 +5,10 @@ FactoryGirl.define do
 		city Faker::Address.city
 		state Faker::Address.state
 		zip Faker::Address.zip.to_i
+
+		trait :donor do 
+			association :user, factory: [:user, :donor]
+		end
+
   end
 end

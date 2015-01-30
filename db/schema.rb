@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20150129150134) do
     t.string   "city"
     t.string   "state"
     t.integer  "zip"
-    t.integer  "primary",    default: 0
+    t.integer  "users_primary", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
