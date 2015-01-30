@@ -23,14 +23,9 @@ RSpec.describe User, :type => :model do
 		user.mailing_addresses << addy
 		expect(user.primary_address).to eq(addy)
 		addy2 = FactoryGirl.build(:mailing_address, :second)
-		# this passes
-		addy2.update_attributes(user: user)
-
-		# user.mailing_addresses << addy2
-		# puts "#{MailingAddress.last.inspect}"
+	
+		user.mailing_addresses << addy2
 		user.set_new_primary_address(addy2)
-		# puts "#{MailingAddress.last.inspect}"
-		# puts "#{user.primary_address.inspect} user.primary_address"
-		expect(user.primary_address).to eq(MailingAddress.last)
+		expect(user.primary_address).to eq(addy2)
 	end
 end
