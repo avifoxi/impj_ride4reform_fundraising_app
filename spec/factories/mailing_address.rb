@@ -10,5 +10,13 @@ FactoryGirl.define do
 			association :user, factory: [:user, :donor]
 		end
 
+		trait :second do 
+			line_1 'second line second'
+			line_2 'second line second'
+			city 'second city'
+			state 'second state'
+			zip 12345
+		end
+
   end
 end

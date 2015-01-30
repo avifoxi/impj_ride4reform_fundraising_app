@@ -24,7 +24,9 @@ RSpec.describe MailingAddress, :type => :model do
 		user = donor_m.user
 		donor_m.save
 		expect(donor_m.users_primary).to eq(1)
-		user.mailing_addresses << m_ad
+
+		second_addy = FactoryGirl.build(:mailing_address)
+		user.mailing_addresses << second_addy
 		expect(m_ad.users_primary).to eq(0)
 	end
 end
