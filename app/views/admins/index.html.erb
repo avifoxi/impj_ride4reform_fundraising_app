@@ -1,3 +1,5 @@
 <% @admins.each do |a| %>
 	<p><%= a.username  %> || <%= a.email %></p>
 <% end %>
+
+<%= link_to 'Manage Ride Years', ride_years_path %>
