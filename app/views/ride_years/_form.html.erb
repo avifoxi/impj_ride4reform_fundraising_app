@@ -1,3 +1,5 @@
+<div class="datepicker"></div>
+
 <%= form_for @ride_year do |f| %>
   <%= f.label :registration_fee, 'Standard registration_fee:'  %>:
   <%= f.text_field :registration_fee %><br />
@@ -13,7 +15,9 @@
   <%= f.text_field :year %><br />
 
 	<%= f.label :ride_start_date, 'Ride formal start date:'%>:
-  <%= f.text_field :ride_start_date %><br />
+  <%= f.text_field :ride_start_date, as: :datepicker, required: false,
+    :placeholder => 'Select date', input_html: {class: "form-control"},
+    label: "Expiration date: " %><br />
 
 	<%= f.label :ride_end_date, 'Ride formal end date:' %>:
   <%= f.text_field :ride_end_date %><br />
@@ -28,4 +32,6 @@
 
   <%= f.submit %>
 <% end %>
+
+
 
