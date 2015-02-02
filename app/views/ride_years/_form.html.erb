@@ -1,2 +1,31 @@
-i am a form
-<%= @ride_year %>
+<%= form_for @ride_year do |f| %>
+  <%= f.label :registration_fee %>:
+  <%= f.text_field :registration_fee %><br />
+
+
+	<%= f.label :registration_fee_early %>:
+  <%= f.text_field :registration_fee_early %><br />
+
+	<%= f.label :min_fundraising_goal %>:
+  <%= f.text_field :min_fundraising_goal %><br />
+
+	<%= f.label :year %>:
+  <%= f.text_field :year %><br />
+
+	<%= f.label :ride_start_date %>:
+  <%= f.text_field :ride_start_date %><br />
+
+	<%= f.label :ride_end_date %>:
+  <%= f.text_field :ride_end_date %><br />
+
+	<%= f.label :early_bird_cutoff %>:
+  <%= f.text_field :early_bird_cutoff %><br />
+
+
+
+  <%= f.label :current %>:
+  <%= f.text_field :current %><br />
+
+  <%= f.submit %>
+<% end %>
+
