@@ -5,9 +5,10 @@ RideYear.create(registration_fee: 650, min_fundraising_goal: 2500, year: 2015, r
 mickey = User.create(first_name: 'mickey', last_name: 'rosen', email: 'foo@foo.com')
 avi = User.create(first_name: 'avi', last_name: 'frosen', email: 'foo@bar.com')
 
-ryr = mickey.rider_year_registrations.create(goal: 2500, agree_to_terms: true, ride_option: 'Original Track')
+# ryr = mickey.rider_year_registrations.create(goal: 2500, agree_to_terms: true, ride_option: 'Original Track')
 
-r = avi.receipts.create(amount: 50)
+# r = avi.receipts.create(amount: 50)
 
 # DonationSpec.create(note_to_rider: "hiya dad, ride that there bike", rider_year_registration: ryr, receipt: r)
 
+Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
