@@ -5,19 +5,19 @@ require 'rails_helper'
 RSpec.describe User, :type => :model do
 
 	it "has a valid factory" do
-		user = create(:user)
+		user = create(:user, :rider)
 		expect(user).to be_an_instance_of(User)
 	end
 
 	it "selects user's primary address" do
-		user = create(:user)
+		user = create(:user, :rider)
 		addy = build(:mailing_address)
 		user.mailing_addresses << addy
 		expect(user.primary_address).to eq(addy)
 	end
 
 	it "assigns user new primary address" do 
-		user = create(:user)
+		user = create(:user, :rider)
 		addy = build(:mailing_address)
 
 		user.mailing_addresses << addy
