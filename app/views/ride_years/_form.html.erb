@@ -1,37 +1,29 @@
-<div class="datepicker"></div>
+<!-- <div class="datepicker"></div>
+ -->
 
-<%= form_for @ride_year do |f| %>
-  <%= f.label :registration_fee, 'Standard registration_fee:'  %>:
-  <%= f.text_field :registration_fee %><br />
-
-
-	<%= f.label :registration_fee_early, 'Early bird registration fee:'  %>:
-  <%= f.text_field :registration_fee_early %><br />
-
-	<%= f.label :min_fundraising_goal, 'Minimum rider fundraising goal:' %>:
-  <%= f.text_field :min_fundraising_goal %><br />
-
-	<%= f.label :year, 'Year (YYYY):' %>:
-  <%= f.text_field :year %><br />
-
-	<%= f.label :ride_start_date, 'Ride formal start date:'%>:
-  <%= f.text_field :ride_start_date, as: :datepicker, required: false,
-    :placeholder => 'Select date', input_html: {class: "form-control"},
-    label: "Expiration date: " %><br />
-
-	<%= f.label :ride_end_date, 'Ride formal end date:' %>:
-  <%= f.text_field :ride_end_date %><br />
-
-	<%= f.label :early_bird_cutoff, 'Cutoff for early bird registration:'%>:
-  <%= f.text_field :early_bird_cutoff %><br />
+<%= simple_form_for @ride_year do |f| %>
+  <%= f.input :registration_fee, label: 'Standard registration_fee:'  %>
+  
+  <%= f.input :registration_fee_early, label: 'Early bird registration fee:'  %>
+  
+  <%= f.input :min_fundraising_goal, label: 'Minimum rider fundraising goal:'  %>
+  
+  <%= f.input :year, label: 'Year (YYYY):'  %>
+  
+  <%= f.input :ride_start_date, as: :datepicker, input_html: {class: "form-control"},
+    label: 'Ride formal start date:' %>
+  
+  <%= f.input :ride_end_date, label: 'Ride formal end date:'  %>
+  
+  <%= f.input :early_bird_cutoff, label: 'Cutoff date for early bird registration:'  %>
+  
+  <%= f.input :current, label: 'Set this year as "Current" for all registrations + donations?'   %>
 
 
 
-  <%= f.label :current, 'Set this year as "Current" for all registrations + donations?' %>:
-  <%= f.text_field :current %><br />
 
-  <%= f.submit %>
+
+  <%= f.button :submit %>
 <% end %>
-
 
 
