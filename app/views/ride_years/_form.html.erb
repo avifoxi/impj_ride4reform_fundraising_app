@@ -1,3 +1,11 @@
+<% if @errors %>
+	<% @errors.each do |e| %>
+		<div class="alert alert-danger" role="alert"><%= e.message %></div>
+	<% end %>
+
+<% end %>
+
+
 <%= simple_form_for @ride_year do |f| %>
   
   <%= f.input :registration_fee, label: 'Standard registration_fee:'  %>
