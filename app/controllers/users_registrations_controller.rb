@@ -1,0 +1,2 @@
+class UsersRegistrationsController < ApplicationController
+end
