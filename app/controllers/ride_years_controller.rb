@@ -9,5 +9,18 @@ class RideYearsController < ApplicationController
 
 	def edit
 		@ride_year = RideYear.find(params[:id])
+		@current = RideYear.current
 	end
+
+	def update 
+		@ride_year = RideYear.find(params[:id])
+		@ride_year.update_attributes!(ride_year_params)
+		redirect_to ride_years_path
+	end
+
+	private
+
+	def ride_year_params
+    params.require(:ride_year).permit(:registration_fee, :registration_fee_early, :min_fundraising_goal, :year, :ride_start_date, :ride_end_date, :early_bird_cutoff, :set_current_in_form)
+  end
 end

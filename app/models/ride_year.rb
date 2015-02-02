@@ -1,5 +1,7 @@
 class RideYear < ActiveRecord::Base
 
+  attr_accessor :set_current_in_form
+
 	def self.current
   	max = RideYear.maximum(:current)
   	RideYear.find_by(current: max)
