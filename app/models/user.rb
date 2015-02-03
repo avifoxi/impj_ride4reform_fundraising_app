@@ -25,6 +25,14 @@ class User < ActiveRecord::Base
   	self.mailing_addresses.max_by{|m| m.users_primary}
   end
 
+  def full_name
+    if self.title == "None"
+      self.first_name + ' ' + self.last_name
+    else
+      self.title + ' ' + self.first_name + ' ' + self.last_name
+    end
+  end
+
   # def complete_donor_list_for_all_rides
   # 	drns = DonorRiderNote.where(rider: self)
   # end
