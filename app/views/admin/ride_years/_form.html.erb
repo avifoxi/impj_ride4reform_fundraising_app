@@ -1,0 +1,23 @@
+<%= simple_form_for [:admin, @ride_year] do |f| %>
+  
+  <%= f.input :registration_fee, label: 'Standard registration_fee:'  %>
+  
+  <%= f.input :registration_fee_early, label: 'Early bird registration fee:'  %>
+  
+  <%= f.input :min_fundraising_goal, label: 'Minimum rider fundraising goal:'  %>
+  
+  <%= f.input :year, label: 'Year (YYYY):'  %>
+  
+  <%= f.input :ride_start_date, as: :bootstrap_datepicker, input_html: { format: :default } %>
+  
+  <%= f.input :ride_end_date, as: :bootstrap_datepicker, input_html: { format: :default }  %>
+  
+  <%= f.input :early_bird_cutoff, as: :bootstrap_datepicker, label: 'Early bird fee cuttoff date', input_html: { format: :default }  %>
+  
+  <%= f.input :set_current_in_form, as: :boolean, label: 'Set this year as "Current" for all registrations + donations?'   %>
+
+
+  <%= f.button :submit %>
+<% end %>
+
+
