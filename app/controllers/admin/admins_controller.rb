@@ -13,8 +13,26 @@ class Admin::AdminsController < ApplicationController
 	end
 
 	def create
-		## TODO getting error uninitialized constant Admins on this action... which is odd. b/c we have fine results with other actions
+		@admin = Admin.new(admin_params)
+		if @admin.save! 
+			redirect_to admin_admins_path
+		else 
+			@errors = @admin.errors
+			render :edit
+		end
 	end
+
+# def update 
+# 		@ride_year = RideYear.find(params[:id])
+# 		if @ride_year.update_attributes(ride_year_params)
+# 			redirect_to ride_years_path
+# 		else 
+# 			@errors = @ride_year.errors
+# 			@current = RideYear.current
+# 			render :edit
+# 		end 
+# 	end
+
 
 	private 
 
