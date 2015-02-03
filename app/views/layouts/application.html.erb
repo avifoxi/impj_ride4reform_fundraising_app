@@ -8,10 +8,19 @@
 </head>
 <body>
 
-	<p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+	<div class="container">
 
-	<%= yield %>
+	
+		<% if current_admin %>
+			<%= render 'admin/admins/navbar' %>
+  	<% end %>
+
+		<p class="notice"><%= notice %></p>
+	  <p class="alert"><%= alert %></p>
+
+		<%= yield %>
+
+	</div>
 
 </body>
 </html>

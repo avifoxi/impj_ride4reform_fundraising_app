@@ -1,9 +1,26 @@
 Rails.application.routes.draw do
-  devise_for :admins
+
+  devise_for :admins, controllers: { registrations: "admins/registrations" }
   devise_for :users
+
   # for devise - must set root to something
   root to: "users#index"
 
+  resources :users
+  
+  # resources :admins 
+
+  get 'admin' => 'admin/admins#index'
+
+  namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+    resources :users
+    resources :admins
+    resources :ride_years
+  end
+
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
