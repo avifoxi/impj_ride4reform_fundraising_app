@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   
   # resources :admins 
 
+  get 'admin' => 'admin/admins#index'
+
   namespace :admin do
   #     # Directs /admin/products/* to Admin::ProductsController
   #     # (app/controllers/admin/products_controller.rb)
