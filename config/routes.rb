@@ -8,9 +8,14 @@ Rails.application.routes.draw do
 
   resources :users
   
-  resources :admins do
+  resources :admins 
+
+  namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
     resources :users
   end
+
   resources :ride_years
 
   # The priority is based upon order of creation: first created -> highest priority.
