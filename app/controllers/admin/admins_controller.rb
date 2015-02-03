@@ -22,18 +22,6 @@ class Admin::AdminsController < ApplicationController
 		end
 	end
 
-# def update 
-# 		@ride_year = RideYear.find(params[:id])
-# 		if @ride_year.update_attributes(ride_year_params)
-# 			redirect_to ride_years_path
-# 		else 
-# 			@errors = @ride_year.errors
-# 			@current = RideYear.current
-# 			render :edit
-# 		end 
-# 	end
-
-
 	private 
 
 	def admin_params

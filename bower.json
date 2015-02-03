@@ -1,0 +1,19 @@
+{
+  "name": "r4r_up_from_models_redo",
+  "version": "0.0.0",
+  "homepage": "https://github.com/avifoxi/ride4reformRefactor",
+  "authors": [
+    "AviFoxi <frosenox@gmail.com>"
+  ],
+  "description": "fundraising app for the ride for reform",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ]
+}

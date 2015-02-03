@@ -1,0 +1,13 @@
+<h3>Sorted Views:</h3>
+<ul>
+	<li><a href="#" class="btn btn-default">All Users</a></li>
+	<li><a href="#" class="btn btn-default">Riders By Year</a></li>
+	<li><a href="#" class="btn btn-default">Donors By Year</a></li>
+</ul>
+
+
+<ul>
+	<% @users.each do |u| %>
+		<li><%= link_to "#{ u.full_name }", admin_user_path(u) %></li>
+	<% end %>
+</ul>

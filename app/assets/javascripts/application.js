@@ -9,10 +9,14 @@
 //
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
+// 
+// NOTE -- installed bower to manage package dependencies for front end, saving to vendors/assets/components
+// from there require packages as needed -- see underscore require for proper namespacing
 //
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require bootstrap-datepicker
+//= require underscore/underscore-min.js
 //= require turbolinks
 //= require_tree .
