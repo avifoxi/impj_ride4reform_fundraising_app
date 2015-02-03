@@ -23,6 +23,11 @@ class RideYearsController < ApplicationController
 		end 
 	end
 
+	def new 
+		@ride_year = RideYear.new
+		@current = RideYear.current
+	end
+
 	private
 
 	def ride_year_params

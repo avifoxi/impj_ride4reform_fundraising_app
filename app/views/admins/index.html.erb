@@ -1,5 +1,9 @@
-<% @admins.each do |a| %>
-	<p><%= a.username  %> || <%= a.email %></p>
-<% end %>
+<h3>Active Admins:</h3>
 
-<%= link_to 'Manage Ride Years', ride_years_path %>
+<ul>
+	<% @admins.each do |a| %>
+		<li><%= link_to "#{a.username}", admin_path(a)  %> </li>
+	<% end %>
+</ul>
+
+<%= link_to "Register a new admin", new_admin_path, :class => "btn btn-default" %>

@@ -1,11 +1,3 @@
-<% if @errors %>
-	<% @errors.each do |e| %>
-		<div class="alert alert-danger" role="alert"><%= e.message %></div>
-	<% end %>
-
-<% end %>
-
-
 <%= simple_form_for @ride_year do |f| %>
   
   <%= f.input :registration_fee, label: 'Standard registration_fee:'  %>
@@ -23,9 +15,6 @@
   <%= f.input :early_bird_cutoff, as: :bootstrap_datepicker, label: 'Early bird fee cuttoff date', input_html: { format: :default }  %>
   
   <%= f.input :set_current_in_form, as: :boolean, label: 'Set this year as "Current" for all registrations + donations?'   %>
-
-
-
 
 
   <%= f.button :submit %>
