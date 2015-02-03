@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   root to: "users#index"
 
   resources :users
-  resources :admins
+  
+  resources :admins do
+    resources :users
+  end
   resources :ride_years
 
   # The priority is based upon order of creation: first created -> highest priority.

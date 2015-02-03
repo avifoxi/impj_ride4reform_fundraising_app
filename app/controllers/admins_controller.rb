@@ -13,9 +13,7 @@ class AdminsController < ApplicationController
 	end
 
 	def create
-		p "$"*80
-		puts "PARAMS:"
-		p params
+		## TODO getting error uninitialized constant Admins on this action... which is odd. b/c we have fine results with other actions
 	end
 
 	private 
