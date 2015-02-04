@@ -2,12 +2,12 @@ FactoryGirl.define do
   factory :user do
 
   	password Faker::Internet.password
-  	
+  	title 'None'
+
     trait :rider do
 	    first_name "Rider"
 			last_name "Test"
-			email "rider@test.com"
-			
+			email "rider@test.com"	
 	  end
 
 	  trait :donor do

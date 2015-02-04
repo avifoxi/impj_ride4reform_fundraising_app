@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :admin do
-  	password Devise.friendly_token.first(8)
+  	password 'adminpass'
   	email 'admin@test.com'
   end
 end
