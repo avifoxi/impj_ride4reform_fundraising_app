@@ -14,11 +14,11 @@ class Admin::AdminsController < ApplicationController
 
 	def create
 		@admin = Admin.new(admin_params)
-		if @admin.save! 
+		if @admin.save 
 			redirect_to admin_admins_path
 		else 
 			@errors = @admin.errors
-			render :edit
+			render :new
 		end
 	end
 
