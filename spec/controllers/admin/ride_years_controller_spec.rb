@@ -28,6 +28,21 @@ RSpec.describe Admin::RideYearsController, :type => :controller do
 			expect(response).to render_template(:index)
 		end
 	end
+
+	context 'new' do 
+		it 'prepares new template for logged in admin, references current year' do 
+			old_ride_year
+			sign_in admin
+			get :new
+			expect(response).to render_template(:new)
+			expect(assigns(:current)).to eq(old_ride_year)
+		end
+	end
+
+	context 'create' do 
+		
+
+	end
 	
 
 	# it 'allows logged in admin to get new admin template' do
