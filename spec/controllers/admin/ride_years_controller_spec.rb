@@ -7,10 +7,25 @@ RSpec.describe Admin::RideYearsController, :type => :controller do
 	let(:new_ry_attr ){ FactoryGirl.attributes_for(:ride_year, :current)}
 	# login_admin(FactoryGirl.create(:admin))
 	
-	context 'index' do
+	context 'authenticates admin before action' do
 		it 'redirects non logged in user to admin sign in page' do 
 			get :index
 			expect(response).to redirect_to(new_admin_session_path)
+		end
+
+		it 'allows logged in admin to access actions' do 
+			sign_in admin
+			get :index
+			expect(response).to render_template(:index)
+		end
+	end
+
+	context 'index' do 
+		it 'renders created ride years' do 
+			sign_in admin
+			get :index
+			expect(assigns(:ride_years)).to eq([old_ride_year])
+			expect(response).to render_template(:index)
 		end
 	end
 	
