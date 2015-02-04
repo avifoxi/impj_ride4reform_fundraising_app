@@ -1,6 +1,14 @@
 FactoryGirl.define do
   factory :admin do
-  	password Devise.friendly_token.first(8)
-  	email 'admin@test.com'
+  	username Faker::Internet.user_name
+  	password Faker::Internet.password
+  	email Faker::Internet.email
+
+
+  	trait :fresh do 
+			username Faker::Internet.user_name
+	  	password Faker::Internet.password
+	  	email Faker::Internet.email
+	  end
   end
 end

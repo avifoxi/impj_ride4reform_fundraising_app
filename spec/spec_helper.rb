@@ -16,18 +16,34 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'factory_girl_rails'
 
+
 RSpec.configure do |config|
 
-  config.include FactoryGirl::Syntax::Methods
+  
+
+  
 
   config.before(:suite) do
-    begin
-      DatabaseCleaner.start
-      # FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
     end
   end
+
+  # below example taken from factory girl docs -- but the above method from database cleaner docs seems more effective -- no errors and effectively cleans between tests.
+  
+  # config.before(:suite) do
+  #   begin
+  #     DatabaseCleaner.start
+  #     # FactoryGirl.lint
+  #   ensure
+  #     DatabaseCleaner.clean
+  #   end
+  # end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
