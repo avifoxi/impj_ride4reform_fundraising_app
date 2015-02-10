@@ -1,7 +1,8 @@
 class Admin::RideYearsController < ApplicationController
 
 	skip_before_action :authenticate_user!
-
+	layout "admins"
+	
 	def index 
 		@ride_years = RideYear.order('year DESC').all
 		@current = RideYear.current

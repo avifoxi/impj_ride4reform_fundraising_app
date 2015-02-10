@@ -9,9 +9,10 @@
 <body>
 
 	<div class="container">
-
 	
-		<%= render 'shared/navbar' %>
+		<% if current_admin %>
+			<%= render 'admin/admins/navbar' %>
+  	<% end %>
 
 		<p class="notice"><%= notice %></p>
 	  <p class="alert"><%= alert %></p>
