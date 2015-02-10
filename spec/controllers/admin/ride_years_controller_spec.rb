@@ -56,8 +56,34 @@ RSpec.describe Admin::RideYearsController, :type => :controller do
 			post :create, ride_year: {year: 'invalid params dude'}
 			expect(RideYear.all.count).to eq(1)
 			expect(response).to render_template(:edit)
+		end
+	end
+
+
+	context 'update' do 
+		it 'allows admin to update ride year with valid params' do 
+			old_ride_year
+			sign_in admin
+			expect(RideYear.last.year).to eq(2014)
+			expect(RideYear.all.count).to eq(1)
+			put :update, id: RideYear.last.id, ride_year: new_ry_attr
+			expect(RideYear.last.year).to eq(2015)
+			expect(RideYear.all.count).to eq(1)
+			expect(response).to redirect_to(admin_ride_years_path)
+		end
+
+		it 'and rejects invalid params, not saved to db' do
+			old_ride_year
+			sign_in admin
+			expect(RideYear.last.year).to eq(2014)
+			expect(RideYear.all.count).to eq(1)
+			put :update, id: RideYear.last.id, ride_year: {year: 'invalid params dude'}
+			expect(RideYear.last.year).to eq(2014)
+			expect(RideYear.all.count).to eq(1)
+			expect(response).to render_template(:edit)
 
 		end
+
 	end
 	
 
