@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :admins, controllers: { registrations: "admins/registrations" }
+  devise_for :admins
   devise_for :users
 
   # for devise - must set root to something
@@ -8,13 +8,11 @@ Rails.application.routes.draw do
 
   resources :users
   
-  # resources :admins 
+  resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'
 
   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
     resources :users
     resources :admins
     resources :ride_years

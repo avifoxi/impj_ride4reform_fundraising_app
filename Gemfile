@@ -44,7 +44,7 @@ gem "twitter-bootstrap-rails"
 gem 'bootstrap-datepicker-rails'
 
 # another plataformatec gem, ala devise
-gem 'simple_form'
+gem 'simple_form', '~> 3.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

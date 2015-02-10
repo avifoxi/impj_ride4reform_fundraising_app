@@ -1,0 +1,2 @@
+module RiderYearRegistrationsHelper
+end
