@@ -40,8 +40,24 @@ RSpec.describe Admin::RideYearsController, :type => :controller do
 	end
 
 	context 'create' do 
-		
+		it 'allows logged in admin to create new ride year' do 
+			old_ride_year
+			sign_in admin
+			expect(RideYear.all.count).to eq(1)
+			post :create, ride_year: new_ry_attr
+			expect(RideYear.all.count).to eq(2)
+			expect(response).to redirect_to(admin_ride_years_path)
+		end
 
+		it 'redirects to edit when ride year has errors, and does not save to db' do 
+			old_ride_year
+			sign_in admin
+			expect(RideYear.all.count).to eq(1)
+			post :create, ride_year: {year: 'invalid params dude'}
+			expect(RideYear.all.count).to eq(1)
+			expect(response).to render_template(:edit)
+
+		end
 	end
 	
 

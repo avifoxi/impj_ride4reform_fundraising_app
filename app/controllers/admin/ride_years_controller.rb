@@ -25,7 +25,7 @@ class Admin::RideYearsController < ApplicationController
 
 	def create 
 		@ride_year = RideYear.new(ride_year_params)
-		if @ride_year.save!(ride_year_params)
+		if @ride_year.save
 			redirect_to admin_ride_years_path
 		else 
 			@errors = @ride_year.errors
