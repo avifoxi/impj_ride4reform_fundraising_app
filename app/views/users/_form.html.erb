@@ -1,0 +1,8 @@
+<%= simple_form_for @user  do |f| %>
+  <%= f.input :first_name %>
+  <%= f.input :password, hint: 'No special characters. At least 8 characters long.' %>
+  <%= f.input :password_confirmation %>
+  <%= f.input :email, placeholder: 'Your Email Address' %>
+  <%= f.button :submit %>
+<% end %>
+
