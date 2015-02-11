@@ -3,6 +3,7 @@ class RiderYearRegistration < ActiveRecord::Base
   belongs_to :user
 
   has_many :mailing_addresses, through: :user
+  has_one :persistent_rider_profile, through: :user
 
   accepts_nested_attributes_for :user
 
