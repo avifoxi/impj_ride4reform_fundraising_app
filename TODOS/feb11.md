@@ -1,0 +1,1 @@
+Update model tests - to reflect the mailing_addresses through user, via rider_year_registrations association

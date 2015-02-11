@@ -1,5 +1,6 @@
 class MailingAddress < ActiveRecord::Base
   belongs_to :user
+  has_many :rider_year_registrations, through: :user
 
   validates_presence_of :user
   validates_associated :user, on: :create

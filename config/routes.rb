@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # for devise - must set root to something
   root to: "users#index"
 
+  # get 'users/check' => 'users#pre_registration_form'
+
   resources :users
   
   resources :rider_year_registrations

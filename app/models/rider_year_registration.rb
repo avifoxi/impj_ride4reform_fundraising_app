@@ -2,7 +2,11 @@ class RiderYearRegistration < ActiveRecord::Base
   belongs_to :ride_year
   belongs_to :user
 
+  has_many :mailing_addresses, through: :user
+
   accepts_nested_attributes_for :user
+
+  # delegate :mailing_addresses, to: :user
 
   has_many :donor_rider_notes
 
