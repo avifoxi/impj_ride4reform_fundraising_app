@@ -35,7 +35,14 @@ class RiderYearRegistrationsController < ApplicationController
 			p "#{@ryr.errors }"
 			p "#"*80
 			@ryr.build_user
-			@ryr.mailing_addresses.build(mailing_addess_params)
+			@ryr.mailing_addresses.build(mailing_addesses_params)
+
+			p "#"*80
+			p 'mailing_address attriutes'
+  	p "#{mailing_addesses_params }" 
+	
+			# p "#{@ryr.errors }"
+			p "#"*80
 			@ryr.user.build_persistent_rider_profile(per_params)
 			@errors = @ryr.errors
 			render :new
@@ -51,7 +58,7 @@ class RiderYearRegistrationsController < ApplicationController
 
 	private 
 
-	def ryr_params
+	def full_params
     params.require(:rider_year_registration).permit(:ride_option, :goal, 
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
@@ -61,12 +68,16 @@ class RiderYearRegistrationsController < ApplicationController
     		] )
   end
 
-  def mailing_addess_params
-  	ryr_params[:mailing_address_attributes]
+  def mailing_addesses_params
+  	ryr_params['mailing_addresses_attributes']['0']
   end
 
   def per_params
-  	ryr_params[:persistent_rider_profile_attributes]
+  	ryr_params['persistent_rider_profile_attributes']
+  end
+
+  def ryr_params 
+
   end
 
 

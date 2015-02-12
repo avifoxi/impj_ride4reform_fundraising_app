@@ -24,14 +24,14 @@
 
   	< % end %>
  -->
-<!--   	< %= f.simple_fields_for :persistent_rider_profile do |p| %>
-      < %= p.input :primary_phone %>
-      < %= p.input :secondary_phone %>
+  	<%= f.simple_fields_for :persistent_rider_profile, @ryr.persistent_rider_profile do |p| %>
+      <%= p.input :primary_phone %>
+      <%= p.input :secondary_phone %>
 
-      < %= p.input :birthdate, as: :date, start_year: 1935 %>
-  		< %= p.input :bio, as: :text %>
-  	< % end %>
- -->
+      <%= p.input :birthdate, as: :date, start_year: 1935 %>
+  		<%= p.input :bio, as: :text %>
+  	<% end %>
+
   <!-- < % end %> -->
   
   <%= f.input :goal %>
