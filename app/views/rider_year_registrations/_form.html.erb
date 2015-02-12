@@ -7,7 +7,12 @@
 
   	<%= u.simple_fields_for :mailing_address do |m| %>
 	
+      <%= m.input :line_1 %>
+      <%= m.input :line_2 %>
+      <%= m.input :city %>
+      <%= m.input :state %>
 			<%= m.input :zip %>
+
 
   	<% end %>
 
