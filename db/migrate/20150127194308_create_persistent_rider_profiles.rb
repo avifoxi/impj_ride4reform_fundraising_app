@@ -4,6 +4,7 @@ class CreatePersistentRiderProfiles < ActiveRecord::Migration
       t.references :user
       t.text :bio
 
+      t.date :birthdate
       t.string :primary_phone
       t.string :secondary_phone
 

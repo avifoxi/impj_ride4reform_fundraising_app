@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 
 	has_one :persistent_rider_profile
 
+  accepts_nested_attributes_for :mailing_addresses, :persistent_rider_profile
+
 	has_many :rider_year_registrations
 	has_many :receipts
 

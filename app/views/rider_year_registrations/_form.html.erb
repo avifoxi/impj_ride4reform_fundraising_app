@@ -3,8 +3,6 @@
   <%= f.input :ride_option, collection: RiderYearRegistration::RIDE_OPTIONS %>
   <%= f.simple_fields_for :user do |u| %>
 
-  	<%= u.input :first_name %>
-
   	<%= u.simple_fields_for :mailing_address do |m| %>
 	
       <%= m.input :line_1 %>
@@ -17,13 +15,16 @@
   	<% end %>
 
   	<%= u.simple_fields_for :persistent_rider_profile do |p| %>
+    <%= p.input :primary_phone %>
+    <%= p.input :secondary_phone %>
 
-		<%= p.input :bio %>
+    <%= p.input :birthdate, as: :date, start_year: 1935 %>
+		<%= p.input :bio, as: :text %>
   	<% end %>
 
   <% end %>
   
-
+  <%= f.input :goal %>
   <%= f.button :submit %>
 <% end %>
 
