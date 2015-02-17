@@ -5,61 +5,59 @@ class RiderYearRegistrationsController < ApplicationController
 	def new 
 		## assume never registered before - brand new 
 		@ryr = RiderYearRegistration.new
-		@ryr.build_user
-		@ryr.mailing_addresses.build
-		@ryr.user.build_persistent_rider_profile
+		# @ryr.build_user
+		# @ryr.mailing_addresses.build
+		# @ryr.user.build_persistent_rider_profile
 	end
 
 	def create 
-		p "#"*80
-		p 'these be params'
-		p "#{params.inspect}"
-		p "#"*80
-
-		p "#"*80
-		p 'these be processed ryr_params'
-		p "#{ryr_params.inspect}"
-		p "#"*80
-
 		@ryr = RiderYearRegistration.new(user: current_user)
 		if @ryr.update_attributes(ryr_params)
-
-			p "#"*80
-			p 'ryr'
-			p "#{@ryr.inspect}"
-			p "#"*80
-		else 
-			p "#{ @ryr.errors.full_messages.to_sentence.inspect}" 
-			p "#"*80
-			p 'ryr errors'
-			p "#{@ryr.errors }"
-			p "#"*80
-			@ryr.build_user
-			@ryr.mailing_addresses.build(mailing_addesses_params)
-
-			p "#"*80
-			p 'mailing_address attriutes'
-  	p "#{mailing_addesses_params }" 
-	
-			# p "#{@ryr.errors }"
-			p "#"*80
-			@ryr.user.build_persistent_rider_profile(per_params)
+			redirect_to rider_year_registrations_agree_to_terms_path(rider_year_registration: @ryr)
+		else
 			@errors = @ryr.errors
 			render :new
-			# redirect_to new_rider_year_registration_path, :flash => { :errors => @ryr.errors }
 		end
+	end
 
-			# p "#"*80
-			# p 'ryr'
-			# p "#{@ryr.inspect}"
-			# p "#"*80
+	def new_mailing_address
+
+	end
+
+	def new_pyp
+
+	end
+
+	def new_agree_to_terms
+		p "#"*80
+		p "#{params.inspect}"
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
+	end
+
+	def new_pay_reg_fee
+
+	end
+
+	def create_mailing_address
+
+	end
+
+	def create_persistent_rider_profile
+
+	end
+
+	def create_agree_to_terms
+
+	end
+
+	def create_registrations_pay_fee
 
 	end
 
 	private 
 
 	def full_params
-    params.require(:rider_year_registration).permit(:ride_option, :goal, 
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
@@ -69,15 +67,18 @@ class RiderYearRegistrationsController < ApplicationController
   end
 
   def mailing_addesses_params
-  	ryr_params['mailing_addresses_attributes']['0']
+  	full_params['mailing_addresses_attributes']['0']
   end
 
   def per_params
-  	ryr_params['persistent_rider_profile_attributes']
+  	full_params['persistent_rider_profile_attributes']
   end
 
   def ryr_params 
-
+  	{
+  		ride_option: full_params[:ride_option],
+  		goal: full_params[:goal]
+  	} 	
   end
 
 

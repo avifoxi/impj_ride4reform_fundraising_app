@@ -20,6 +20,7 @@ class RiderYearRegistration < ActiveRecord::Base
 
   RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding']
 
+  validates :goal, numericality: true, presence: true
   validate :goal_meets_min_for_ride_year  
   # validates_presence_of :agree_to_terms, on: :create, :message => 'You must accept the terms of the ride to register.'
   validates_associated :user, on: :create
@@ -33,8 +34,10 @@ class RiderYearRegistration < ActiveRecord::Base
   private
 
   def goal_meets_min_for_ride_year
-    unless self.goal >= self.ride_year.min_fundraising_goal
-      errors.add :goal, "Your goal must exceed this year's minimum."
+    if self.goal
+      unless self.goal >= self.ride_year.min_fundraising_goal
+        errors.add :goal, "Your goal must exceed this year's minimum."
+      end
     end
   end
 

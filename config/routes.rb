@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   # get 'users/check' => 'users#pre_registration_form'
 
   resources :users
+
+  get 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#new_agree_to_terms'
   
+  post 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#create_agree_to_terms'
+
   resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'
