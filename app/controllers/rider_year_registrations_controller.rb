@@ -50,7 +50,12 @@ class RiderYearRegistrationsController < ApplicationController
 		p "#{full_params.inspect}"
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 		if @ryr.update_attributes(agree_to_terms: full_params)
-			p 'UPDATED'
+			redirect_to rider_year_registrations_persistent_rider_profile_path(rider_year_registration: @ryr)
+		else
+			@errors = @ryr.errors
+			p '$'*80
+			puts 'aggree ot terms errors'
+			p "#{@errors.inspect}"
 			redirect_to rider_year_registrations_agree_to_terms_path(rider_year_registration: @ryr)
 		end
 

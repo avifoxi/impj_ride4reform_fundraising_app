@@ -1,5 +1,7 @@
 
 <h3>Terms for <%= @ryr.ride_option %></h3>
+<%= render 'shared/form_errors' %>
+
 <%= simple_form_for @ryr, :url => rider_year_registrations_agree_to_terms_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
   <%=	correct_terms_for_ride_option(@ryr)%>
   <%= f.input :agree_to_terms, as: :boolean, checked_value: true, unchecked_value: false %>

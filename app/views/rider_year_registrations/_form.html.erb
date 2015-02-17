@@ -1,9 +1,4 @@
-<% if @errors %>
-  <div class="alert alert-danger" role="alert">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <%= @errors.full_messages.to_sentence %>  
-  </div>
-<% end %>
+<%= render 'shared/form_errors' %>
 
 <%= simple_form_for @ryr  do |f| %>
    
