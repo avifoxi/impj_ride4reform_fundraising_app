@@ -10,9 +10,11 @@ Rails.application.routes.draw do
 
   resources :users
 
-  get 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#new_agree_to_terms'
-  
+  get 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#new_agree_to_terms' 
   post 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#create_agree_to_terms'
+
+  get 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#new_persistent_rider_profile' 
+  post 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#create_persistent_rider_profile'
 
   resources :rider_year_registrations
 

@@ -24,7 +24,7 @@ class RiderYearRegistrationsController < ApplicationController
 
 	end
 
-	def new_pyp
+	def new_persistent_rider_profile
 
 	end
 
