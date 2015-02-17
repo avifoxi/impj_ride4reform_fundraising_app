@@ -29,8 +29,6 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def new_agree_to_terms
-		p "#"*80
-		p "#{params.inspect}"
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 	end
 
@@ -47,6 +45,14 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_agree_to_terms
+		p "#"*80
+		puts "full_params"
+		p "#{full_params.inspect}"
+		@ryr = RiderYearRegistration.find(params[:ryr_id])
+		if @ryr.update_attributes(agree_to_terms: full_params)
+			p 'UPDATED'
+			redirect_to rider_year_registrations_agree_to_terms_path(rider_year_registration: @ryr)
+		end
 
 	end
 
@@ -80,6 +86,5 @@ class RiderYearRegistrationsController < ApplicationController
   		goal: full_params[:goal]
   	} 	
   end
-
 
 end
