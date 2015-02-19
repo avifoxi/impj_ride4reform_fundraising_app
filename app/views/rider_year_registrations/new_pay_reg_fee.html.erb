@@ -20,3 +20,18 @@
   
   <%= f.button :submit %>
 <% end %>
+
+<script>
+	
+	var ch = $('#rider_year_registration_custom_billing_address');
+
+	ch.on('change', function(){
+		if ( ch.is(':checked') ) {
+			console.log('checked');
+		} else {
+			console.log('unchecked');
+		}
+		
+	});
+
+</script>
