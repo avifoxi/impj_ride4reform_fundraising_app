@@ -49,8 +49,11 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_agree_to_terms
+		p "#"*80
+		puts "full_params"
+		p "#{full_params.inspect}"
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
-		if @ryr.update_attributes(agree_to_terms: full_params)
+		if @ryr.update_attributes(full_params)
 			redirect_to rider_year_registrations_persistent_rider_profile_path(rider_year_registration: @ryr)
 		else
 			@errors = @ryr.errors

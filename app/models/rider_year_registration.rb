@@ -22,7 +22,7 @@ class RiderYearRegistration < ActiveRecord::Base
 
   validates :goal, numericality: true, presence: true
   validate :goal_meets_min_for_ride_year  
-  validates :agree_to_terms, acceptance: true  
+  validates :agree_to_terms, acceptance: { accept: true } 
   validates_associated :user, on: :create
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
