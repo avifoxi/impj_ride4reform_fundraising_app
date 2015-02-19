@@ -59,10 +59,6 @@ class RiderYearRegistrationsController < ApplicationController
 		m_a = @ryr.mailing_addresses.build(user: @ryr.user)
 
 		if m_a.update_attributes(mailing_addesses_params)
-			p '$'*80
-			p 'mailing addy saved to db'
-			p "#{m_a.inspect}"
-			p '$'*80
 			redirect_to rider_year_registrations_pay_reg_fee_path(rider_year_registration: @ryr)
 		else
 			@errors = m_a.errors
@@ -72,18 +68,17 @@ class RiderYearRegistrationsController < ApplicationController
 		
 	end
 
-	
-
 	def new_pay_reg_fee
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 		@mailing_addresses = @ryr.mailing_addresses
-		# @ryr.mailing_addresses.build
 		@custom_billing_address = MailingAddress.new
-
 	end
 
-	def create_registrations_pay_fee
-
+	def create_pay_reg_fee
+		p '$'*80
+		p 'params... '
+		p "#{params}"
+		p '$'*80
 	end
 
 	private 

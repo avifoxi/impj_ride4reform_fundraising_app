@@ -4,7 +4,7 @@
 <%= simple_form_for @ryr, :url => rider_year_registrations_pay_reg_fee_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
 
 	<%= f.input :credit_card_info %>
-	<%= f.association :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| m_a.one_liner }, label: 'Select Your Billing Address' %>
+	<%= f.association :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
 
 	<%= f.input :custom_billing_address, as: :boolean, label: 'Add a separate billing address?' %>
   
@@ -34,6 +34,7 @@
 		_.each( $('.custom_billing_address input'), function(ip){
 			if ( ip.value ){
 				ch.checked = true;
+				c_b_a.show();
 			}
 		});
 		
