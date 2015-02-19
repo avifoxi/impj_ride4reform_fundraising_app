@@ -2,7 +2,7 @@ class RiderYearRegistration < ActiveRecord::Base
   belongs_to :ride_year
   belongs_to :user
 
-  delegate :credit_card_info, :custom_billing_address, to: :user
+  delegate :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
 
   has_many :mailing_addresses, through: :user
   accepts_nested_attributes_for :mailing_addresses

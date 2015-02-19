@@ -64,8 +64,6 @@ class RiderYearRegistrationsController < ApplicationController
 			@errors = m_a.errors
 			render :new_mailing_address
 		end
-
-		
 	end
 
 	def new_pay_reg_fee
@@ -75,24 +73,80 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_pay_reg_fee
+		@ryr = RiderYearRegistration.find(params[:ryr_id])
+
 		p '$'*80
-		p 'params... '
+		p 'raw params'
 		p "#{params}"
 		p '$'*80
 
+
+		p '$'*80
+		p 'massaged'
+		p "#{full_params}"
+		p '$'*80
+
+		if full_params['custom_billing_address'] == '1'
+			@custom_billing_address = MailingAddress.new(custom_billing_address)
+			@custom_billing_address.user = current_user
+			unless @custom_billing_address.save
+				@errors = @custom_billing_address.errors
+				@mailing_addresses = @ryr.mailing_addresses
+				render :new_pay_reg_fee
+			end
+			billing_address = @custom_billing_address
+		else
+			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
+		end
 		# 1) prep all models - 
+	
+		payment_hash = PaypalPaymentPreparer.new({
+			user: current_user,
+			cc_info: cc_info, 
+			billing_address: billing_address,
+			transaction_details: transaction_details
+		}).payment_hash
+
+		include PayPal::SDK::REST
+
+		@payment = Payment.new(payment_hash)
+		if @payment.create
+			p '$'*80
+			p 'payment YES dude'
+			p "#{@payment}"
+			p '$'*80
+		else
+			p '$'*80
+			p 'payment FAIL dude'
+			p "#{@payment}"
+			p '$'*80
+		end
 	end
 
 	private 
 
 	def full_params
-    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms,
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
     	:persistent_rider_profile_attributes => [
     			:primary_phone, :secondary_phone, :photo_upload, :birthdate, :bio
-    		] )
+    		],
+    	:mailing_address => [
+    		:line_1, :line_2, :city, :state, :zip
+    	]
+    )
+  end
+
+  def cc_info
+  	{
+  		'type' => full_params['cc_type'],
+			'number' => full_params['cc_number'],
+			'expire_month' => full_params['cc_expire_month'],
+			'expire_year' => full_params['cc_expire_year'],
+			'cvv2' => full_params['cc_cvv2']
+  	}
   end
 
   def mailing_addesses_params
@@ -109,5 +163,25 @@ class RiderYearRegistrationsController < ApplicationController
   		goal: full_params[:goal]
   	} 	
   end
+
+  def custom_billing_address
+		full_params['mailing_address']	
+  end
+
+  def amount 
+  	if Date.today < RideYear.current.early_bird_cutoff
+  		RideYear.current.registration_fee_early
+  	else
+  		RideYear.current.registration_fee
+  	end
+  end
+
+  def transaction_details
+  	{
+			'name' => "rider registration fee",
+			'amount' => amount,
+			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
+		}
+	end
 
 end

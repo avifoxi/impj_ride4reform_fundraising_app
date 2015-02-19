@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
   # not saved to DB, but simple_form validates inputs against model -- so we add these attrs that are not persisted
   # very railsy -- perhaps an odd design choice
-  attr_accessor :credit_card_info, :custom_billing_address
+  attr_accessor :custom_billing_address, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2
 
 	def set_new_primary_address(mailing_address)
     max = self.mailing_addresses.map{|m| m.users_primary}.max

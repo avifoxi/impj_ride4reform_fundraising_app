@@ -25,7 +25,7 @@ class PaypalPaymentPreparer
             :number => @cc_info['number'],
             :expire_month => @cc_info['expire_month'],
             :expire_year => @cc_info['expire_year'],
-            :cvv2 => @cc_info['expire_month'],
+            :cvv2 => @cc_info['cvv2'],
             :first_name => @user.first_name,
             :last_name => @user.last_name,
             :billing_address => {
