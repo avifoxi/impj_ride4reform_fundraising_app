@@ -6,7 +6,7 @@ class CreateMailingAddresses < ActiveRecord::Migration
       t.text :line_2
       t.string :city
       t.string :state
-      t.integer :zip
+      t.string :zip
 
       t.integer :users_primary, default: 0
 
