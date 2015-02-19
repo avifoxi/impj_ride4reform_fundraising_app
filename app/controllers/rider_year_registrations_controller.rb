@@ -1,4 +1,5 @@
 class RiderYearRegistrationsController < ApplicationController
+	include PayPal::SDK::REST
 	skip_before_action :authenticate_admin!
 	# skip_before_action :authenticate_user!, only: [:new, :create]
 
@@ -70,6 +71,7 @@ class RiderYearRegistrationsController < ApplicationController
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 		@mailing_addresses = @ryr.mailing_addresses
 		@custom_billing_address = MailingAddress.new
+		@registration_fee = current_fee
 	end
 
 	def create_pay_reg_fee
@@ -107,7 +109,7 @@ class RiderYearRegistrationsController < ApplicationController
 			transaction_details: transaction_details
 		}).payment_hash
 
-		include PayPal::SDK::REST
+		config_paypal		
 
 		@payment = Payment.new(payment_hash)
 		if @payment.create
@@ -120,6 +122,14 @@ class RiderYearRegistrationsController < ApplicationController
 			p 'payment FAIL dude'
 			p "#{@payment}"
 			p '$'*80
+			@payment_errors = @payment.error
+			@mailing_addresses = @ryr.mailing_addresses
+			unless @custom_billing_address
+				@custom_billing_address = MailingAddress.new
+			end
+			@registration_fee = current_fee
+
+			render :new_pay_reg_fee
 		end
 	end
 
@@ -168,7 +178,7 @@ class RiderYearRegistrationsController < ApplicationController
 		full_params['mailing_address']	
   end
 
-  def amount 
+  def current_fee 
   	if Date.today < RideYear.current.early_bird_cutoff
   		RideYear.current.registration_fee_early
   	else
@@ -179,9 +189,16 @@ class RiderYearRegistrationsController < ApplicationController
   def transaction_details
   	{
 			'name' => "rider registration fee",
-			'amount' => amount,
+			'amount' => current_fee,
 			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
 		}
+	end
+
+	def config_paypal
+		PayPal::SDK::REST.set_config(
+	  :mode => "sandbox", # "sandbox" or "live"
+	  :client_id => ENV['PAYPAL_CLIENT_ID'],
+	  :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
 	end
 
 end
