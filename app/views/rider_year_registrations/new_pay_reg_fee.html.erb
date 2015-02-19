@@ -5,7 +5,7 @@
 <%= simple_form_for @ryr, :url => rider_year_registrations_pay_reg_fee_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
 
 	<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
-	<%= f.input :cc_number, input_html: { maxlength: 10 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
+	<%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
 	<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
 	<%= f.input :cc_expire_year, as: :date, start_year: Date.today.year,
                               end_year: Date.today.year + 10, discard_day: true, discard_month: true,

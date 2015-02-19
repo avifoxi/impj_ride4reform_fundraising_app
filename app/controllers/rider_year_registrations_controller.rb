@@ -102,12 +102,18 @@ class RiderYearRegistrationsController < ApplicationController
 		end
 		# 1) prep all models - 
 	
-		payment_hash = PaypalPaymentPreparer.new({
+		ppp = PaypalPaymentPreparer.new({
 			user: current_user,
 			cc_info: cc_info, 
 			billing_address: billing_address,
 			transaction_details: transaction_details
-		}).payment_hash
+		})
+		payment_hash = ppp.payment_hash
+
+			p '$'*80
+			p 'payment hash'
+			p "#{payment_hash}"
+			p '$'*80
 
 		config_paypal		
 
@@ -154,7 +160,7 @@ class RiderYearRegistrationsController < ApplicationController
   		'type' => full_params['cc_type'],
 			'number' => full_params['cc_number'],
 			'expire_month' => full_params['cc_expire_month'],
-			'expire_year' => full_params['cc_expire_year'],
+			'expire_year' => full_params['cc_expire_year(1i)'],
 			'cvv2' => full_params['cc_cvv2']
   	}
   end
