@@ -10,8 +10,8 @@
 
 		<%= p.input :birthdate, start_year: Date.today.year - 80,
                               end_year: Date.today.year - 17 %>
-		<%= p.input :primary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'no breaks or spaces please' %>
-		<%= p.input :secondary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'no breaks or spaces please' %>
+		<%= p.input :primary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
+		<%= p.input :secondary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
 
   <% end %>
   
