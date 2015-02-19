@@ -5,6 +5,8 @@ class PersistentRiderProfile < ActiveRecord::Base
 	validates_associated :user, on: :create
 	validate :has_at_least_one_rider_year_registration
 
+	## this is stand in method for paperclip -- get routes up first before addin photo saves + stuff
+	attr_accessor :photo_upload
 
 	private
 

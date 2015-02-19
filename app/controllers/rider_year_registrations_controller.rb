@@ -25,9 +25,6 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def new_persistent_rider_profile
-		p "#"*80
-		puts "full_params"
-		p "#{full_params.inspect}"
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 		@ryr.user.build_persistent_rider_profile
 	end
