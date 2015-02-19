@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   get 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#new_persistent_rider_profile' 
   post 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#create_persistent_rider_profile'
 
+
+  get 'rider_year_registrations/mailing_address' => 'rider_year_registrations#new_mailing_address' 
+  post 'rider_year_registrations/mailing_address' => 'rider_year_registrations#create_mailing_address'  
+
   resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'

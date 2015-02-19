@@ -3,11 +3,9 @@ class RiderYearRegistrationsController < ApplicationController
 	# skip_before_action :authenticate_user!, only: [:new, :create]
 
 	def new 
-		## assume never registered before - brand new 
+		## assume never registered before - brand new ... and deal with alternative scenario once this is built
 		@ryr = RiderYearRegistration.new
-		# @ryr.build_user
-		# @ryr.mailing_addresses.build
-		# @ryr.user.build_persistent_rider_profile
+
 	end
 
 	def create 
@@ -20,53 +18,8 @@ class RiderYearRegistrationsController < ApplicationController
 		end
 	end
 
-	def new_mailing_address
-
-	end
-
-	def new_persistent_rider_profile
-		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
-		@ryr.user.build_persistent_rider_profile(user: @ryr.user)
-	end
-
 	def new_agree_to_terms
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
-	end
-
-	def new_pay_reg_fee
-
-	end
-
-	def create_mailing_address
-
-	end
-
-	def create_persistent_rider_profile
-		p '#'*80
-		p 'washed full params!!'
-		p "#{full_params}"
-
-		p '#'*80
-
-		@ryr = RiderYearRegistration.find(params[:ryr_id])
-		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
-
-		if prp.update_attributes(prp_params)
-			p '#'*80
-			p 'updated guy'
-			p "#{@ryr.persistent_rider_profile}"
-
-			p '#'*80
-		else
-			p '#'*80
-			p 'birthdate'
-			p "#{prp_params['birthdate']}"
-
-			p '#'*80
-			@errors = prp.errors
-			render :new_persistent_rider_profile
-		end
-
 	end
 
 	def create_agree_to_terms
@@ -77,6 +30,41 @@ class RiderYearRegistrationsController < ApplicationController
 			@errors = @ryr.errors
 			render :new_agree_to_terms
 		end
+	end
+
+	def new_persistent_rider_profile
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
+		@ryr.user.build_persistent_rider_profile(user: @ryr.user)
+	end
+
+	def create_persistent_rider_profile
+
+		@ryr = RiderYearRegistration.find(params[:ryr_id])
+		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
+
+		if prp.update_attributes(prp_params)
+			redirect_to rider_year_registrations_mailing_address_path(rider_year_registration: @ryr)
+		else
+			@errors = prp.errors
+			render :new_persistent_rider_profile
+		end
+
+	end
+
+
+	def new_mailing_address
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
+		@ryr.mailing_addresses.build
+	end
+
+	def create_mailing_address
+
+	end
+
+	
+
+	def new_pay_reg_fee
+
 	end
 
 	def create_registrations_pay_fee
@@ -96,20 +84,11 @@ class RiderYearRegistrationsController < ApplicationController
   end
 
   def mailing_addesses_params
-  	full_params['mailing_addresses_attributes']['0']
+  	full_params['mailing_addresses_attributes']
   end
 
   def prp_params
-  	 # "birthdate(1i)"=>"1941", "birthdate(2i)"=>"7", "birthdate(3i)"=>"14"
-  	# birthdate = Date.new( 
-  	# 	full_params['persistent_rider_profile_attributes']["birthdate(1i)"].to_i,
-  	# 	full_params['persistent_rider_profile_attributes']["birthdate(2i)"].to_i,
-  	# 	full_params['persistent_rider_profile_attributes']["birthdate(3i)"].to_i
-  	# 	) 
-  	# prp_hash = 
   	full_params['persistent_rider_profile_attributes']
-  	# prp_hash['birthdate'] = birthdate
-  	# prp_hash
   end
 
   def ryr_params 

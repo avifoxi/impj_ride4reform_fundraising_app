@@ -26,11 +26,4 @@ class PersistentRiderProfile < ActiveRecord::Base
 		end
 	end
 
-
-# 	 can do the validation yourself. Convert the string to a date with to_date and check that it's less than 18.years.ago.
-
-# Put that check in a method in your user model, and have it call something like errors.add :dob, 'must be older than 18' if it fails.
-
-# Then at the top of your model call validates :dob_check
-	
 end
