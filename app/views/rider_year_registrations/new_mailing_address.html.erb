@@ -1,0 +1,17 @@
+<h3>Please Enter Your Mailing Address</h3>
+<%= render 'shared/form_errors' %>
+
+<%= simple_form_for @ryr, :url => rider_year_registrations_mailing_address_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
+
+  <%= f.simple_fields_for :mailing_addresses do |m| %>
+  	<%= m.input :line_1 %>
+		<%= m.input :line_2 %>
+
+		<%= m.input :city %>
+		<%= m.input :state, collection: us_states %>
+		<%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>
+
+  <% end %>
+  
+  <%= f.button :submit %>
+<% end %>

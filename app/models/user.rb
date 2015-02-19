@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 
 	has_one :persistent_rider_profile
 
+  accepts_nested_attributes_for :mailing_addresses, :persistent_rider_profile
+
 	has_many :rider_year_registrations
 	has_many :receipts
 
@@ -15,6 +17,10 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name, :email
   validates_inclusion_of :title, :in => TITLES
+
+  # not saved to DB, but simple_form validates inputs against model -- so we add these attrs that are not persisted
+  # very railsy -- perhaps an odd design choice
+  attr_accessor :custom_billing_address, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2
 
 	def set_new_primary_address(mailing_address)
     max = self.mailing_addresses.map{|m| m.users_primary}.max

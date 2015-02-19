@@ -46,6 +46,16 @@ gem 'bootstrap-datepicker-rails'
 # another plataformatec gem, ala devise
 gem 'simple_form', '~> 3.1.0'
 
+# Paypal SDK
+gem 'paypal-sdk-rest'
+
+# Amazon SDK
+gem 'aws-sdk-v1'
+
+# Paperclip for file upload
+gem "paperclip", "~> 4.2"
+
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

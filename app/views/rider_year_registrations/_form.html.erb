@@ -1,13 +1,9 @@
-<%= simple_form_for @ryr  do |f| %>
-  
-  <%= f.input :title, collection: User::TITLES %>  
-   
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
+<%= render 'shared/form_errors' %>
 
-  <%= f.input :password, hint: 'No special characters. At least 8 characters long.' %>
-  <%= f.input :password_confirmation %>
-  <%= f.input :email, placeholder: 'Your Email Address' %>
+<%= simple_form_for @ryr  do |f| %>
+   
+  <%= f.input :ride_option, collection: RiderYearRegistration::RIDE_OPTIONS %>  
+  <%= f.input :goal %>
   <%= f.button :submit %>
 <% end %>
 

@@ -1,0 +1,18 @@
+<% if @errors %>
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <%= @errors.full_messages.to_sentence %>  
+    <!-- < %= @errors.messages %> -->
+  </div>  
+<% end %>
+
+<% if @payment_errors %>
+
+	<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <% @payment_errors.each do |e| %> 
+    <p><%= e %></p> 
+    <% end %>
+    <!-- < %= @errors.messages %> -->
+  </div>  
+<% end %>

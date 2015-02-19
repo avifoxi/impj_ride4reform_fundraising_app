@@ -6,8 +6,24 @@ Rails.application.routes.draw do
   # for devise - must set root to something
   root to: "users#index"
 
+  # get 'users/check' => 'users#pre_registration_form'
+
   resources :users
-  
+
+  ## all the custom routes in new rider year registration - nested resources associated with new r_y_r
+
+  get 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#new_agree_to_terms' 
+  post 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#create_agree_to_terms'
+
+  get 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#new_persistent_rider_profile' 
+  post 'rider_year_registrations/persistent_rider_profile' => 'rider_year_registrations#create_persistent_rider_profile'
+
+
+  get 'rider_year_registrations/mailing_address' => 'rider_year_registrations#new_mailing_address' 
+  post 'rider_year_registrations/mailing_address' => 'rider_year_registrations#create_mailing_address'  
+
+  get 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#new_pay_reg_fee' 
+  post 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#create_pay_reg_fee' 
   resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'

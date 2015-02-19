@@ -5,6 +5,12 @@ class PersistentRiderProfile < ActiveRecord::Base
 	validates_associated :user, on: :create
 	validate :has_at_least_one_rider_year_registration
 
+	validates_presence_of :primary_phone, length: {is: 10}
+	validates_length_of :secondary_phone, is: 10, :allow_blank => true
+	validate :is_within_accepted_age_range 
+
+	## this is stand in method for paperclip -- get routes up first before addin photo saves + stuff
+	attr_accessor :photo_upload
 
 	private
 
@@ -13,5 +19,11 @@ class PersistentRiderProfile < ActiveRecord::Base
       errors.add :rider_year_registrations, "You must be registered for at least one ride to have a persistent profile."
     end
 	end
-	
+
+	def is_within_accepted_age_range
+		unless self.birthdate < 17.years.ago || self.birthdate > 80.years.ago
+			errors.add :birthdate, "You must be between the ages of 17 and 80 to register here. Contact the staff directly to make arrangements if you fall outside of that range."
+		end
+	end
+
 end
