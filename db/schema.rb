@@ -49,11 +49,11 @@ ActiveRecord::Schema.define(version: 20150212191124) do
 
   create_table "mailing_addresses", force: true do |t|
     t.integer  "user_id"
-    t.text     "line_1"
-    t.text     "line_2"
+    t.string   "line_1"
+    t.string   "line_2"
     t.string   "city"
     t.string   "state"
-    t.integer  "zip"
+    t.string   "zip"
     t.integer  "users_primary", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
