@@ -1,0 +1,38 @@
+Rider Year Registration revamp --
+
+stages -- route / method / items created
+
+1) initial create
+route: 
+method: new --> create
+items created: 
+	user's RiderYearRegistration with ride option + goal
+
+2) agree to terms
+route: 
+	method:
+		new_agree_to_terms --> create_agree_to_terms
+	items created: 
+		ryr updated with agree
+
+3) persitetn rider info
+	route: 
+
+	method:
+		new_pyp -->
+		create_persistent_rider_profile
+	items created: 
+		pyp with bio, photo, phone nums
+
+4) mailing addy
+
+	route
+
+	method: 
+		new_mailing_address --> create_mailing_address
+
+5) pay reg fee
+	route:
+	method:
+		new_pay_reg_fee --> create_registrations_pay_fee
+	items created

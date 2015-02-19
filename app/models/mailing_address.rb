@@ -9,6 +9,15 @@ class MailingAddress < ActiveRecord::Base
   validate :zip_num_length_check
 
   before_save :first_in_is_primary
+
+  def one_liner
+    o_l = self.line_1 + ' ' 
+    if self.line_2 
+      o_l += (self.line_2 + ' ')
+    end
+    o_l + self.city + ' ' + self.zip
+  end
+
   
   private
 

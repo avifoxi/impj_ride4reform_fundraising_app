@@ -2,6 +2,8 @@ class RiderYearRegistration < ActiveRecord::Base
   belongs_to :ride_year
   belongs_to :user
 
+  delegate :credit_card_info, :custom_billing_address, to: :user
+
   has_many :mailing_addresses, through: :user
   accepts_nested_attributes_for :mailing_addresses
   delegate :mailing_addresses, to: :user
@@ -14,9 +16,10 @@ class RiderYearRegistration < ActiveRecord::Base
 
   accepts_nested_attributes_for :user
 
-  # delegate :mailing_addresses, to: :user
-
   has_many :donor_rider_notes
+
+  # attr_accessor :custom_billing_address
+
 
   RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding']
 

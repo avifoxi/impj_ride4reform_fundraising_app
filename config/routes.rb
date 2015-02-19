@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   resources :users
 
+  ## all the custom routes in new rider year registration - nested resources associated with new r_y_r
+
   get 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#new_agree_to_terms' 
   post 'rider_year_registrations/agree_to_terms' => 'rider_year_registrations#create_agree_to_terms'
 

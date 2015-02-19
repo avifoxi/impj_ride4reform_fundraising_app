@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :email
   validates_inclusion_of :title, :in => TITLES
 
+  # not saved to DB, but simple_form validates inputs against model -- so we add these attrs that are not persisted
+  # very railsy -- perhaps an odd design choice
+  attr_accessor :credit_card_info, :custom_billing_address
+
 	def set_new_primary_address(mailing_address)
     max = self.mailing_addresses.map{|m| m.users_primary}.max
     mailing_address.update_attributes(users_primary: max + 1)

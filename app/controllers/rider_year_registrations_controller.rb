@@ -75,6 +75,10 @@ class RiderYearRegistrationsController < ApplicationController
 	
 
 	def new_pay_reg_fee
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
+		@mailing_addresses = @ryr.mailing_addresses
+		# @ryr.mailing_addresses.build
+		@custom_billing_address = MailingAddress.new
 
 	end
 
