@@ -21,7 +21,7 @@ class PersistentRiderProfile < ActiveRecord::Base
 	end
 
 	def is_within_accepted_age_range
-		unless self.birthdate > 17.years.ago && self.birthdate < 80.years.ago
+		unless self.birthdate < 17.years.ago || self.birthdate > 80.years.ago
 			errors.add :birthdate, "You must be between the ages of 17 and 80 to register here. Contact the staff directly to make arrangements if you fall outside of that range."
 		end
 	end

@@ -101,14 +101,15 @@ class RiderYearRegistrationsController < ApplicationController
 
   def prp_params
   	 # "birthdate(1i)"=>"1941", "birthdate(2i)"=>"7", "birthdate(3i)"=>"14"
-  	birthdate = Date.new( 
-  		full_params['persistent_rider_profile_attributes']["birthdate(1i)"].to_i,
-  		full_params['persistent_rider_profile_attributes']["birthdate(2i)"].to_i,
-  		full_params['persistent_rider_profile_attributes']["birthdate(3i)"].to_i
-  		) 
-  	prp_hash = full_params['persistent_rider_profile_attributes']
-  	prp_hash['birthdate'] = birthdate
-  	prp_hash
+  	# birthdate = Date.new( 
+  	# 	full_params['persistent_rider_profile_attributes']["birthdate(1i)"].to_i,
+  	# 	full_params['persistent_rider_profile_attributes']["birthdate(2i)"].to_i,
+  	# 	full_params['persistent_rider_profile_attributes']["birthdate(3i)"].to_i
+  	# 	) 
+  	# prp_hash = 
+  	full_params['persistent_rider_profile_attributes']
+  	# prp_hash['birthdate'] = birthdate
+  	# prp_hash
   end
 
   def ryr_params 
