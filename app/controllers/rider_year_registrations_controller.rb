@@ -26,7 +26,7 @@ class RiderYearRegistrationsController < ApplicationController
 
 	def new_persistent_rider_profile
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
-		@ryr.user.build_persistent_rider_profile
+		@ryr.user.build_persistent_rider_profile(user: @ryr.user)
 	end
 
 	def new_agree_to_terms
@@ -48,7 +48,24 @@ class RiderYearRegistrationsController < ApplicationController
 
 		p '#'*80
 
-		# @ryr = RiderYearRegistration.find(params[:ryr_id])
+		@ryr = RiderYearRegistration.find(params[:ryr_id])
+		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
+
+		if prp.update_attributes(prp_params)
+			p '#'*80
+			p 'updated guy'
+			p "#{@ryr.persistent_rider_profile}"
+
+			p '#'*80
+		else
+			p '#'*80
+			p 'birthdate'
+			p "#{prp_params['birthdate']}"
+
+			p '#'*80
+			@errors = prp.errors
+			render :new_persistent_rider_profile
+		end
 
 	end
 
@@ -74,7 +91,7 @@ class RiderYearRegistrationsController < ApplicationController
     			:line_1, :line_2, :city, :state, :zip
     		],
     	:persistent_rider_profile_attributes => [
-    			:primary_phone, :secondary_phone, :birthdate, :bio
+    			:primary_phone, :secondary_phone, :photo_upload, :birthdate, :bio
     		] )
   end
 
@@ -82,8 +99,16 @@ class RiderYearRegistrationsController < ApplicationController
   	full_params['mailing_addresses_attributes']['0']
   end
 
-  def per_params
-  	full_params['persistent_rider_profile_attributes']
+  def prp_params
+  	 # "birthdate(1i)"=>"1941", "birthdate(2i)"=>"7", "birthdate(3i)"=>"14"
+  	birthdate = Date.new( 
+  		full_params['persistent_rider_profile_attributes']["birthdate(1i)"].to_i,
+  		full_params['persistent_rider_profile_attributes']["birthdate(2i)"].to_i,
+  		full_params['persistent_rider_profile_attributes']["birthdate(3i)"].to_i
+  		) 
+  	prp_hash = full_params['persistent_rider_profile_attributes']
+  	prp_hash['birthdate'] = birthdate
+  	prp_hash
   end
 
   def ryr_params 

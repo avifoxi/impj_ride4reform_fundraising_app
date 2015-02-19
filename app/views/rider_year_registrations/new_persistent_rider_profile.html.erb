@@ -4,7 +4,6 @@
 <%= simple_form_for @ryr, :url => rider_year_registrations_persistent_rider_profile_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
 
   <%= f.simple_fields_for :persistent_rider_profile do |p| %>
-
   	<%= p.input :bio %>
 		<%= p.input :photo_upload, hint: 'fake field! stand in for paperclip and avatar' %>
 
