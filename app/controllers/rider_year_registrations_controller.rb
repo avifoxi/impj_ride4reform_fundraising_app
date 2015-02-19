@@ -25,7 +25,11 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def new_persistent_rider_profile
-
+		p "#"*80
+		puts "full_params"
+		p "#{full_params.inspect}"
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
+		@ryr.user.build_persistent_rider_profile
 	end
 
 	def new_agree_to_terms
@@ -45,20 +49,13 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_agree_to_terms
-		p "#"*80
-		puts "full_params"
-		p "#{full_params.inspect}"
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 		if @ryr.update_attributes(agree_to_terms: full_params)
 			redirect_to rider_year_registrations_persistent_rider_profile_path(rider_year_registration: @ryr)
 		else
 			@errors = @ryr.errors
-			p '$'*80
-			puts 'aggree ot terms errors'
-			p "#{@errors.inspect}"
-			redirect_to rider_year_registrations_agree_to_terms_path(rider_year_registration: @ryr)
+			render :new_agree_to_terms
 		end
-
 	end
 
 	def create_registrations_pay_fee
