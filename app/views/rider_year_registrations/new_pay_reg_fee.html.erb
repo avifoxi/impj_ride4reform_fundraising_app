@@ -8,30 +8,42 @@
 
 	<%= f.input :custom_billing_address, as: :boolean, label: 'Add a separate billing address?' %>
   
-  <%= f.simple_fields_for @custom_billing_address do |m| %>
-  	<%= m.input :line_1 %>
-		<%= m.input :line_2 %>
+  <div class='custom_billing_address'>
+	  <%= f.simple_fields_for @custom_billing_address do |m| %>
+	  	<%= m.input :line_1 %>
+			<%= m.input :line_2 %>
 
-		<%= m.input :city %>
-		<%= m.input :state, collection: us_states %>
-		<%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>
+			<%= m.input :city %>
+			<%= m.input :state, collection: us_states %>
+			<%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>
 
-  <% end %>
+	  <% end %>
+  </div>
   
   <%= f.button :submit %>
 <% end %>
 
 <script>
 	
-	var ch = $('#rider_year_registration_custom_billing_address');
+	$( document ).ready(function() {
+		var ch = $('#rider_year_registration_custom_billing_address');
+		var c_b_a = $('.custom_billing_address');
 
-	ch.on('change', function(){
-		if ( ch.is(':checked') ) {
-			console.log('checked');
-		} else {
-			console.log('unchecked');
-		}
+		c_b_a.hide();
+
+		_.each( $('.custom_billing_address input'), function(ip){
+			if ( ip.value ){
+				ch.checked = true;
+			}
+		});
 		
+		ch.on('change', function(){
+			if ( ch.is(':checked') ) {
+				c_b_a.show();
+			} else {
+				c_b_a.hide();
+			}
+		});   
 	});
-
+	
 </script>
