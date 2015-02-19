@@ -3,7 +3,14 @@
 
 <%= simple_form_for @ryr, :url => rider_year_registrations_pay_reg_fee_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
 
-	<%= f.input :credit_card_info %>
+	<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
+	<%= f.input :cc_number, input_html: { maxlength: 10 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
+	<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
+	<%= f.input :cc_expire_year, as: :date, start_year: Date.today.year,
+                              end_year: Date.today.year + 10, discard_day: true, discard_month: true,
+                              order: [:year], label: 'Expiration year' %>
+	<%= f.input :cc_cvv2, input_html: { maxlength: 4 }, label: 'security code (cvv)' %>
+
 	<%= f.association :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
 
 	<%= f.input :custom_billing_address, as: :boolean, label: 'Add a separate billing address?' %>
