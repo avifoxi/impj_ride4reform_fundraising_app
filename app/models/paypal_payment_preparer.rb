@@ -4,7 +4,7 @@
 class PaypalPaymentPreparer
 
   attr_reader :payment_hash
-  
+
   def initialize(params)
     @user = params[:user]
     @cc_info = params[:cc_info]
@@ -49,7 +49,6 @@ class PaypalPaymentPreparer
         :description =>  @transaction_details['description'] }
       ]
     }
-    @payment_hash
   end
 
 end

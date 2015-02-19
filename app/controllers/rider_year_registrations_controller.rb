@@ -79,6 +79,8 @@ class RiderYearRegistrationsController < ApplicationController
 		p 'params... '
 		p "#{params}"
 		p '$'*80
+
+		# 1) prep all models - 
 	end
 
 	private 

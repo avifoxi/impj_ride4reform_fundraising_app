@@ -18,9 +18,6 @@ class RiderYearRegistration < ActiveRecord::Base
 
   has_many :donor_rider_notes
 
-  # attr_accessor :custom_billing_address
-
-
   RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding']
 
   validates :goal, numericality: true, presence: true
