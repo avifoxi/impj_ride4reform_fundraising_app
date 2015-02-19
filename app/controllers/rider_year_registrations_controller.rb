@@ -37,7 +37,6 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_persistent_rider_profile
-
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 
@@ -56,11 +55,6 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_mailing_address
-		p '$'*80
-		p 'malin addinges params'
-		p "#{mailing_addesses_params}"
-		p '$'*80
-
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 		m_a = @ryr.mailing_addresses.build(user: @ryr.user)
 
@@ -69,6 +63,7 @@ class RiderYearRegistrationsController < ApplicationController
 			p 'mailing addy saved to db'
 			p "#{m_a.inspect}"
 			p '$'*80
+			redirect_to rider_year_registrations_pay_reg_fee_path(rider_year_registration: @ryr)
 		else
 			@errors = m_a.errors
 			render :new_mailing_address

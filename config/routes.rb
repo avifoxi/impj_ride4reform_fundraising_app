@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get 'rider_year_registrations/mailing_address' => 'rider_year_registrations#new_mailing_address' 
   post 'rider_year_registrations/mailing_address' => 'rider_year_registrations#create_mailing_address'  
 
+  get 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#new_pay_reg_fee' 
+  post 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#create_pay_reg_fee' 
   resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'
