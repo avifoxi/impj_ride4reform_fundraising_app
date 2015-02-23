@@ -38,7 +38,7 @@ class PaypalPaymentPreparer
         :item_list => {
           :items => [{
             :name => @transaction_details['name'],
-            # :sku => "item",
+            :sku => "item",
             :price => @transaction_details['amount'],
             :currency => "USD",
             :quantity => 1 
@@ -52,6 +52,9 @@ class PaypalPaymentPreparer
   end
 
 end
+
+# '%.2f' %
+
 
 # PaypalPaymentPreparer.new({user: User.first, billing_address: MailingAddress.first, cc_info: cc_info, transaction_details: transaction_details })
 

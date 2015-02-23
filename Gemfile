@@ -55,7 +55,6 @@ gem 'aws-sdk-v1'
 # Paperclip for file upload
 gem "paperclip", "~> 4.2"
 
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -68,3 +67,8 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.4.0'	
   gem 'faker'
 end
+
+group :development do 
+	gem 'jazz_hands'
+end
+

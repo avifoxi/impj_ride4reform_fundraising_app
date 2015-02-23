@@ -115,9 +115,24 @@ class RiderYearRegistrationsController < ApplicationController
 			p "#{payment_hash}"
 			p '$'*80
 
-		config_paypal		
+			p '$'*80
+			p 'env vars'
+			p ENV['PAYPAL_CLIENT_ID']
+			p ENV['PAYPAL_CLIENT_SECRET']
+			p '$'*80
+		config_paypal	
+		# PayPal::SDK::REST.set_config(
+	 #  :mode => "sandbox", # "sandbox" or "live"
+	 #  :client_id => ENV['PAYPAL_CLIENT_ID'],
+	 #  :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])	
 
 		@payment = Payment.new(payment_hash)
+					p '$'*80
+			p '@payment '
+			p "#{@payment.inspect}"
+			p '$'*80
+
+
 		if @payment.create
 			p '$'*80
 			p 'payment YES dude'
@@ -195,7 +210,7 @@ class RiderYearRegistrationsController < ApplicationController
   def transaction_details
   	{
 			'name' => "rider registration fee",
-			'amount' => current_fee,
+			'amount' =>  '%.2f' % current_fee,
 			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
 		}
 	end
