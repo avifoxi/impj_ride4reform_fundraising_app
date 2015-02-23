@@ -140,7 +140,7 @@ class RiderYearRegistrationsController < ApplicationController
     			:line_1, :line_2, :city, :state, :zip
     		],
     	:persistent_rider_profile_attributes => [
-    			:primary_phone, :secondary_phone, :photo_upload, :birthdate, :bio
+    			:primary_phone, :secondary_phone, :avatar, :birthdate, :bio
     		],
     	:mailing_address => [
     		:line_1, :line_2, :city, :state, :zip
