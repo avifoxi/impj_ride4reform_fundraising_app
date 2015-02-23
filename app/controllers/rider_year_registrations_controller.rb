@@ -77,17 +77,6 @@ class RiderYearRegistrationsController < ApplicationController
 	def create_pay_reg_fee
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 
-		p '$'*80
-		p 'raw params'
-		p "#{params}"
-		p '$'*80
-
-
-		p '$'*80
-		p 'massaged'
-		p "#{full_params}"
-		p '$'*80
-
 		if full_params['custom_billing_address'] == '1'
 			@custom_billing_address = MailingAddress.new(custom_billing_address)
 			@custom_billing_address.user = current_user
@@ -100,7 +89,6 @@ class RiderYearRegistrationsController < ApplicationController
 		else
 			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
 		end
-		# 1) prep all models - 
 	
 		ppp = PaypalPaymentPreparer.new({
 			user: current_user,
@@ -110,34 +98,26 @@ class RiderYearRegistrationsController < ApplicationController
 		})
 		payment_hash = ppp.payment_hash
 
-			p '$'*80
-			p 'payment hash'
-			p "#{payment_hash}"
-			p '$'*80
-
-			p '$'*80
-			p 'env vars'
-			p ENV['PAYPAL_CLIENT_ID']
-			p ENV['PAYPAL_CLIENT_SECRET']
-			p '$'*80
 		config_paypal	
-		# PayPal::SDK::REST.set_config(
-	 #  :mode => "sandbox", # "sandbox" or "live"
-	 #  :client_id => ENV['PAYPAL_CLIENT_ID'],
-	 #  :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])	
 
 		@payment = Payment.new(payment_hash)
-					p '$'*80
-			p '@payment '
-			p "#{@payment.inspect}"
-			p '$'*80
-
-
 		if @payment.create
 			p '$'*80
 			p 'payment YES dude'
-			p "#{@payment}"
+			p "#{@payment.inspect}"
 			p '$'*80
+
+			# 1) save receipt -- with id, and perhaps full text field stringify the return hash
+
+			Receipt.create(user: current_user, amount: current_fee, paypal_id: @payment.id, full_paypal_hash: @payment.to_json)
+
+			p '$'*80
+			p 'Receipt created'
+			p "#{Receipt.last}"
+			p '$'*80
+
+			# 2) redirect to persistent page
+
 		else
 			p '$'*80
 			p 'payment FAIL dude'

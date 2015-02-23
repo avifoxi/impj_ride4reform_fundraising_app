@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
   # get 'users/check' => 'users#pre_registration_form'
 
+  # do we actually need resources for users if we have devise  ?
   resources :users
+
+  resources :persistent_rider_profiles, :path => "riders"
 
   ## all the custom routes in new rider year registration - nested resources associated with new r_y_r
 

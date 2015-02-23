@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150212191124) do
     t.integer  "user_id"
     t.integer  "amount"
     t.string   "paypal_id"
+    t.text     "full_paypal_hash"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
