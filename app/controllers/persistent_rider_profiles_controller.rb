@@ -1,0 +1,2 @@
+class PersistentRiderProfilesController < ApplicationController
+end
