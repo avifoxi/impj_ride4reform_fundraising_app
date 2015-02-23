@@ -12,10 +12,20 @@ class PersistentRiderProfile < ActiveRecord::Base
 	## this is stand in method for paperclip -- get routes up first before addin photo saves + stuff
 	# attr_accessor :photo_upload
 
-	has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+	# http://www.rubydoc.info/gems/paperclip/Paperclip/Storage/S3 
+
+	has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, 
+		:default_url => "/images/:style/missing.png",
+    :storage => :s3,
+    :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
+
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
 	private
+
+	def s3_credentials
+    {:bucket => ENV['AWS_S3_BUCKET'], :access_key_id => ENV['AWS_ACCESS_KEY_ID'], :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']}
+  end
 
 	def has_at_least_one_rider_year_registration
 		unless self.user.rider_year_registrations.count >= 1
