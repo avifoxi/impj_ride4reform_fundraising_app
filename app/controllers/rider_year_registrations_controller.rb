@@ -77,17 +77,6 @@ class RiderYearRegistrationsController < ApplicationController
 	def create_pay_reg_fee
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 
-		p '$'*80
-		p 'raw params'
-		p "#{params}"
-		p '$'*80
-
-
-		p '$'*80
-		p 'massaged'
-		p "#{full_params}"
-		p '$'*80
-
 		if full_params['custom_billing_address'] == '1'
 			@custom_billing_address = MailingAddress.new(custom_billing_address)
 			@custom_billing_address.user = current_user
@@ -100,7 +89,6 @@ class RiderYearRegistrationsController < ApplicationController
 		else
 			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
 		end
-		# 1) prep all models - 
 	
 		ppp = PaypalPaymentPreparer.new({
 			user: current_user,
@@ -110,24 +98,29 @@ class RiderYearRegistrationsController < ApplicationController
 		})
 		payment_hash = ppp.payment_hash
 
-			p '$'*80
-			p 'payment hash'
-			p "#{payment_hash}"
-			p '$'*80
-
-		config_paypal		
+		config_paypal	
 
 		@payment = Payment.new(payment_hash)
 		if @payment.create
 			p '$'*80
 			p 'payment YES dude'
-			p "#{@payment}"
+			p "#{@payment.inspect}"
 			p '$'*80
+
+			# 1) save receipt -- with id, and perhaps full text field stringify the return hash
+
+			Receipt.create(user: current_user, amount: current_fee, paypal_id: @payment.id, full_paypal_hash: @payment.to_json)
+
+			p '$'*80
+			p 'Receipt created'
+			p "#{Receipt.last}"
+			p '$'*80
+
+			@rider = current_user.persistent_rider_profile
+			flash[:notice] = "Thank you for registering to ride!"
+			redirect_to persistent_rider_profile_path(@rider)
 		else
-			p '$'*80
-			p 'payment FAIL dude'
-			p "#{@payment}"
-			p '$'*80
+
 			@payment_errors = @payment.error
 			@mailing_addresses = @ryr.mailing_addresses
 			unless @custom_billing_address
@@ -147,7 +140,7 @@ class RiderYearRegistrationsController < ApplicationController
     			:line_1, :line_2, :city, :state, :zip
     		],
     	:persistent_rider_profile_attributes => [
-    			:primary_phone, :secondary_phone, :photo_upload, :birthdate, :bio
+    			:primary_phone, :secondary_phone, :avatar, :birthdate, :bio
     		],
     	:mailing_address => [
     		:line_1, :line_2, :city, :state, :zip
@@ -195,7 +188,7 @@ class RiderYearRegistrationsController < ApplicationController
   def transaction_details
   	{
 			'name' => "rider registration fee",
-			'amount' => current_fee,
+			'amount' =>  '%.2f' % current_fee,
 			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
 		}
 	end

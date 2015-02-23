@@ -4,6 +4,7 @@ class CreateReceipts < ActiveRecord::Migration
       t.references :user, index: true
       t.integer :amount
       t.string :paypal_id
+      t.text :full_paypal_hash
 
       t.timestamps
     end

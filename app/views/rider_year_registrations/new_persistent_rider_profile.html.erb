@@ -5,7 +5,7 @@
 
   <%= f.simple_fields_for :persistent_rider_profile do |p| %>
   	<%= p.input :bio %>
-		<%= p.input :photo_upload, hint: 'fake field! stand in for paperclip and avatar' %>
+		<%= p.input :avatar, hint: 'Choose your rider profile picture to attach' %>
 
 		<%= p.input :birthdate, start_year: Date.today.year - 80,
                               end_year: Date.today.year - 17 %>
