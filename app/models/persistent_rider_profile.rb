@@ -10,7 +10,10 @@ class PersistentRiderProfile < ActiveRecord::Base
 	validate :is_within_accepted_age_range 
 
 	## this is stand in method for paperclip -- get routes up first before addin photo saves + stuff
-	attr_accessor :photo_upload
+	# attr_accessor :photo_upload
+
+	has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
 	private
 
