@@ -116,13 +116,11 @@ class RiderYearRegistrationsController < ApplicationController
 			p "#{Receipt.last}"
 			p '$'*80
 
-			# 2) redirect to persistent page
-
+			@rider = current_user.persistent_rider_profile
+			flash[:notice] = "Thank you for registering to ride!"
+			redirect_to persistent_rider_profile_path(@rider)
 		else
-			p '$'*80
-			p 'payment FAIL dude'
-			p "#{@payment}"
-			p '$'*80
+
 			@payment_errors = @payment.error
 			@mailing_addresses = @ryr.mailing_addresses
 			unless @custom_billing_address
