@@ -39,8 +39,17 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			post :create, rider_year_registration: ryr_attrs
 
 			expect(RiderYearRegistration.all.count).to eq(ryr_count + 1)
+			expect(response).to redirect_to(rider_year_registrations_agree_to_terms_path(rider_year_registration: RiderYearRegistration.last))
+		end
 
+		it 'invalid ryr, re-renders :new w errors, does not create' do 
+			ryr_count = RiderYearRegistration.all.count
+			ryr_attrs['ride_option'] = 'cheese melting'
+			post :create, rider_year_registration: ryr_attrs
 
+			expect(RiderYearRegistration.all.count).to eq(ryr_count)
+			expect(response).to render_template(:new)
+			expect(assigns(:errors)).not_to be_empty
 		end
 
 	end
