@@ -54,4 +54,11 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	end
 
+	context 'new_agree_to_terms' do 
+		it '' do 
+
+		end
+
+	end
+
 end
