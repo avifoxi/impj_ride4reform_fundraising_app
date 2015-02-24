@@ -6,5 +6,6 @@ class Admin < ActiveRecord::Base
 
 
   validates_presence_of :username, :email, :password
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :email
+  validates_confirmation_of :email, :password
 end

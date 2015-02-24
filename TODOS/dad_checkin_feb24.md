@@ -17,10 +17,11 @@ How do we do a general donation?
 
 CUSTOM ROUTING for devise login -- we need a custom controller here
 
-
+<!-- 
 REDIRECT To sign up on rider/new
 	more intuitive signage for user, to create a new profile
-
+ -->
+ 
 new rider / pyp 
 	the button for attachemnt doesn't look like a button - restyle
 
