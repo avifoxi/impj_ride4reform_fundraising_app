@@ -2,6 +2,9 @@ admin register new admin -- password conf field
 email conf also
 admin show page --- who is, email, 
 
+admin/receipts --
+	clean display of paypal hash, human readable
+
 admin show simple analytics by year when viewing riders-- in one page
 	% of riders who have met goals
 	total amount raised
@@ -17,3 +20,13 @@ CUSTOM ROUTING for devise login -- we need a custom controller here
 
 REDIRECT To sign up on rider/new
 	more intuitive signage for user, to create a new profile
+
+new rider / pyp 
+	the button for attachemnt doesn't look like a button - restyle
+
+
+SHORTLIST --
+	1) test the ryr controller thoroghly 
+	2) 	deploy our sandbox version for dad to break
+	3) rider view / allow registered to view status, and update
+	4) admin/riders can retrieve and update fields for riders
