@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PersistentRiderProfile, :type => :model do
 
-	let(:ryr) { FactoryGirl.create(:rider_year_registration) }	
+	let(:ryr) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }	
 	let(:prp) { FactoryGirl.build(:persistent_rider_profile)}
 
 

@@ -8,6 +8,7 @@ class Admin::AdminsController < ApplicationController
 
 	def new
 		@admin = Admin.new
+		# render "#{Rails.root}/app/views/admins/registrations/new"
 	end
 
 	def show
@@ -15,6 +16,7 @@ class Admin::AdminsController < ApplicationController
 	end
 
 	def create
+
 		@admin = Admin.new(admin_params)
 		if @admin.save 
 			redirect_to admin_admins_path
@@ -27,6 +29,6 @@ class Admin::AdminsController < ApplicationController
 	private 
 
 	def admin_params
-    params.require(:admin).permit(:username, :email, :password)
+    params.require(:admin).permit(:username, :email, :password, :password_confirmation, :email_confirmation)
   end
 end

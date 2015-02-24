@@ -3,6 +3,10 @@ FactoryGirl.define do
 
   	password Faker::Internet.password
   	title 'None'
+  	first_name "Fresh User"
+		last_name "W/out Associations"
+		email "fresh@test.com"	
+
 
     trait :rider do
 	    first_name "Rider"

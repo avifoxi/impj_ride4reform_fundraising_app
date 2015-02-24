@@ -5,4 +5,13 @@ class ApplicationController < ActionController::Base
 
   # list admin authenticate first 
   before_action :authenticate_admin!, :authenticate_user!
+
+
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:title, :first_name, :last_name, :email, :password, :password_confirmation) }
+  end
 end
