@@ -1,7 +1,6 @@
 class RiderYearRegistrationsController < ApplicationController
 	include PayPal::SDK::REST
 	skip_before_action :authenticate_admin!
-	# skip_before_action :authenticate_user!, only: [:new, :create]
 
 	def new 
 		## assume never registered before - brand new ... and deal with alternative scenario once this is built
