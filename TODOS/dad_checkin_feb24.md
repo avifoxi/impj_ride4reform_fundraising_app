@@ -1,6 +1,8 @@
-admin register new admin -- password conf field
-email conf also
+<!-- admin register new admin -- password conf field
+email conf also -->
+
 admin show page --- who is, email, 
+	could be improved + styled
 
 admin/receipts --
 	clean display of paypal hash, human readable
@@ -15,16 +17,16 @@ what is default home page?
 How do we do a general donation? 
 	same storgae fields-- Receipt and DonorRiderNote -- but the drd does not spec a rider -- and we assume a drd without rider association is for org
 
-CUSTOM ROUTING for devise login -- we need a custom controller here
 
 <!-- 
 REDIRECT To sign up on rider/new
 	more intuitive signage for user, to create a new profile
  -->
- 
-new rider / pyp 
-	the button for attachemnt doesn't look like a button - restyle
 
+<!-- new rider / pyp 
+	the button for attachemnt doesn't look like a button - restyle
+	improved -- but not perfect - but not worht time ? 
+ -->
 
 SHORTLIST --
 	1) test the ryr controller thoroghly 
