@@ -3,7 +3,7 @@
 <%= simple_form_for @ryr  do |f| %>
    
   <%= f.input :ride_option, collection: RiderYearRegistration::RIDE_OPTIONS %>  
-  <%= f.input :goal %>
+  <%= f.input :goal, label: 'Fundraising Goal', hint: "Must be above #{RideYear.current.min_fundraising_goal}" %>
   <%= f.button :submit %>
 <% end %>
 

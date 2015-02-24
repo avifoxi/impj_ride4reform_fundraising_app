@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # get 'users/check' => 'users#pre_registration_form'
 
   # do we actually need resources for users if we have devise  ?
-  resources :users
+  # resources :users
 
   resources :persistent_rider_profiles, :path => "riders"
 
