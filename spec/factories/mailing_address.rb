@@ -4,7 +4,7 @@ FactoryGirl.define do
 		line_2 Faker::Address.secondary_address
 		city Faker::Address.city
 		state Faker::Address.state
-		zip Faker::Address.zip
+		zip '12345'
 
 		trait :donor do 
 			association :user, factory: [:user, :donor]
