@@ -74,5 +74,15 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(response).to redirect_to(rider_year_registrations_persistent_rider_profile_path(rider_year_registration: ryr_instance))
 			expect(ryr_instance.agree_to_terms).to eq(true)
 		end
+
+		it 'valid user, valid ryr, does not agree to terms' do 
+
+			post :create_agree_to_terms, ryr_id: ryr_instance.id, rider_year_registration: { agree_to_terms: 0 }
+
+
+			expect(response).to render_template(:new_agree_to_terms)
+			expect(assigns(:errors)).not_to be_empty
+		end
+
 	end
 end
