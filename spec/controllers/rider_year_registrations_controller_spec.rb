@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	let(:user) { FactoryGirl.create(:user) }
-	let(:ryr_attrs) { FactoryGirl.attributes_for(:rider_year_registration)}
+	let(:ryr_attrs) { FactoryGirl.attributes_for(:rider_year_registration, :with_valid_associations)}
 	let(:ryr_instance) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }
 	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
 	let(:m_a_params) { FactoryGirl.attributes_for(:mailing_address) }
@@ -13,6 +13,13 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
     unless example.metadata[:skip_sign_in]
       sign_in ryr_instance.user
     end
+
+    if example.metadata[:ryr_fully_associated_for_pay]
+    	ryr_instance.mailing_addresses.create(m_a_params)
+    	prp = ryr_instance.user.build_persistent_rider_profile(user: ryr_instance.user)
+    	prp.update_attributes(prp_params)
+    end
+
     FactoryGirl.create(:ride_year, :current)
 	end
 
@@ -175,6 +182,22 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 		end
 	end
 
+
+	context 'new_pay_reg_fee', :ryr_fully_associated_for_pay do 
+		
+		it 'valid user, valid ryr, valid associations for payment, serves new payment form and assigns vars' do 
+
+			get :new_pay_reg_fee, rider_year_registration: ryr_instance
+
+			expect(response).to render_template(:new_pay_reg_fee)
+			expect(assigns(:ryr)).to eq(ryr_instance)
+			expect(assigns(:mailing_addresses)).to eq(ryr_instance.mailing_addresses)
+			expect(assigns(:custom_billing_address)).to be_a(MailingAddress)
+			expect(assigns(:registration_fee)).to eq(RideYear.current.registration_fee)
+
+		end
+
+	end
 
 
 end
