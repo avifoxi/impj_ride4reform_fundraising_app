@@ -4,6 +4,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	let(:user) { FactoryGirl.create(:user) }
 	let(:ryr_attrs) { FactoryGirl.attributes_for(:rider_year_registration)}
+	let(:ryr_instance) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }
 
 	before(:each) { sign_in user } 
 	before(:each) { FactoryGirl.create(:ride_year, :current) }
@@ -53,12 +54,25 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 		end
 
 	end
-
+ 
 	context 'new_agree_to_terms' do 
-		it '' do 
+		it 'valid user, valid ryr, serves new agree_to_terms and assigns instance var' do 
 
+			get :new_agree_to_terms, rider_year_registration: ryr_instance
+
+			expect(response).to render_template(:new_agree_to_terms)
+			expect(assigns(:ryr)).to eq(ryr_instance)
 		end
-
 	end
 
+	context 'create_agree_to_terms' do 
+		it 'valid user, valid ryr, serves new agree_to_terms and assigns instance var' do 
+
+			post :create_agree_to_terms, ryr_id: ryr_instance.id, rider_year_registration: { agree_to_terms: 1 }
+
+
+			expect(response).to redirect_to(rider_year_registrations_persistent_rider_profile_path(rider_year_registration: ryr_instance))
+			expect(ryr_instance.agree_to_terms).to eq(true)
+		end
+	end
 end
