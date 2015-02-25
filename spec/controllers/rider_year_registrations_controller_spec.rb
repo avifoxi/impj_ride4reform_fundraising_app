@@ -119,20 +119,16 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 		end
 
-		it 'valid user, valid ryr, serves new p_r_p and assigns instance var' do 
+		it 'valid user, valid ryr, invalide params, rerenders with errors' do 
 			prp_count = PersistentRiderProfile.all.count
-
+			prp_params['primary_phone'] = nil
 			post :create_persistent_rider_profile, ryr_id: ryr_instance.id, rider_year_registration: { persistent_rider_profile_attributes: prp_params }
 
 			
-			expect(response).to redirect_to(rider_year_registrations_mailing_address_path(rider_year_registration: ryr_instance))
-
-			expect(PersistentRiderProfile.last.user).to eq(ryr_instance.user)
-			expect(PersistentRiderProfile.all.count).to eq(prp_count + 1)
-
+			expect(response).to render_template(:new_persistent_rider_profile)
+			expect(PersistentRiderProfile.all.count).to eq(prp_count)
+			expect(assigns(:errors)).not_to be_empty
 		end
-
-
 	end
 
 end
