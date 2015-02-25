@@ -5,6 +5,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 	let(:user) { FactoryGirl.create(:user) }
 	let(:ryr_attrs) { FactoryGirl.attributes_for(:rider_year_registration)}
 	let(:ryr_instance) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }
+	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
 
 	before(:each) { sign_in user } 
 	before(:each) { FactoryGirl.create(:ride_year, :current) }
@@ -66,7 +67,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 	end
 
 	context 'create_agree_to_terms' do 
-		it 'valid user, valid ryr, serves new agree_to_terms and assigns instance var' do 
+		it 'valid user, valid ryr, updates agree_to_terms moves along ot prp' do 
 
 			post :create_agree_to_terms, ryr_id: ryr_instance.id, rider_year_registration: { agree_to_terms: 1 }
 
@@ -75,14 +76,40 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(ryr_instance.agree_to_terms).to eq(true)
 		end
 
-		it 'valid user, valid ryr, does not agree to terms' do 
+		it 'valid user, valid ryr, does not agree to terms, error and re-render' do 
 
-			post :create_agree_to_terms, ryr_id: ryr_instance.id, rider_year_registration: { agree_to_terms: 0 }
+			post :create_agree_to_terms, ryr_id: ryr_instance.id, rider_year_registration: { agree_to_terms: 'you can take your terms n shove em' }
 
 
 			expect(response).to render_template(:new_agree_to_terms)
 			expect(assigns(:errors)).not_to be_empty
 		end
+	end
+
+	context 'new_persistent_rider_profile' do 
+		it 'valid user, valid ryr, serves new p_r_p and assigns instance var' do 
+
+			get :new_persistent_rider_profile, rider_year_registration: ryr_instance
+
+
+			expect(response).to render_template(:new_persistent_rider_profile)
+			expect(assigns(:ryr)).to eq(ryr_instance)
+
+		end
 
 	end
+
+	context 'create_persistent_rider_profile' do 
+		it 'valid user, valid ryr, serves new p_r_p and assigns instance var' do 
+
+			post :create_persistent_rider_profile, ryr_id: ryr_instance.id, rider_year_registration: { persistent_rider_profile_attributes: prp_params }
+
+
+			expect(response).to redirect_to(rider_year_registrations_mailing_address_path(rider_year_registration: ryr_instance))
+			# expect(assigns(:ryr)).to eq(ryr_instance)
+			
+		end
+
+	end
+
 end
