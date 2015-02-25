@@ -6,6 +6,8 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 	let(:ryr_attrs) { FactoryGirl.attributes_for(:rider_year_registration)}
 	let(:ryr_instance) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }
 	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
+	let(:m_a_params) { FactoryGirl.attributes_for(:mailing_address) }
+
 
 	before do |example|
     unless example.metadata[:skip_sign_in]
@@ -130,5 +132,49 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(assigns(:errors)).not_to be_empty
 		end
 	end
+
+	context 'new_mailing_address' do 
+		it 'valid user, valid ryr, serves new mailing addy and assigns instance var' do 
+
+			get :new_mailing_address, rider_year_registration: ryr_instance
+
+
+			expect(response).to render_template(:new_mailing_address)
+			expect(assigns(:ryr)).to eq(ryr_instance)
+
+		end
+
+	end
+
+	context 'create_mailing_address' do 
+		it 'valid user, valid ryr, valid params, creates associated address ' do 
+			m_a_count = MailingAddress.all.count
+
+			# p "m_a params"
+			# p "#{m_a_params.inspect}"
+
+			post :create_mailing_address, ryr_id: ryr_instance.id, rider_year_registration: { mailing_addresses_attributes: { '0' => m_a_params } }
+
+			
+			expect(response).to redirect_to(rider_year_registrations_pay_reg_fee_path(rider_year_registration: ryr_instance))
+
+			expect(MailingAddress.last.user).to eq(ryr_instance.user)
+			expect(MailingAddress.all.count).to eq(m_a_count + 1)
+
+		end
+
+		it 'valid user, valid ryr, invalid params, rerenders with errors' do 
+			m_a_count = MailingAddress.all.count
+			m_a_params['line_1'] = nil
+			post :create_mailing_address, ryr_id: ryr_instance.id, rider_year_registration: { mailing_addresses_attributes: { '0' => m_a_params } }
+
+			
+			expect(response).to render_template(:new_mailing_address)
+			expect(MailingAddress.all.count).to eq(m_a_count)
+			expect(assigns(:errors)).not_to be_empty
+		end
+	end
+
+
 
 end
