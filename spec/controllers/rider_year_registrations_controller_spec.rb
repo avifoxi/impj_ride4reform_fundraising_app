@@ -194,9 +194,21 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(assigns(:mailing_addresses)).to eq(ryr_instance.mailing_addresses)
 			expect(assigns(:custom_billing_address)).to be_a(MailingAddress)
 			expect(assigns(:registration_fee)).to eq(RideYear.current.registration_fee)
-
 		end
+	end
 
+	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay do 
+		
+		# it 'valid user, valid ryr, valid associations for payment, serves new payment form and assigns vars' do 
+
+		# 	get :new_pay_reg_fee, rider_year_registration: ryr_instance
+
+		# 	expect(response).to render_template(:new_pay_reg_fee)
+		# 	expect(assigns(:ryr)).to eq(ryr_instance)
+		# 	expect(assigns(:mailing_addresses)).to eq(ryr_instance.mailing_addresses)
+		# 	expect(assigns(:custom_billing_address)).to be_a(MailingAddress)
+		# 	expect(assigns(:registration_fee)).to eq(RideYear.current.registration_fee)
+		# end
 	end
 
 
