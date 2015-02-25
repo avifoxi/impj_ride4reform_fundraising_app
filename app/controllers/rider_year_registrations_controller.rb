@@ -2,6 +2,8 @@ class RiderYearRegistrationsController < ApplicationController
 	include PayPal::SDK::REST
 	skip_before_action :authenticate_admin!
 
+	before_action :validate_user_w_associated_ryr, except: [:new, :create]
+
 	def new 
 		## assume never registered before - brand new ... and deal with alternative scenario once this is built
 		@ryr = RiderYearRegistration.new
@@ -132,6 +134,21 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	private 
+
+	def validate_user_w_associated_ryr
+		id_num = params[:ryr_id] || params[:rider_year_registration]
+		ryr = RiderYearRegistration.find(id_num)
+		unless ryr.user == current_user
+			flash[:error] = "Please log in to your own account to register."
+      redirect_to new_user_session_path
+    end
+
+		# unless logged_in?
+  #     flash[:error] = "You must be logged in to access this section"
+  #     redirect_to new_login_url # halts request cycle
+  #   end
+
+	end
 
 	def full_params
     params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
