@@ -1,9 +1,15 @@
 # require 'paypal-sdk-rest'
-# include PayPal::SDK::REST
+# PayPal::SDK::Core::Config.load('spec/config/paypal.yml',  ENV['RACK_ENV'] || 'development')
+
+# PayPal::SDK::REST.set_config(
+#     :mode => "sandbox", # "sandbox" or "live"
+#     :client_id => ENV['PAYPAL_CLIENT_ID'],
+#     :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
 
 class PaypalPaymentPreparer
+  include PayPal::SDK::REST
 
-  attr_reader :payment_hash
+  attr_reader :payment_hash, :id, :payment
 
   def initialize(params)
     @user = params[:user]
@@ -11,7 +17,10 @@ class PaypalPaymentPreparer
     @billing_address = params[:billing_address]
     @transaction_details = params[:transaction_details]
     @payment_hash = {}
+    @payment = nil
     prepare_payment_hash
+    config_paypal
+    # create_payment
   end
 
   def prepare_payment_hash
@@ -49,6 +58,22 @@ class PaypalPaymentPreparer
         :description =>  @transaction_details['description'] }
       ]
     }
+  end
+
+  def config_paypal
+    PayPal::SDK::REST.set_config(
+    :mode => "sandbox", # "sandbox" or "live"
+    :client_id => ENV['PAYPAL_CLIENT_ID'],
+    :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
+  end
+
+  def create_payment
+    @payment = Payment.new(@payment_hash)
+    if @payment.create
+      true
+    else
+      false
+    end
   end
 
 end

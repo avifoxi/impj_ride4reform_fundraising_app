@@ -1,5 +1,4 @@
 class RiderYearRegistrationsController < ApplicationController
-	include PayPal::SDK::REST
 	skip_before_action :authenticate_admin!
 
 	before_action :validate_user_w_associated_ryr, except: [:new, :create]
@@ -97,32 +96,15 @@ class RiderYearRegistrationsController < ApplicationController
 			billing_address: billing_address,
 			transaction_details: transaction_details
 		})
-		payment_hash = ppp.payment_hash
 
-		config_paypal	
-
-		@payment = Payment.new(payment_hash)
-		if @payment.create
-			p '$'*80
-			p 'payment YES dude'
-			p "#{@payment.inspect}"
-			p '$'*80
-
-			# 1) save receipt -- with id, and perhaps full text field stringify the return hash
-
-			Receipt.create(user: current_user, amount: current_fee, paypal_id: @payment.id, full_paypal_hash: @payment.to_json)
-
-			p '$'*80
-			p 'Receipt created'
-			p "#{Receipt.last}"
-			p '$'*80
+		if ppp.create_payment
+			Receipt.create(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
 
 			@rider = current_user.persistent_rider_profile
 			flash[:notice] = "Thank you for registering to ride!"
 			redirect_to persistent_rider_profile_path(@rider)
 		else
-
-			@payment_errors = @payment.error
+			@payment_errors = ppp.payment.error
 			@mailing_addresses = @ryr.mailing_addresses
 			unless @custom_billing_address
 				@custom_billing_address = MailingAddress.new
@@ -142,12 +124,6 @@ class RiderYearRegistrationsController < ApplicationController
 			flash[:error] = "Please log in to your own account to register."
       redirect_to new_user_session_path
     end
-
-		# unless logged_in?
-  #     flash[:error] = "You must be logged in to access this section"
-  #     redirect_to new_login_url # halts request cycle
-  #   end
-
 	end
 
 	def full_params
@@ -207,13 +183,6 @@ class RiderYearRegistrationsController < ApplicationController
 			'amount' =>  '%.2f' % current_fee,
 			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
 		}
-	end
-
-	def config_paypal
-		PayPal::SDK::REST.set_config(
-	  :mode => "sandbox", # "sandbox" or "live"
-	  :client_id => ENV['PAYPAL_CLIENT_ID'],
-	  :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
 	end
 
 end
