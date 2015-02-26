@@ -68,7 +68,6 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(response).to render_template(:new)
 			expect(assigns(:errors)).not_to be_empty
 		end
-
 	end
  
 	context 'new_agree_to_terms' do 
@@ -199,16 +198,21 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay do 
 		
-		# it 'valid user, valid ryr, valid associations for payment, serves new payment form and assigns vars' do 
+		it 'valid user, valid ryr, valid params, creates associated address ' do 
+			m_a_count = MailingAddress.all.count
 
-		# 	get :new_pay_reg_fee, rider_year_registration: ryr_instance
+			# p "m_a params"
+			# p "#{m_a_params.inspect}"
 
-		# 	expect(response).to render_template(:new_pay_reg_fee)
-		# 	expect(assigns(:ryr)).to eq(ryr_instance)
-		# 	expect(assigns(:mailing_addresses)).to eq(ryr_instance.mailing_addresses)
-		# 	expect(assigns(:custom_billing_address)).to be_a(MailingAddress)
-		# 	expect(assigns(:registration_fee)).to eq(RideYear.current.registration_fee)
-		# end
+			post :create_mailing_address, ryr_id: ryr_instance.id, rider_year_registration: { mailing_addresses_attributes: { '0' => m_a_params } }
+
+			
+			expect(response).to redirect_to(rider_year_registrations_pay_reg_fee_path(rider_year_registration: ryr_instance))
+
+			expect(MailingAddress.last.user).to eq(ryr_instance.user)
+			expect(MailingAddress.all.count).to eq(m_a_count + 1)
+
+		end
 	end
 
 
