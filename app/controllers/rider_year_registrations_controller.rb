@@ -75,6 +75,13 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_pay_reg_fee
+
+		p '$' * 80 
+		p 'full params in test'
+		p "#{full_params.inspect}"
+		p '$' * 80 
+
+
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 
 		if full_params['custom_billing_address'] == '1'

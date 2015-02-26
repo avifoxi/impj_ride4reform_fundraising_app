@@ -51,6 +51,10 @@ class PaypalPaymentPreparer
         :description =>  @transaction_details['description'] }
       ]
     }
+
+    p '$' *80
+    p 'inside ppp, payment_hash post config'
+    p "#{@payment_hash.inspect}"
   end
 
   def config_paypal

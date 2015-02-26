@@ -204,14 +204,15 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay, :stub_paypal_reply_success do 
 		
-		it 'valid user, valid ryr, reference existing address, create receipt, and redirect to persistent_rider_profile' do 
+		it 'valid user, valid ryr, reference existing address, create receipt, and redirect to persistent_rider_profile', :vcr, record: :new_episodes do 
 			# m_a_count = MailingAddress.all.count
 
 			p "pre post request"
 			
 
-			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '0', 'mailing_address_ids' => ryr_instance.mailing_addresses.first.id.to_s,  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year' => '2018', 'cc_cvv2' => '874'  }
+			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '0', 'mailing_address_ids' => ryr_instance.mailing_addresses.first.id.to_s,  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
 
+	
 			
 			# expect(response).to redirect_to(rider_year_registrations_pay_reg_fee_path(rider_year_registration: ryr_instance))
 
