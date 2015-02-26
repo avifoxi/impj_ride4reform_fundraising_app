@@ -11,9 +11,9 @@ class PaypalPaymentPreparer
     @payment_hash = {}
     @payment = nil
     prepare_payment_hash
-    unless Rails.env.test?
-      config_paypal
-    end
+    # unless Rails.env.test?
+    config_paypal
+    # end
   end
 
   def prepare_payment_hash
