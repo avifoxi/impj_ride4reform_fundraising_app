@@ -198,13 +198,13 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 
 	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay do 
 		
-		it 'valid user, valid ryr, valid params, creates associated address ' do 
-			m_a_count = MailingAddress.all.count
+		it 'valid user, valid ryr, reference existing address, create receipt, and redirect to persistent_rider_profile' do 
+			# m_a_count = MailingAddress.all.count
 
 			# p "m_a params"
 			# p "#{m_a_params.inspect}"
 
-			post :create_mailing_address, ryr_id: ryr_instance.id, rider_year_registration: { mailing_addresses_attributes: { '0' => m_a_params } }
+			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { :custom_billing_address => '0', mailing_address_ids: ryr_instance.mailing_addresses.first.id,  cc_type: '4417119669820331', cc_number: 'visa', cc_expire_month: '11', cc_expire_year: '2018', cc_cvv2: '874'  }
 
 			
 			expect(response).to redirect_to(rider_year_registrations_pay_reg_fee_path(rider_year_registration: ryr_instance))

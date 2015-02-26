@@ -4,6 +4,7 @@ require 'spec_helper'
 require 'devise'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'webmock/rspec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
