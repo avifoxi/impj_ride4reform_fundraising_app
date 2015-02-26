@@ -1,15 +1,7 @@
-# require 'paypal-sdk-rest'
-# PayPal::SDK::Core::Config.load('spec/config/paypal.yml',  ENV['RACK_ENV'] || 'development')
-
-# PayPal::SDK::REST.set_config(
-#     :mode => "sandbox", # "sandbox" or "live"
-#     :client_id => ENV['PAYPAL_CLIENT_ID'],
-#     :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
-
 class PaypalPaymentPreparer
   include PayPal::SDK::REST
 
-  attr_reader :payment_hash, :id, :payment
+  attr_reader :id, :payment
 
   def initialize(params)
     @user = params[:user]
@@ -19,8 +11,9 @@ class PaypalPaymentPreparer
     @payment_hash = {}
     @payment = nil
     prepare_payment_hash
-    config_paypal
-    # create_payment
+    unless Rails.env.test?
+      config_paypal
+    end
   end
 
   def prepare_payment_hash
@@ -62,9 +55,9 @@ class PaypalPaymentPreparer
 
   def config_paypal
     PayPal::SDK::REST.set_config(
-    :mode => "sandbox", # "sandbox" or "live"
-    :client_id => ENV['PAYPAL_CLIENT_ID'],
-    :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
+      :mode => "sandbox", # "sandbox" or "live"
+      :client_id => ENV['PAYPAL_CLIENT_ID'],
+      :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
   end
 
   def create_payment
@@ -77,54 +70,3 @@ class PaypalPaymentPreparer
   end
 
 end
-
-# '%.2f' %
-
-
-# PaypalPaymentPreparer.new({user: User.first, billing_address: MailingAddress.first, cc_info: cc_info, transaction_details: transaction_details })
-
-# transaction_details = {'name' => 'rider registration fee', 'amount' => 650, 'description' => 'rider registration fee'}
-
-
-# cc_info = {'type' => 'visa', 'number'=> '123', 'expire_month' => '123', 'expire_year' => '2016'}
-
-
-# # Build Payment object
-# @payment = Payment.new({
-#   :intent => "sale",
-#   :payer => {
-#     :payment_method => "credit_card",
-#     :funding_instruments => [{
-#       :credit_card => {
-#         :type => "visa",
-#         :number => "4417119669820331",
-#         :expire_month => "11",
-#         :expire_year => "2018",
-#         :cvv2 => "874",
-#         :first_name => "Joe",
-#         :last_name => "Shopper",
-#         :billing_address => {
-#           :line1 => "52 N Main ST",
-#           :city => "Johnstown",
-#           :state => "OH",
-#           :postal_code => "43210",
-#           :country_code => "US" }}}]},
-#   :transactions => [{
-#     :item_list => {
-#       :items => [{
-#         :name => "item",
-#         :sku => "item",
-#         :price => "1",
-#         :currency => "USD",
-#         :quantity => 1 }]},
-#     :amount => {
-#       :total => "1.00",
-#       :currency => "USD" },
-#     :description => "This is the payment transaction description." }]})
-
-# Create Payment and return the status(true or false)
-# if @payment.create
-#   @payment.id     # Payment Id
-# else
-#   @payment.error  # Error Hash
-# end
