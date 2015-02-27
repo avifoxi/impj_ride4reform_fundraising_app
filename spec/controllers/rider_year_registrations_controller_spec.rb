@@ -21,10 +21,6 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
     	prp.update_attributes(prp_params)
     end
 
-    if example.metadata[:stub_paypal_reply_success]
-
-    end
-
     FactoryGirl.create(:ride_year, :current)
 
 	end
@@ -202,22 +198,20 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 		end
 	end
 
-	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay, :stub_paypal_reply_success do 
+	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay do 
 		
 		it 'valid user, valid ryr, reference existing address, create receipt, and redirect to persistent_rider_profile', :vcr, record: :new_episodes do 
-			# m_a_count = MailingAddress.all.count
 
-			p "pre post request"
-			
+			receipt_count = Receipt.all.count
+			m_a_count = MailingAddress.all.count
 
 			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '0', 'mailing_address_ids' => ryr_instance.mailing_addresses.first.id.to_s,  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
 
-	
-			
-			# expect(response).to redirect_to(rider_year_registrations_pay_reg_fee_path(rider_year_registration: ryr_instance))
+			expect(MailingAddress.all.count).to eq(m_a_count)
+			expect(Receipt.all.count).to eq(receipt_count + 1)
+			expect(response).to redirect_to(persistent_rider_profile_path(ryr_instance.persistent_rider_profile))
 
-			# expect(MailingAddress.last.user).to eq(ryr_instance.user)
-			# expect(MailingAddress.all.count).to eq(m_a_count + 1)
+
 
 		end
 	end
