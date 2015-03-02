@@ -8,6 +8,9 @@ QUESTIONS
 	- do we need defensive user validation at each step of new rider registration ?
 		- this could likely be handled by a 'before_action' block in the controller-- verify that rider is current_user
 
+	- can we valid params not saved to db ? 
+		- ala credit card number (feel like we should do this )
+
 
 <!-- admin register new admin -- password conf field
 email conf also -->
