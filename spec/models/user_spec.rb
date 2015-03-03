@@ -28,4 +28,11 @@ RSpec.describe User, :type => :model do
 		user.set_new_primary_address(addy2)
 		expect(user.primary_address).to eq(addy2)
 	end
+
+	it "validates credit card info when sent to model" do 
+		user = create(:user, :rider)
+		user.cc_type = 'i am not a credit card type...'
+		expect(user.save).to eq(false)
+		expect(user.errors).not_to be_empty
+	end
 end

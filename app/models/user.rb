@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 	
+  # not saved to DB, but simple_form validates inputs against model -- so we add these attrs that are not persisted
+  # very railsy -- perhaps an odd design choice
+  attr_accessor :custom_billing_address, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2
+
   has_many :mailing_addresses
 
 	has_one :persistent_rider_profile
@@ -18,9 +22,13 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :email
   validates_inclusion_of :title, :in => TITLES
 
-  # not saved to DB, but simple_form validates inputs against model -- so we add these attrs that are not persisted
-  # very railsy -- perhaps an odd design choice
-  attr_accessor :custom_billing_address, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2
+  # credit card info validation -- not saving to DB, but validating on form submission before shuttling to paypal
+  validates_inclusion_of :cc_type, :in => [['Visa', 'visa'], ['Mastercard', 'mastercard'], ['Discover', 'discover'], ['AMEX', 'amex']].flatten, :message => 'Please select a card type that we accept', allow_nil: true
+
+  validates :cc_number, length: {is: 16}, allow_nil: true
+  validates_inclusion_of :cc_expire_month, :in => (1..12).to_a.map{|num| num.to_s}, allow_nil: true
+  validates :cc_cvv2, length: {minimum: 3, maximum: 4}, allow_nil: true
+
 
 	def set_new_primary_address(mailing_address)
     max = self.mailing_addresses.map{|m| m.users_primary}.max

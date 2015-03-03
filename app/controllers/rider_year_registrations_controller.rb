@@ -1,6 +1,7 @@
 class RiderYearRegistrationsController < ApplicationController
-	include PayPal::SDK::REST
 	skip_before_action :authenticate_admin!
+
+	before_action :validate_user_w_associated_ryr, except: [:new, :create]
 
 	def new 
 		## assume never registered before - brand new ... and deal with alternative scenario once this is built
@@ -74,7 +75,30 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_pay_reg_fee
+
+		# p '$'*80
+		# p 'params'
+		# p "#{params.inspect}"
+		# p '$'*80
+		# p 'full_params'
+		# p "#{full_params.inspect}"
+		# p '$'*80
+		# p 'custom_billing_address'
+		# p "#{custom_billing_address.inspect}"
+
+
+
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
+
+		unless cc_info
+
+			@payment_errors = ['Please enter your full credit card information to complete your registration']
+			@mailing_addresses = @ryr.mailing_addresses
+			@custom_billing_address = MailingAddress.new
+			@registration_fee = current_fee
+			render :new_pay_reg_fee
+			return
+		end
 
 		if full_params['custom_billing_address'] == '1'
 			@custom_billing_address = MailingAddress.new(custom_billing_address)
@@ -83,6 +107,7 @@ class RiderYearRegistrationsController < ApplicationController
 				@errors = @custom_billing_address.errors
 				@mailing_addresses = @ryr.mailing_addresses
 				render :new_pay_reg_fee
+				return
 			end
 			billing_address = @custom_billing_address
 		else
@@ -95,32 +120,15 @@ class RiderYearRegistrationsController < ApplicationController
 			billing_address: billing_address,
 			transaction_details: transaction_details
 		})
-		payment_hash = ppp.payment_hash
 
-		config_paypal	
-
-		@payment = Payment.new(payment_hash)
-		if @payment.create
-			p '$'*80
-			p 'payment YES dude'
-			p "#{@payment.inspect}"
-			p '$'*80
-
-			# 1) save receipt -- with id, and perhaps full text field stringify the return hash
-
-			Receipt.create(user: current_user, amount: current_fee, paypal_id: @payment.id, full_paypal_hash: @payment.to_json)
-
-			p '$'*80
-			p 'Receipt created'
-			p "#{Receipt.last}"
-			p '$'*80
+		if ppp.create_payment
+			Receipt.create(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
 
 			@rider = current_user.persistent_rider_profile
 			flash[:notice] = "Thank you for registering to ride!"
 			redirect_to persistent_rider_profile_path(@rider)
 		else
-
-			@payment_errors = @payment.error
+			@payment_errors = ppp.payment.error
 			@mailing_addresses = @ryr.mailing_addresses
 			unless @custom_billing_address
 				@custom_billing_address = MailingAddress.new
@@ -133,6 +141,15 @@ class RiderYearRegistrationsController < ApplicationController
 
 	private 
 
+	def validate_user_w_associated_ryr
+		id_num = params[:ryr_id] || params[:rider_year_registration]
+		ryr = RiderYearRegistration.find(id_num)
+		unless ryr.user == current_user
+			flash[:error] = "Please log in to your own account to register."
+      redirect_to new_user_session_path
+    end
+	end
+
 	def full_params
     params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
     	:mailing_addresses_attributes => [
@@ -143,11 +160,14 @@ class RiderYearRegistrationsController < ApplicationController
     		],
     	:mailing_address => [
     		:line_1, :line_2, :city, :state, :zip
-    	]
+    	] 
     )
   end
 
   def cc_info
+  	unless full_params['cc_type'] && full_params['cc_number'] && full_params['cc_expire_month'] && full_params['cc_expire_year(1i)'] && full_params['cc_cvv2']
+  		return false
+  	end
   	{
   		'type' => full_params['cc_type'],
 			'number' => full_params['cc_number'],
@@ -190,13 +210,6 @@ class RiderYearRegistrationsController < ApplicationController
 			'amount' =>  '%.2f' % current_fee,
 			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
 		}
-	end
-
-	def config_paypal
-		PayPal::SDK::REST.set_config(
-	  :mode => "sandbox", # "sandbox" or "live"
-	  :client_id => ENV['PAYPAL_CLIENT_ID'],
-	  :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
 	end
 
 end
