@@ -4,8 +4,10 @@ SHORTLIST --
 	3) rider view / allow registered to view status, and update
 	4) admin/riders can retrieve and update fields for riders
 
-QUESTIONS 
+TODOS 
 	- we need tests for the paypal wrapper method
+	- expand seeds for fuller development approximation
+	- and the readme ... update
 
 
 
