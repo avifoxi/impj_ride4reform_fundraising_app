@@ -26,10 +26,8 @@ class User < ActiveRecord::Base
   validates_inclusion_of :cc_type, :in => [['Visa', 'visa'], ['Mastercard', 'mastercard'], ['Discover', 'discover'], ['AMEX', 'amex']].flatten, :message => 'Please select a card type that we accept', allow_nil: true
 
   validates :cc_number, length: {is: 16}, allow_nil: true
-  validates_inclusion_of :cc_expire_month, :in => (1..12).to_a.map{|num| num.to_s}
-
-
-  # validates :cc_expire_month
+  validates_inclusion_of :cc_expire_month, :in => (1..12).to_a.map{|num| num.to_s}, allow_nil: true
+  validates :cc_cvv2, length: {minimum: 3, maximum: 4}, allow_nil: true
 
 
 	def set_new_primary_address(mailing_address)
