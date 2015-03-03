@@ -224,6 +224,28 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(receipt_count + 1)
 			expect(response).to redirect_to(persistent_rider_profile_path(ryr_instance.persistent_rider_profile))
 		end
+
+		it 'valid user, valid ryr, forgets to enter some credit info' do 
+			receipt_count = Receipt.all.count
+			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '1', 'mailing_address' => {'line_1' => 'custom line 1', 'city' => 'custom city', 'state' => 'NV', 'zip' => '12345'}, 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
+
+			expect(Receipt.all.count).to eq(receipt_count)
+			expect(response).to render_template(:new_pay_reg_fee)
+			expect(assigns(:payment_errors)).not_to be_empty
+		end
+
+		it 'valid user, valid ryr, create NEW mailing_address w invalid address info' do 
+			receipt_count = Receipt.all.count
+			m_a_count = MailingAddress.all.count
+
+			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '1', 'mailing_address' => {'city' => 'custom city', 'state' => 'NV', 'zip' => '12345'},  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
+
+			expect(MailingAddress.all.count).to eq(m_a_count)
+			expect(Receipt.all.count).to eq(receipt_count)
+			expect(response).to render_template(:new_pay_reg_fee)
+			expect(assigns(:errors)).not_to be_empty
+		end		
+
 	end
 
 

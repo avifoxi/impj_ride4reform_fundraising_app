@@ -90,6 +90,16 @@ class RiderYearRegistrationsController < ApplicationController
 
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 
+		unless cc_info
+
+			@payment_errors = ['Please enter your full credit card information to complete your registration']
+			@mailing_addresses = @ryr.mailing_addresses
+			@custom_billing_address = MailingAddress.new
+			@registration_fee = current_fee
+			render :new_pay_reg_fee
+			return
+		end
+
 		if full_params['custom_billing_address'] == '1'
 			@custom_billing_address = MailingAddress.new(custom_billing_address)
 			@custom_billing_address.user = current_user
@@ -97,6 +107,7 @@ class RiderYearRegistrationsController < ApplicationController
 				@errors = @custom_billing_address.errors
 				@mailing_addresses = @ryr.mailing_addresses
 				render :new_pay_reg_fee
+				return
 			end
 			billing_address = @custom_billing_address
 		else
@@ -149,11 +160,14 @@ class RiderYearRegistrationsController < ApplicationController
     		],
     	:mailing_address => [
     		:line_1, :line_2, :city, :state, :zip
-    	]
+    	] 
     )
   end
 
   def cc_info
+  	unless full_params['cc_type'] && full_params['cc_number'] && full_params['cc_expire_month'] && full_params['cc_expire_year(1i)'] && full_params['cc_cvv2']
+  		return false
+  	end
   	{
   		'type' => full_params['cc_type'],
 			'number' => full_params['cc_number'],
