@@ -1,5 +1,5 @@
-case Rails.env
-when "development"
+# case Rails.env
+# when "development"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
 
 	User.create(first_name: "Avi", last_name: "Rider", email: "a@a.com", password: 'password', title: User::TITLES.sample)
@@ -15,5 +15,5 @@ when "development"
   end
 
 
-when "production"
-end
+# when "production"
+# end
