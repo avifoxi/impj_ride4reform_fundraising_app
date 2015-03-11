@@ -2,4 +2,13 @@ hi i ride
 
 <%= @rider.primary_phone  %>
 
-<%= image_tag @rider.avatar.url %>
+<% if @rider.avatar_file_name  %>
+	<%= image_tag @rider.avatar.url %>
+<% else %>
+	<i class="fa fa-bicycle"></i>
+<% end %>
+
+<i class="fa fa-bicycle"></i>
+<span class="icon-pencil"></span>
+<!-- < %= glyph(:bicycle) %>  -->
+<%= icon(:refresh) %>
