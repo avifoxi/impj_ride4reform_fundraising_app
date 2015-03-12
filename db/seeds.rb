@@ -10,10 +10,35 @@ when "development"
 
 	RideYear.last.set_as_current
 
+	users = []
 	20.times do 
-    User.create(title: User::TITLES.sample, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password)
+    users << User.create(title: User::TITLES.sample, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password)
   end
 
+  goals = (2500..10000).to_a
+  10.times do 
+  	user = users.pop
+  	rider = RiderYearRegistration.create(
+  		user: user,
+  		goal: goals.sample,
+  		agree_to_terms: true,
+  		ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
+  	)
+
+  	rider.mailing_addresses.create(
+  			line_1: Faker::Address.street_address,
+  			city: Faker::Address.city,
+  			zip: Faker::Address.zip_code,
+  			state: Faker::Address.state)
+
+  	rider.user.build_persistent_rider_profile(
+  				primary_phone: '1234567890',
+					birthdate: Faker::Date.between(20.years.ago, 60.years.ago).to_s,
+					bio: Faker::Hacker.say_something_smart ,
+					user: user
+  	).save
+  	
+  end
 
 when "production"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
