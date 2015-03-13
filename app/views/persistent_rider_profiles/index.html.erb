@@ -1,1 +1,10 @@
-wazzup i'm all the riders
+<h3>This is the Root Page!</h3>
+
+<ul>
+	<% @current_riders.each do |cr| %>
+		
+		<li><%= cr.full_name %></li>
+		<li><%= cr.delegate_ryr_method(RideYear.current.year, 'goal') %></li>
+
+	<% end %>
+</ul>

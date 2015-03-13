@@ -1,5 +1,7 @@
 class RideYear < ActiveRecord::Base
 
+  has_many :rider_year_registrations
+  
   attr_accessor :set_current_in_form
 
   validates_presence_of :registration_fee, :registration_fee_early, :min_fundraising_goal, :year, :ride_start_date, :ride_end_date, :early_bird_cutoff

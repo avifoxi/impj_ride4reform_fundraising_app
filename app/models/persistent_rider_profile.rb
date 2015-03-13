@@ -4,6 +4,7 @@ class PersistentRiderProfile < ActiveRecord::Base
 
 	delegate :full_name, to: :user
 
+
 	validates_associated :user, on: :create
 	validate :has_at_least_one_rider_year_registration
 
@@ -26,6 +27,12 @@ class PersistentRiderProfile < ActiveRecord::Base
 	def s3_credentials
     {:bucket => ENV['AWS_S3_BUCKET'], :access_key_id => ENV['AWS_ACCESS_KEY_ID'], :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']}
   end
+
+  def delegate_ryr_method(year, method)
+		ride_year = RideYear.find_by(year: year)
+		ryr = self.rider_year_registrations.find_by(ride_year: ride_year)
+		ryr[method]
+	end
 
 	private
 
