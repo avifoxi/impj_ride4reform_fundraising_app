@@ -15,6 +15,12 @@ when "development"
     users << User.create(title: User::TITLES.sample, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password)
   end
 
+  users.each do |u|
+  	unless u.errors.empty?
+  		puts "#{u.errors.inspect}"
+  	end
+  end
+
   goals = (2500..10000).to_a
   10.times do 
   	user = users.pop
@@ -31,12 +37,16 @@ when "development"
   			zip: Faker::Address.zip_code,
   			state: Faker::Address.state)
 
-  	rider.user.build_persistent_rider_profile(
+  	prp = rider.user.build_persistent_rider_profile
+  	unless prp.update_attributes(
   				primary_phone: '1234567890',
 					birthdate: Faker::Date.between(20.years.ago, 60.years.ago).to_s,
-					bio: Faker::Hacker.say_something_smart ,
-					user: user
-  	).save
+					bio: Faker::Hacker.say_something_smart 
+					# ,user: user
+  	)
+  		p 'errors'
+  		p "#{prp.errors.inspect}"
+  	end
   	
   end
 
