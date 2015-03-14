@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   # for devise - must set root to something
-  root to: "users#index"
+  root to: "persistent_rider_profiles#index"
 
   # get 'users/check' => 'users#pre_registration_form'
 
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # resources :users
 
   # resources :ride_years do
-    resources :persistent_rider_profiles, :path => "riders"
+  resources :persistent_rider_profiles, :path => "riders"
   # end
 
   # resources :persistent_rider_profiles, :path => "riders"
