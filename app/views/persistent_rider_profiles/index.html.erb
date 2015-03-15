@@ -1,14 +1,8 @@
 <h3>Our Riders for <%= @year.year %></h3>
 
 <div class="row">
-  	<% @riders.each do |r| %>
-			<%= render 'thumbnail', :rider => r  %>
+  	<% @riders.each do |rider| %>
+			<%= render 'thumbnail', :rider => rider  %>
 		<% end %>
 </div>
 
-	
-
-
-<!-- <li>< %= r.full_name %></li>
-			<li>< %= r.delegate_ryr_method(@year.year, 'goal') %></li>
- -->

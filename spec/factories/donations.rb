@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :donor_rider_note do
+  factory :donation do
     visible_to_public true
     note_to_rider "I donate to you for riding your bike"
   

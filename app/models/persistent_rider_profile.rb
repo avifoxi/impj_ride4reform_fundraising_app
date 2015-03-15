@@ -34,6 +34,10 @@ class PersistentRiderProfile < ActiveRecord::Base
 		ryr[method]
 	end
 
+	def current_registration
+		self.rider_year_registrations.find_by(ride_year: RideYear.current)
+	end
+
 	private
 
 	def has_at_least_one_rider_year_registration

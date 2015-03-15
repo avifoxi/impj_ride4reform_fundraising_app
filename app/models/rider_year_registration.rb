@@ -18,7 +18,7 @@ class RiderYearRegistration < ActiveRecord::Base
 
   accepts_nested_attributes_for :user
 
-  has_many :donor_rider_notes
+  has_many :donations
 
   RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding']
 

@@ -47,6 +47,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def rider_in_current_year?
+    self.rider_year_registrations.last.ride_year == RideYear.current
+  end
+
   # def complete_donor_list_for_all_rides
   # 	drns = DonorRiderNote.where(rider: self)
   # end

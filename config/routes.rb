@@ -11,9 +11,10 @@ Rails.application.routes.draw do
   # do we actually need resources for users if we have devise  ?
   # resources :users
 
-  # resources :ride_years do
-  resources :persistent_rider_profiles, :path => "riders"
-  # end
+  resources :persistent_rider_profiles, :path => "riders" do
+    resources :donations
+  end
+  
 
   # resources :persistent_rider_profiles, :path => "riders"
 

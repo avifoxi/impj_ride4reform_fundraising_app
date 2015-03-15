@@ -94,4 +94,43 @@ http_interactions:
         fee","sku":"item","price":"650.00","currency":"USD","quantity":"1"}]},"related_resources":[{"sale":{"id":"8GL63237HP849150V","create_time":"2015-03-02T20:17:26Z","update_time":"2015-03-02T20:17:51Z","amount":{"total":"650.00","currency":"USD"},"state":"completed","parent_payment":"PAY-6E79485346127421YKT2MKVQ","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8GL63237HP849150V","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/8GL63237HP849150V/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6E79485346127421YKT2MKVQ","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-6E79485346127421YKT2MKVQ","rel":"self","method":"GET"}]}'
     http_version: 
   recorded_at: Mon, 02 Mar 2015 20:17:51 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p481-x86_64-darwin13.1.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcsbplatformapiserv3002.slc.paypal.com;threadId=465215
+      Paypal-Debug-Id:
+      - b32f1ed1959ce
+      Server-Info:
+      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=89&TopLevelTxnStartTime=14c1a1ba8d1&Host=slcsbidensectoken501.slc.paypal.com&pid=12082
+      Date:
+      - Sat, 14 Mar 2015 21:06:02 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '75'
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_client","error_description":"Invalid client credentials"}'
+    http_version: 
+  recorded_at: Sat, 14 Mar 2015 21:06:03 GMT
 recorded_with: VCR 2.9.3

@@ -1,0 +1,28 @@
+<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
+
+<%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
+<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
+<%= f.input :cc_expire_year, as: :date, start_year: Date.today.year,
+                            end_year: Date.today.year + 10, discard_day: true, discard_month: true,
+                            order: [:year], label: 'Expiration year' %>
+<%= f.input :cc_cvv2, input_html: { maxlength: 4 }, label: 'security code (cvv)' %>
+
+<% if @mailing_addresses %>
+	<%= f.association :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
+<% end %>
+
+<%= f.input :custom_billing_address, as: :boolean, label: 'Add a separate billing address?' %>
+
+<div class='custom_billing_address'>
+  <%= f.simple_fields_for @custom_billing_address do |m| %>
+  	<%= m.input :line_1 %>
+		<%= m.input :line_2 %>
+
+		<%= m.input :city %>
+		<%= m.input :state, collection: us_states %>
+		<%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>
+
+  <% end %>
+</div>
+
+<%= f.button :submit %>
