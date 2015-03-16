@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
 	has_many :rider_year_registrations
 	has_many :receipts
+  has_many :donations
 
   TITLES = ['Mr', 'Mrs', 'Ms', 'Dr', 'Rabbi', 'Cantor', 'Chazzan', 'Educator', 'None']
 

@@ -15,7 +15,6 @@ class RiderYearRegistration < ActiveRecord::Base
   accepts_nested_attributes_for :persistent_rider_profile
   delegate :persistent_rider_profile, to: :user
 
-
   accepts_nested_attributes_for :user
 
   has_many :donations

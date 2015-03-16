@@ -12,11 +12,12 @@ Rails.application.routes.draw do
   # if no rider spec'd, donate to org
 
   resources :persistent_rider_profiles, :path => "riders" do
-    resources :donations, only: [:new]
+    resources :donations, only: [:new, :create]
   end
 
   resources :donations#, except: [:new]
   
+  get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
 
   # resources :persistent_rider_profiles, :path => "riders"
 

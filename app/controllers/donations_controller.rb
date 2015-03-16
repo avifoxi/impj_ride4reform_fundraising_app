@@ -9,52 +9,59 @@ class DonationsController < ApplicationController
 	end
 
 	def create
-		p '#'*80
-		p 'these is params'
-		p "#{params.inspect}"
-		p '#'*80
-		@persistent_rider_profile = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+		# p '#'*80
+		# p 'these is params'
+		# p "#{params.inspect}"
+		# p '#'*80
+		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
 
-		p '#'*80
-		p '@donation'
-		p "#{@donation.inspect}"
-		p '#'*80
+		# p '#'*80
+		# p '@donation'
+		# p "#{@donation.inspect}"
+		# p '#'*80
 
 		@user = User.find_by(email: full_params[:user][:email])
 		if @user
 			@mailing_addresses = @user.mailing_addresses
 		else
 			@user = User.new(full_params[:user])
+			@user.title = 'None'
 			@user.password = Devise.friendly_token.first(8)
 			unless @user.save
-				@errors = @user.errors
+				@donation.user = @user
+				# p "user"
+				# p "#{@user.inspect}"
 				@donation.valid?
-				if @donation.errors
-					@errors << @donation.errors
+				@errors = @donation.errors
+				@donation.user.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
 				end
+
 				render 'new'
+				return
 			end
 		end
 
 		@custom_billing_address = MailingAddress.new
-		@donation.rider_year_registration = @persistent_rider_profile.current_registration
+		@donation.rider_year_registration = @rider.current_registration
+		@donation.user = @user
 
 		if @donation.valid? 
 			@donation.save
-			
-
-		# p '#'*80
-		# p 'these is params'
-		# p "#{params.inspect}"
-		# p '#'*80
-		# @mailing_addresses
-		# @custom_billing_address
-
-		# redirect_to :new_pay_donation
-
+			redirect_to new_donation_payment_path(@donation)
+		else
+			@errors = @donation.errors
+			if @user.errors 
+				@errors.merge(@user.errors)
+			end
+			render 'new'
+		end
 	end
 
+	def new_donation_payment
+
+	end
 
 	# from ryr controller -- all necessary details for new payment
 	# def new_pay_reg_fee
@@ -93,3 +100,11 @@ class DonationsController < ApplicationController
     )
   end
 end
+
+
+
+
+
+# d.user.errors{|k,v| d.errors.messages[user][k.to_sym] = [v] }
+# d.user
+
