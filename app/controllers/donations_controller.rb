@@ -38,8 +38,11 @@ class DonationsController < ApplicationController
 		end
 
 		@custom_billing_address = MailingAddress.new
-
 		@donation.rider_year_registration = @persistent_rider_profile.current_registration
+
+		if @donation.valid? 
+			@donation.save
+			
 
 		# p '#'*80
 		# p 'these is params'
