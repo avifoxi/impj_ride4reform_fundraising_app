@@ -29,6 +29,10 @@ class DonationsController < ApplicationController
 			@user.password = Devise.friendly_token.first(8)
 			unless @user.save
 				@errors = @user.errors
+				@donation.valid?
+				if @donation.errors
+					@errors << @donation.errors
+				end
 				render 'new'
 			end
 		end
