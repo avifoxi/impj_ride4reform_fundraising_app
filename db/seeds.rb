@@ -34,12 +34,12 @@ when "development"
     end
 
 	users = []
-	20.times do 
+	50.times do 
     users << User.create(title: User::TITLES.sample, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: Faker::Internet.password)
   end
 
-  
-  10.times do 
+  # create riders with persistent rider profiles, current year registration
+  20.times do 
   	user = users.pop
   	rider = RiderYearRegistration.create(
   		user: user,
@@ -47,6 +47,8 @@ when "development"
   		agree_to_terms: true,
   		ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
   	)
+
+    rider.update_attributes(ride_year: RideYear.all.sample)
 
   	rider.mailing_addresses.create(
   			line_1: Faker::Address.street_address,
