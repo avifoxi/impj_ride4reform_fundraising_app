@@ -1,0 +1,13 @@
+<h3>Please fill out your payment information to finish your donation to <%= @donation.rider.full_name %></h3>
+
+<!-- format nicely to see donation in process -->
+<%= @donation.amount %>
+<%= @donation.note_to_rider %>
+<%= @donation.visible_to_public %>
+
+
+<%= simple_form_for @donation, :action => :create_donation_payment, :url => create_donation_payment_path(@donation), :method => :post do |f| %>
+
+	<%= render 'shared/payment_form', :f => f %>
+
+<% end %>

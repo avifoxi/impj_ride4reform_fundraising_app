@@ -2,7 +2,6 @@
 
 <%= render 'shared/form_errors' %>
 
-
 <%= simple_form_for @donation, :url => persistent_rider_profile_donations_path(@rider), :method => :post do |f| %>
   <%= f.input :amount, as: :currency, label: "Amount you would like to donate to #{@rider.full_name}'s campaign: $" %>
   <%= f.input :note_to_rider, hint: 'This note will display along with your contribution.' %>
