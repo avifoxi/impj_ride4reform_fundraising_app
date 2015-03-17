@@ -1,14 +1,12 @@
-hi i ride
+<%= @rider.full_name  %>
 
-<%= @rider.primary_phone  %>
+<%= render 'picture', :rider => @rider %>
 
-<% if @rider.avatar_file_name  %>
-	<%= image_tag @rider.avatar.url %>
-<% else %>
-	<h3>update your photo?</h3>
+<br><%= link_to "Donate to #{@rider.full_name}'s Campaign!", new_persistent_rider_profile_donation_path(@rider), class: "btn btn-info btn-lg" %>
+
+
+<% if current_user == @rider.user %>
+
+	show me the control panel
+
 <% end %>
-
-<!-- <i class="fa fa-bicycle"></i>
-<span class="icon-pencil"></span> -->
-<!-- < %= glyph(:bicycle) %>  -->
-<!-- < %= icon(:refresh) %> -->

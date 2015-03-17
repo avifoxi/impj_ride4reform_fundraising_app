@@ -4,16 +4,21 @@ Rails.application.routes.draw do
   devise_for :users
 
   # for devise - must set root to something
-  root to: "users#index"
+  root to: "persistent_rider_profiles#index"
 
-  # get 'users/check' => 'users#pre_registration_form'
+  
+  # donations new nested under riders, and ALSO without nesting. 
+  # if nested under rider-- donate to rider
+  # if no rider spec'd, donate to org
 
-  # do we actually need resources for users if we have devise  ?
-  # resources :users
+  resources :persistent_rider_profiles, :path => "riders" do
+    resources :donations, only: [:new, :create]
+  end
 
-  # resources :ride_years do
-    resources :persistent_rider_profiles, :path => "riders"
-  # end
+  resources :donations#, except: [:new]
+  
+  get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
+  post 'donations/:id/create_donation_payment' => 'donations#create_donation_payment', as: :create_donation_payment
 
   # resources :persistent_rider_profiles, :path => "riders"
 

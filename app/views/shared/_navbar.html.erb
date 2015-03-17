@@ -14,7 +14,13 @@
       <ul class="nav navbar-nav">
         <li><%= link_to 'Home', root_path %></li>
         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
-        <li><%= link_to 'Register To Ride!', new_rider_year_registration_path %></li>
+        
+        
+        <% if current_user && current_user.rider_in_current_year? %>
+          <li><%= link_to 'My Rider Profile + Dashboard', persistent_rider_profile_path(current_user.persistent_rider_profile) %></li>
+        <% else %>
+          <li><%= link_to 'Register To Ride!', new_rider_year_registration_path %></li>
+        <% end %>
         <!-- <li>< %= link_to 'Manage User Accounts', admin_users_path %></li> -->
         
         <!-- <li class="dropdown">

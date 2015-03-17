@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150212191124) do
+ActiveRecord::Schema.define(version: 20150314200413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,17 +35,20 @@ ActiveRecord::Schema.define(version: 20150212191124) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "donor_rider_notes", force: true do |t|
+  create_table "donations", force: true do |t|
+    t.boolean  "visible_to_public"
+    t.text     "note_to_rider"
     t.integer  "rider_year_registration_id"
     t.integer  "receipt_id"
-    t.boolean  "visible_to_public",          default: true
-    t.text     "note_to_rider"
+    t.integer  "user_id"
+    t.integer  "amount"
+    t.boolean  "fee_is_processed",           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "donor_rider_notes", ["receipt_id"], name: "index_donor_rider_notes_on_receipt_id", using: :btree
-  add_index "donor_rider_notes", ["rider_year_registration_id"], name: "index_donor_rider_notes_on_rider_year_registration_id", using: :btree
+  add_index "donations", ["receipt_id"], name: "index_donations_on_receipt_id", using: :btree
+  add_index "donations", ["rider_year_registration_id"], name: "index_donations_on_rider_year_registration_id", using: :btree
 
   create_table "mailing_addresses", force: true do |t|
     t.integer  "user_id"

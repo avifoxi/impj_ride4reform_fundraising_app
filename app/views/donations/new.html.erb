@@ -1,0 +1,19 @@
+<h3>Your Donation to <%= @rider.full_name %></h3>
+
+<%= render 'shared/form_errors' %>
+
+<%= simple_form_for @donation, :url => persistent_rider_profile_donations_path(@rider), :method => :post do |f| %>
+  <%= f.input :amount, as: :currency, label: "Amount you would like to donate to #{@rider.full_name}'s campaign: $" %>
+  <%= f.input :note_to_rider, hint: 'This note will display along with your contribution.' %>
+  
+  
+	<%= f.simple_fields_for :user do |u| %>
+		<%= u.input :first_name, label: 'Your first name' %>
+		<%= u.input :last_name, label: 'Your last name' %>
+		<%= u.input :email, label: 'Your email address' %>
+	<% end %>
+
+	<%= f.input :visible_to_public, label: "Check to make your donation anonymous on #{@rider.full_name}'s fundraising page. Your donation will still be visible to the rider." %>
+
+  <%= f.button :submit %>
+<% end %>

@@ -1,1 +1,8 @@
-wazzup i'm all the riders
+<h3>Our Riders for <%= @year.year %></h3>
+
+<div class="row">
+  	<% @riders.each do |rider| %>
+			<%= render 'thumbnail', :rider => rider  %>
+		<% end %>
+</div>
+

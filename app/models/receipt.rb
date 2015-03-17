@@ -1,6 +1,6 @@
 class Receipt < ActiveRecord::Base
   belongs_to :user
-  has_one :donor_rider_note
+  has_one :donation
 
   belongs_to :rider_year_registration
 
