@@ -69,6 +69,19 @@ when "development"
   	
   end
 
+  amounts = (18..1800).to_a
+  50.times do 
+    user = users.sample
+    Donation.create(
+      visible_to_public: [true, false].sample,
+      note_to_rider: Faker::Hacker.say_something_smart,
+      rider_year_registration: RiderYearRegistration.all.sample,
+      user: user,
+      amount: amounts.sample,
+      fee_is_processed: [true, false].sample
+    )
+  end
+
 when "production"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
