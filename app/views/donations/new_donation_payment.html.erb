@@ -1,6 +1,9 @@
 <h3>Please fill out your payment information to finish your donation to <%= @donation.rider.full_name %></h3>
 
-<!-- format nicely to see donation in process -->
+<%= render 'shared/form_errors' %>
+
+
+<!-- TODO format nicely to see donation in process -->
 <%= @donation.amount %>
 <%= @donation.note_to_rider %>
 <%= @donation.visible_to_public %>

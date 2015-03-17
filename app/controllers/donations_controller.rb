@@ -9,6 +9,8 @@ class DonationsController < ApplicationController
 	end
 
 	def create
+
+		## account for current_user in assigning user, and perhaps in previous step 
 		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
 
@@ -56,25 +58,39 @@ class DonationsController < ApplicationController
 	end
 
 	def create_donation_payment
+
 		@donation = Donation.find(params[:id])
 
-		unless cc_info
-			@payment_errors = ['Please enter your full credit card information to complete your registration']
+		def re_render_new_dp_w_errors
+			@errors = @donation.errors
+			if @donation.user.errors 
+				@donation.user.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
+			if @custom_billing_address.errors 
+				@custom_billing_address.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
 			unless @donation.mailing_addresses.empty?
 				@mailing_addresses = @donation.mailing_addresses
-			end			
-			@custom_billing_address = MailingAddress.new
+			end	
+			@custom_billing_address = @custom_billing_address || MailingAddress.new
 			render :new_donation_payment
+		end
+		
+		unless cc_info
+			@payment_errors = ['Please enter your full credit card information to complete your registration']
+			re_render_new_dp_w_errors
 			return
 		end
 
 		if full_params['custom_billing_address'] == '1'
-			@custom_billing_address = MailingAddress.new(custom_billing_address)
+			@custom_billing_address = MailingAddress.new(full_params['mailing_address'])
 			@custom_billing_address.user = @donation.user
 			unless @custom_billing_address.save
-				@errors = @custom_billing_address.errors
-				@mailing_addresses = @ryr.mailing_addresses
-				render :new_pay_reg_fee
+				re_render_new_dp_w_errors
 				return
 			end
 			billing_address = @custom_billing_address
@@ -89,83 +105,17 @@ class DonationsController < ApplicationController
 			transaction_details: transaction_details
 		})
 
-
 		if ppp.create_payment
-			Receipt.create(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-
-			@rider = current_user.persistent_rider_profile
-			flash[:notice] = "Thank you for registering to ride!"
-			redirect_to persistent_rider_profile_path(@rider)
+			receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
+			@donation.update_attributes(receipt: receipt, fee_is_processed: true)
+			rider = @donation.rider.persistent_rider_profile
+			flash[:notice] = "Thank you for donating!"
+			redirect_to persistent_rider_profile_path(rider)
 		else
 			@payment_errors = ppp.payment.error
-			@mailing_addresses = @ryr.mailing_addresses
-			unless @custom_billing_address
-				@custom_billing_address = MailingAddress.new
-			end
-			@registration_fee = current_fee
-
-			render :new_pay_reg_fee
+			re_render_new_dp_w_errors
 		end
 	end
-
-
-
-	# from rider_reg_controller
-	# def create_pay_reg_fee
-
-	# 	@ryr = RiderYearRegistration.find(params[:ryr_id])
-
-	# 	unless cc_info
-
-	# 		@payment_errors = ['Please enter your full credit card information to complete your registration']
-	# 		@mailing_addresses = @ryr.mailing_addresses
-	# 		@custom_billing_address = MailingAddress.new
-	# 		@registration_fee = current_fee
-	# 		render :new_pay_reg_fee
-	# 		return
-	# 	end
-
-	# 	if full_params['custom_billing_address'] == '1'
-	# 		@custom_billing_address = MailingAddress.new(custom_billing_address)
-	# 		@custom_billing_address.user = current_user
-	# 		unless @custom_billing_address.save
-	# 			@errors = @custom_billing_address.errors
-	# 			@mailing_addresses = @ryr.mailing_addresses
-	# 			render :new_pay_reg_fee
-	# 			return
-	# 		end
-	# 		billing_address = @custom_billing_address
-	# 	else
-	# 		billing_address = MailingAddress.find(full_params['mailing_address_ids'])
-	# 	end
-	
-	# 	ppp = PaypalPaymentPreparer.new({
-	# 		user: current_user,
-	# 		cc_info: cc_info, 
-	# 		billing_address: billing_address,
-	# 		transaction_details: transaction_details
-	# 	})
-
-	# 	if ppp.create_payment
-	# 		Receipt.create(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-
-	# 		@rider = current_user.persistent_rider_profile
-	# 		flash[:notice] = "Thank you for registering to ride!"
-	# 		redirect_to persistent_rider_profile_path(@rider)
-	# 	else
-	# 		@payment_errors = ppp.payment.error
-	# 		@mailing_addresses = @ryr.mailing_addresses
-	# 		unless @custom_billing_address
-	# 			@custom_billing_address = MailingAddress.new
-	# 		end
-	# 		@registration_fee = current_fee
-
-	# 		render :new_pay_reg_fee
-	# 	end
-	# end
-
-
-
 
 	private
 
@@ -179,12 +129,19 @@ class DonationsController < ApplicationController
     		],
     	:user => [
     		:first_name, :last_name, :email
-    	] 
+    	],
+    	:mailing_address => [
+    		:line_1, :line_2, :city, :state, :zip
+    	]  
     )
   end
 
-  def cc_info
-
+  def transaction_details
+    {
+      'name' => "user donation to rider",
+      'amount' =>  '%.2f' % @donation.amount,
+      'description' => "#{ @donation.user.full_name }'s donation to #{@donation.rider.full_name}, in the #{RideYear.current.year} ride year."
+    }
   end
 end
 
