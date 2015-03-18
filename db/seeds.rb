@@ -1,5 +1,5 @@
-case Rails.env
-when "development"
+# case Rails.env
+# when "development"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
 
 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
@@ -87,12 +87,12 @@ when "development"
     end
   end
 
-when "production"
-	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
-	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
+# when "production"
+# 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
+# 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
 
-	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
+# 	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
 
-	RideYear.last.set_as_current
+# 	RideYear.last.set_as_current
 
-end
+# end
