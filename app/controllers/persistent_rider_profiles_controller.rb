@@ -1,7 +1,7 @@
 class PersistentRiderProfilesController < ApplicationController
 	skip_before_action :authenticate_admin!
 	## TODO - ensure defensive authentica_user for all actions allowign edit functions
-	skip_before_action :authenticate_user!
+	skip_before_action :authenticate_user!, only: [:show, :index]
 
 	def show
 		@rider = PersistentRiderProfile.find(params[:id])
@@ -16,5 +16,8 @@ class PersistentRiderProfilesController < ApplicationController
 		## does this need to be a function of ride_years?
 		@year = RideYear.current
 		@riders = RideYear.current.rider_year_registrations.map{|ryr| ryr.persistent_rider_profile}
+	end
+
+	def edit
 	end
 end
