@@ -1,3 +1,5 @@
+require 'faker'
+
 # case Rails.env
 # when "development"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
