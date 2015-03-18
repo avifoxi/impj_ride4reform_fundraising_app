@@ -5,6 +5,7 @@ class PersistentRiderProfilesController < ApplicationController
 
 	def show
 		@rider = PersistentRiderProfile.find(params[:id])
+		@years_registration = RiderYearRegistration.find_by(ride_year: RideYear.current )
 		@donations = @rider.delegate_ryr_method(RideYear.current, 'donations')
 		@raised = @rider.delegate_ryr_method(RideYear.current, 'raised')
 		@percent_of_goal = @rider.delegate_ryr_method(RideYear.current, 'percent_of_goal')
