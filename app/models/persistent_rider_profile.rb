@@ -29,9 +29,13 @@ class PersistentRiderProfile < ActiveRecord::Base
   end
 
   def delegate_ryr_method(year, method)
-		ride_year = RideYear.find_by(year: year)
+		if year.is_a?(Integer)
+			ride_year = RideYear.find_by(year: year)
+		else
+			ride_year = year
+		end
 		ryr = self.rider_year_registrations.find_by(ride_year: ride_year)
-		ryr[method]
+		ryr.send(method)
 	end
 
 	def current_registration

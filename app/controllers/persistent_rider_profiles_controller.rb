@@ -5,6 +5,7 @@ class PersistentRiderProfilesController < ApplicationController
 
 	def show
 		@rider = PersistentRiderProfile.find(params[:id])
+		@donations = @rider.delegate_ryr_method(RideYear.current, 'donations')
 	end
 
 	def index
