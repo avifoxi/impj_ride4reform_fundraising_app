@@ -2,15 +2,16 @@
   <div class="col-md-4">
   	<%= @rider.full_name  %>
 		<%= render 'picture', :rider => @rider %>
-		<br><%= link_to "Donate to #{@rider.full_name}'s Campaign!", new_persistent_rider_profile_donation_path(@rider), class: "btn btn-info btn-lg" %>
+		
 	</div>
   
   
   <div class="col-md-4">
-  	I am a gauge vizualization.
-  	<br><%= @raised %>
-  	<br><%= @percent_of_goal %>
-		
+  	<h4><%= @rider.first_name %> has raised <%= @percent_of_goal %>% of their $<%= @goal %> goal.</h4>
+
+		<div id="chart" class="col-md-8 col-md-offset-1"></div>
+		<br><%= link_to "Donate to #{@rider.full_name}'s Campaign!", new_persistent_rider_profile_donation_path(@rider), class: "btn btn-info btn-lg" %>
+
   </div>
   <div class="col-md-4">
   	<!-- TODO -- make this a scrolling list? -->
@@ -22,11 +23,6 @@
 
 
 
-
-
-
-
-
 <% if current_user == @rider.user %>
 
 	show me the control panel
@@ -34,3 +30,23 @@
 <% end %>
 
 
+<script>
+	
+	var chart = c3.generate({
+    data: {
+        columns: [
+            ['data', <%= @percent_of_goal %>]
+        ],
+        type: 'gauge',
+        onclick: function (d, i) { console.log("onclick", d, i); },
+        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+    },
+    color: {
+        pattern: ['#60B044'], // the color percentage values.
+    },
+    size: {
+        height: 180
+    }
+	});
+</script>

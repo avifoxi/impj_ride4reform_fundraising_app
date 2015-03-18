@@ -8,6 +8,7 @@ class PersistentRiderProfilesController < ApplicationController
 		@donations = @rider.delegate_ryr_method(RideYear.current, 'donations')
 		@raised = @rider.delegate_ryr_method(RideYear.current, 'raised')
 		@percent_of_goal = @rider.delegate_ryr_method(RideYear.current, 'percent_of_goal')
+		@goal = @rider.delegate_ryr_method(RideYear.current, 'goal')
 	end
 
 	def index
