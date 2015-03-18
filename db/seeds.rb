@@ -71,7 +71,7 @@ require 'faker'
   	
   end
 
-  amounts = (18..1800).to_a
+  amounts = (18..800).to_a
   50.times do 
     user = users.sample
     ryr = RiderYearRegistration.all.sample
@@ -81,7 +81,7 @@ require 'faker'
       rider_year_registration: ryr,
       user: user,
       amount: amounts.sample,
-      fee_is_processed: [true, false].sample
+      fee_is_processed: true
     )
     if don.fee_is_processed
       ryr.raised += don.amount
