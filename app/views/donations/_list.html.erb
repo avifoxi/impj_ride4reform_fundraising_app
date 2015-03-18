@@ -1,0 +1,12 @@
+<% @donations.each do |d| %>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title"><%= d.user.full_name %></h3>
+	  </div>
+	  <div class="panel-body">
+	    <%= d.amount %>
+			<br>public viewable is <%= d.visible_to_public %>	
+			<br><%= d.note_to_rider %>		
+	  </div>
+	</div>
+<% end %>

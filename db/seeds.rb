@@ -72,14 +72,19 @@ when "development"
   amounts = (18..1800).to_a
   50.times do 
     user = users.sample
-    Donation.create(
+    ryr = RiderYearRegistration.all.sample
+    don = Donation.create(
       visible_to_public: [true, false].sample,
       note_to_rider: Faker::Hacker.say_something_smart,
-      rider_year_registration: RiderYearRegistration.all.sample,
+      rider_year_registration: ryr,
       user: user,
       amount: amounts.sample,
       fee_is_processed: [true, false].sample
     )
+    if don.fee_is_processed
+      ryr.raised += don.amount
+      ryr.save
+    end
   end
 
 when "production"
