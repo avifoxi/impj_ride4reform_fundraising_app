@@ -2,7 +2,7 @@
 
 # FactoryGirl.define do
 #   factory :paypal_payment_preparer do
-#     visible_to_public true
+#     anonymous_to_public true
 #     note_to_rider "I donate to you for riding your bike"
   
 #     association :rider_year_registration, factory: [:rider_year_registration, :with_valid_associations]

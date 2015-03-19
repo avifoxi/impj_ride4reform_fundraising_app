@@ -76,7 +76,7 @@ require 'faker'
     user = users.sample
     ryr = RiderYearRegistration.all.sample
     don = Donation.create(
-      visible_to_public: [true, false].sample,
+      anonymous_to_public: [true, false].sample,
       note_to_rider: Faker::Hacker.say_something_smart,
       rider_year_registration: ryr,
       user: user,

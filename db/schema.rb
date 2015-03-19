@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "donations", force: true do |t|
-    t.boolean  "visible_to_public"
+    t.boolean  "anonymous_to_public"
     t.text     "note_to_rider"
     t.integer  "rider_year_registration_id"
     t.integer  "receipt_id"

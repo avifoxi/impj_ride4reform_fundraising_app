@@ -24,6 +24,9 @@ prp show page
 
 TODO 
 
+very importatn rake task:
+	rake assets:precompile RAILS_ENV=production
+
 root index page
 	- make anon buttons actually do something...
 
