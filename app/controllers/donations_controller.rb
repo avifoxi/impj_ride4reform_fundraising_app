@@ -95,7 +95,7 @@ class DonationsController < ApplicationController
 			end
 			billing_address = @custom_billing_address
 		else
-			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
+			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 
 		ppp = PaypalPaymentPreparer.new({
@@ -123,7 +123,7 @@ class DonationsController < ApplicationController
 	private
 
 	def full_params
-    params.require(:donation).permit(:amount, :visible_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
+    params.require(:donation).permit(:amount, :visible_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
