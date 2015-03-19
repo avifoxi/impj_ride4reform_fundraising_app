@@ -3,7 +3,12 @@
   
   <%= link_to persistent_rider_profile_path(rider) do %>
     
-    <%= render 'picture', :rider => rider %>
+    <% if rider.avatar_file_name  %>
+			<%= image_tag rider.avatar.url(:thumb) %>
+		<% else %>
+			<i class="fa fa-bicycle"></i>
+			<!-- <h3>update your photo?</h3> -->
+		<% end %>
   
   <% end %>
   
