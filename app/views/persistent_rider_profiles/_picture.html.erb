@@ -1,6 +1,6 @@
 <div class="prp_show_photo">
 	<% if rider.avatar_file_name  %>
-		<%= image_tag rider.avatar.url %>
+		<%= image_tag rider.avatar.url(:medium) %>
 	<% else %>
 		<i class="fa fa-bicycle"></i>
 		<!-- <h3>update your photo?</h3> -->
