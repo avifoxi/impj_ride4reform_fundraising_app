@@ -15,7 +15,7 @@ class PersistentRiderProfilesController < ApplicationController
 	def index
 		## does this need to be a function of ride_years?
 		@year = RideYear.current
-		@riders = RideYear.current.rider_year_registrations.map{|ryr| ryr.persistent_rider_profile}
+		@riders = RideYear.current.rider_year_registrations.select{|ryr| ryr.persistent_rider_profile}
 	end
 
 	def edit
