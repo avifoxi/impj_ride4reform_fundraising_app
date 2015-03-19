@@ -1,11 +1,5 @@
 DOING
 
-donation model --
-	architecture --- 
-		although it hits the db more... i think rider.raised should be dynamically gen'd for accuracy and ease of maintenance 
-		for now -- quick fix in donations controller
-
-
 
 TODO 
 
@@ -15,11 +9,6 @@ prp show page
 
 very importatn rake task:
 	rake assets:precompile RAILS_ENV=production
-
-root index page
-	- make anon buttons actually do something...
-
-fix i element scoping css 
 
 images -- size limits on prp image submission
 
@@ -37,4 +26,13 @@ prp show page
 	- gauge and percent of progress, vizualization
 		- add bower gem to tie js to ruby env
 		- d3 / c3
+
+donation model --
+	architecture --- 
+		although it hits the db more... i think rider.raised should be dynamically gen'd for accuracy and ease of maintenance 
+
+root index page
+	- make anon buttons actually do something...
+
+
 
