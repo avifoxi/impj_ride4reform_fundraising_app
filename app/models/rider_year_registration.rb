@@ -32,6 +32,10 @@ class RiderYearRegistration < ActiveRecord::Base
     self.ride_year = RideYear.current
   end
 
+  def raised
+    self.donations.where(fee_is_processed: true).sum(:amount)
+  end
+
   def percent_of_goal
     return "0" if self.goal <= 0
     
