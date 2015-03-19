@@ -18,5 +18,7 @@
 //= require twitter/bootstrap
 //= require bootstrap-datepicker
 //= require underscore/underscore-min.js
+//= require d3/d3.min.js
+//= require c3/c3.min.js
 //= require turbolinks
 //= require_tree .

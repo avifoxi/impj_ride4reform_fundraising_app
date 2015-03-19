@@ -62,6 +62,7 @@ gem "paperclip", "~> 4.2"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'faker'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
@@ -69,7 +70,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem "factory_girl_rails", "~> 4.0"
   gem 'database_cleaner', '~> 1.4.0'	
-  gem 'faker'
+  
 end
 
 group :test do 

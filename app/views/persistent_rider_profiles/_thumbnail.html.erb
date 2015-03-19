@@ -1,15 +1,23 @@
 <div class="col-sm-6 col-md-4">
-<div class="thumbnail">
+<div class="thumbnail prp-index">
   
   <%= link_to persistent_rider_profile_path(rider) do %>
     
-    <%= render 'picture', :rider => rider %>
+    <% if rider.avatar_file_name  %>
+			<%= image_tag rider.avatar.url(:thumb) %>
+		<% else %>
+			<i class="fa fa-bicycle"></i>
+			<!-- <h3>update your photo?</h3> -->
+		<% end %>
   
   <% end %>
   
   <div class="caption">
     <h4><%= rider.full_name %></h4>
-    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+    <p>
+      <%= link_to "#{rider.first_name}'s Profile", persistent_rider_profile_path(rider), class: "btn btn-primary" %>
+      <%= link_to "Donate Now!", new_persistent_rider_profile_donation_path(rider), class: "btn btn-success" %>
+    </p>
   </div>
 </div>
 </div>

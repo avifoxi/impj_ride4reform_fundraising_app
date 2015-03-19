@@ -1,5 +1,7 @@
-case Rails.env
-when "development"
+require 'faker'
+
+# case Rails.env
+# when "development"
 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
 
 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
@@ -69,25 +71,26 @@ when "development"
   	
   end
 
-  amounts = (18..1800).to_a
+  amounts = (18..800).to_a
   50.times do 
     user = users.sample
-    Donation.create(
-      visible_to_public: [true, false].sample,
+    ryr = RiderYearRegistration.all.sample
+    don = Donation.create(
+      anonymous_to_public: [true, false].sample,
       note_to_rider: Faker::Hacker.say_something_smart,
-      rider_year_registration: RiderYearRegistration.all.sample,
+      rider_year_registration: ryr,
       user: user,
       amount: amounts.sample,
-      fee_is_processed: [true, false].sample
+      fee_is_processed: true
     )
   end
 
-when "production"
-	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
-	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
+# when "production"
+# 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
+# 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
 
-	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
+# 	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
 
-	RideYear.last.set_as_current
+# 	RideYear.last.set_as_current
 
-end
+# end

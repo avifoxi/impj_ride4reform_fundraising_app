@@ -1,0 +1,19 @@
+<h1>i am editing!</h1>
+
+<!-- < %= @prp.inspect %> -->
+
+<%= simple_form_for @prp do |p| %>
+	
+	<%= render 'shared/prp_form', :p => p %>
+	<!-- < %= p.button :submit %> -->
+
+<% end %>
+
+<hr>
+<br><%= @this_years_registration.inspect %>
+
+<%= simple_form_for @this_years_registration do |f| %>
+	
+	<%= render 'shared/rider_year_registration_form', :f => f %>
+
+<% end %>

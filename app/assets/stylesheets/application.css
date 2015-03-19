@@ -11,7 +11,8 @@
  * file per style scope.
  *
  *= require bootstrap-datepicker3
- *= require_tree .
  *= require font-awesome
+ *= require c3/c3.min.css
+ *= require_tree .
  *= require_self
  */

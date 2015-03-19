@@ -18,5 +18,8 @@
   ],
   "dependencies": {
     "underscore": "~1.7.0"
+  },
+  "devDependencies": {
+    "c3": "~0.4.10"
   }
 }

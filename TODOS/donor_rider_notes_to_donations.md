@@ -18,7 +18,7 @@ class CreateDonorRiderNotes < ActiveRecord::Migration
     create_table :donor_rider_notes do |t|
       t.references :rider_year_registration, index: true
       t.references :receipt, index: true
-      t.boolean :visible_to_public, default: true
+      t.boolean :anonymous_to_public, default: true
       t.text :note_to_rider
 
       t.timestamps
@@ -32,7 +32,7 @@ factory
 
 FactoryGirl.define do
   factory :donor_rider_note do
-    visible_to_public true
+    anonymous_to_public true
     note_to_rider "I donate to you for riding your bike"
   
     association :rider_year_registration, factory: [:rider_year_registration, :with_valid_associations]

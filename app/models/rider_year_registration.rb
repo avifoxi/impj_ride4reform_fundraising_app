@@ -32,6 +32,17 @@ class RiderYearRegistration < ActiveRecord::Base
     self.ride_year = RideYear.current
   end
 
+  def raised
+    self.donations.where(fee_is_processed: true).sum(:amount)
+  end
+
+  def percent_of_goal
+    return "0" if self.goal <= 0
+    
+    perc = (self.raised.to_f / self.goal.to_f).round(2) * 100
+    perc.to_i.to_s
+  end
+
   private
 
   def goal_meets_min_for_ride_year

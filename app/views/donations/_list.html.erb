@@ -1,0 +1,17 @@
+<% @donations.each do |d| %>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<% if d.anonymous_to_public %>
+	    		<%= d.user.full_name %>
+	    	<% else %>
+	    		Anonymous Donor
+	    	<% end %>
+	    </h3>
+	  </div>
+	  <div class="panel-body">
+	    <strong>$<%= d.amount %></strong>
+			<br><%= d.note_to_rider %>		
+	  </div>
+	</div>
+<% end %>

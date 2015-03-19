@@ -1,7 +1,7 @@
 class CreateDonations < ActiveRecord::Migration
   def change
     create_table :donations do |t|
-      t.boolean :visible_to_public
+      t.boolean :anonymous_to_public, default: false
       t.text :note_to_rider
       t.references :rider_year_registration, index: true
       t.references :receipt, index: true

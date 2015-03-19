@@ -9,10 +9,19 @@ class DonationsController < ApplicationController
 	end
 
 	def create
+		p '*'*80
+		p " full params"
+		p "#{full_params.inspect}"
+		p '*'*80
 
 		## account for current_user in assigning user, and perhaps in previous step 
 		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
+
+		p '*'*80
+		p " @donation"
+		p "#{@donation.inspect}"
+		p '*'*80
 
 		## TODO -- the error handling should maybe be a rescue? so as not to repeat the SAME code for error renders at different stages of @donation + @user instantiation
 		@user = User.find_by(email: full_params[:user][:email])
@@ -95,7 +104,7 @@ class DonationsController < ApplicationController
 			end
 			billing_address = @custom_billing_address
 		else
-			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
+			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 
 		ppp = PaypalPaymentPreparer.new({
@@ -120,7 +129,7 @@ class DonationsController < ApplicationController
 	private
 
 	def full_params
-    params.require(:donation).permit(:amount, :visible_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
+    params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
