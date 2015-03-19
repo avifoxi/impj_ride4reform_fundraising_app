@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   end
 
   def rider_in_current_year?
-    if self.rider_year_registrations.empty?
+    if self.rider_year_registrations.empty? || !self.persistent_rider_profile
       return false
     else
       self.rider_year_registrations.last.ride_year == RideYear.current
