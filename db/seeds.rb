@@ -83,10 +83,6 @@ require 'faker'
       amount: amounts.sample,
       fee_is_processed: true
     )
-    if don.fee_is_processed
-      ryr.raised += don.amount
-      ryr.save
-    end
   end
 
 # when "production"
