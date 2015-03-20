@@ -10,10 +10,9 @@ class DonationsController < ApplicationController
 
 	def create
 		p '*'*80
-		p " full params"
-		p "#{full_params.inspect}"
+		p " params"
+		p "#{params.inspect}"
 		p '*'*80
-
 		## account for current_user in assigning user, and perhaps in previous step 
 		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
@@ -36,6 +35,10 @@ class DonationsController < ApplicationController
 				@donation.user.errors.each do |k,v|
 					@errors.messages[k.to_sym] = [v]
 				end
+				p '*'*80
+				p " @errors"
+				p "#{@errors.inspect}"
+				p '*'*80
 				render 'new'
 				return
 			end
@@ -54,6 +57,10 @@ class DonationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
+			p '*'*80
+				p " @errors"
+				p "#{@errors.inspect}"
+				p '*'*80
 			render 'new'
 		end
 	end
