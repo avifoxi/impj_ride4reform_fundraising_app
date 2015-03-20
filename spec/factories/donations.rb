@@ -6,9 +6,10 @@ FactoryGirl.define do
     note_to_rider "I donate to you for riding your bike"
   	amount 300
 
-  	trait :with_valid_associations do 
+  	trait :with_valid_associations_before_fee_processed do 
 	    association :rider_year_registration, factory: [:rider_year_registration, :with_valid_associations]
-	    association :receipt, factory: [:receipt, :donation]
+	    # association :receipt, factory: [:receipt, :donation]
+	    association :user, factory: [:user, :donor]
   	end
   end
 end

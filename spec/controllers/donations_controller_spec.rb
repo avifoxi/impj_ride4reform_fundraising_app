@@ -7,14 +7,19 @@ RSpec.describe DonationsController, :type => :controller do
 	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
 	let(:m_a_params) { FactoryGirl.attributes_for(:mailing_address) }
 	let (:don_params) {FactoryGirl.attributes_for(:donation)}
+	# let(:donation) {FactoryGirl.create(:donation, :with_valid_associations_before_fee_processed)}
 
 
 	before do |example|
 
-		# must build prp manually... bc of validations, etc
-    @prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
-  	@prp.update_attributes(prp_params)
-
+		@prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
+	  @prp.update_attributes(prp_params)
+		
+		if example.metadata[:build_donation_pre_fee]
+      # must build prp manually... bc of validations, etc
+	    @donation = Donation.new(don_params)
+	    @donation.update_attributes(rider_year_registration: ryr, user: user)
+    end		
 	end
 
 	context 'access + permissions' do
@@ -106,6 +111,15 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Donation.all.count).to eq(@don_count)
 			expect(User.all.count).to eq(@user_count)
 			expect( assigns(:errors)).to_not be_empty
+		end
+	end
+
+	context 'new_donation_payment', :build_donation_pre_fee do
+		it 'assigns appropriately and renders form' do
+			
+			get :new_donation_payment, id: @donation.id
+			expect( assigns(:donation)).to eq(@donation)
+			# expect( assigns(:rider) ).to eq(PersistentRiderProfile.last)
 		end
 	end
 
