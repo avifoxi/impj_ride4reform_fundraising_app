@@ -2,101 +2,6 @@
 http_interactions:
 - request:
     method: post
-    uri: https://EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM:EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM@api.sandbox.paypal.com/v1/oauth2/token
-    body:
-      encoding: UTF-8
-      string: grant_type=client_credentials
-    headers:
-      User-Agent:
-      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p451-x86_64-darwin12.5.0)
-      Content-Type:
-      - application/x-www-form-urlencoded
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - '*/*'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Proxy-Server-Info:
-      - host=slcsbplatformapiserv3002.slc.paypal.com;threadId=53867
-      Paypal-Debug-Id:
-      - 9baa2bbc647f0
-      Server-Info:
-      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=19980&TopLevelTxnStartTime=14bc84e8e73&Host=slcsbidensectoken502.slc.paypal.com&pid=17453
-      Date:
-      - Thu, 26 Feb 2015 23:52:46 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '367'
-    body:
-      encoding: UTF-8
-      string: '{"scope":"https://uri.paypal.com/services/invoicing openid https://api.paypal.com/v1/developer/.*
-        https://api.paypal.com/v1/payments/.* https://api.paypal.com/v1/vault/credit-card/.*
-        https://api.paypal.com/v1/vault/credit-card","access_token":"A015dgeiHjxXymewAoBKHEhEz3FDbTqlKkf0qScHnpu62RA","token_type":"Bearer","app_id":"APP-2EJ531395M785864S","expires_in":28800}'
-    http_version: 
-  recorded_at: Thu, 26 Feb 2015 23:52:47 GMT
-- request:
-    method: post
-    uri: https://api.sandbox.paypal.com/v1/payments/payment
-    body:
-      encoding: UTF-8
-      string: '{"intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"number":"4417119669820331","type":"visa","expire_month":11,"expire_year":2018,"cvv2":"874","first_name":"Rider","last_name":"Test","billing_address":{"line1":"4821
-        Hammes Glens","city":"Ratkefort","country_code":"US","postal_code":"12345","state":"West
-        Virginia"}}}]},"transactions":[{"amount":{"currency":"USD","total":"650.00"},"description":"Registration
-        fee for Rider Test, 2015","item_list":{"items":[{"quantity":"1","name":"rider
-        registration fee","price":"650.00","currency":"USD","sku":"item"}]}}]}'
-    headers:
-      X-Paypal-Sandbox-Email-Address:
-      - Platform.sdk.seller@gmail.com
-      Authorization:
-      - Bearer A015dgeiHjxXymewAoBKHEhEz3FDbTqlKkf0qScHnpu62RA
-      Content-Type:
-      - application/json
-      User-Agent:
-      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p451-x86_64-darwin12.5.0)
-      Paypal-Request-Id:
-      - 2e366c1f-366f-42e2-a72d-5212c8ff8c22
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - '*/*'
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Proxy-Server-Info:
-      - host=slcsbplatformapiserv3001.slc.paypal.com;threadId=3270
-      Paypal-Debug-Id:
-      - 35cb677163edf
-      Server-Info:
-      - paymentsplatformserv:v1.payments.payment&CalThreadId=38900&TopLevelTxnStartTime=14bc84e95bd&Host=slcsbpaymentsplatformserv3002.slc.paypal.com&pid=30334
-      Content-Language:
-      - '*'
-      Date:
-      - Thu, 26 Feb 2015 23:53:09 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1488'
-    body:
-      encoding: UTF-8
-      string: '{"id":"PAY-1BD81362D8883703VKTX3DUA","create_time":"2015-02-26T23:52:48Z","update_time":"2015-02-26T23:53:09Z","state":"approved","intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"type":"visa","number":"xxxxxxxxxxxx0331","expire_month":"11","expire_year":"2018","first_name":"Rider","last_name":"Test","billing_address":{"line1":"4821
-        Hammes Glens","city":"Ratkefort","state":"West Virginia","postal_code":"12345","country_code":"US"}}}]},"transactions":[{"amount":{"total":"650.00","currency":"USD","details":{"subtotal":"650.00"}},"description":"Registration
-        fee for Rider Test, 2015","item_list":{"items":[{"name":"rider registration
-        fee","sku":"item","price":"650.00","currency":"USD","quantity":"1"}]},"related_resources":[{"sale":{"id":"3JU71865WE267403G","create_time":"2015-02-26T23:52:48Z","update_time":"2015-02-26T23:53:09Z","amount":{"total":"650.00","currency":"USD"},"state":"completed","parent_payment":"PAY-1BD81362D8883703VKTX3DUA","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/3JU71865WE267403G","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/3JU71865WE267403G/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-1BD81362D8883703VKTX3DUA","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-1BD81362D8883703VKTX3DUA","rel":"self","method":"GET"}]}'
-    http_version: 
-  recorded_at: Thu, 26 Feb 2015 23:53:10 GMT
-- request:
-    method: post
     uri: https://api.sandbox.paypal.com/v1/oauth2/token
     body:
       encoding: UTF-8
@@ -118,13 +23,13 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Proxy-Server-Info:
-      - host=slcsbplatformapiserv3001.slc.paypal.com;threadId=2005553
+      - host=slcsbplatformapiserv3001.slc.paypal.com;threadId=55556
       Paypal-Debug-Id:
-      - '9724814590230'
+      - 140ee86e590a3
       Server-Info:
-      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=2757&TopLevelTxnStartTime=14c1a1ba671&Host=slcsbidensectoken501.slc.paypal.com&pid=12082
+      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=4023&TopLevelTxnStartTime=14c37bdeca2&Host=slcsbidensectoken501.slc.paypal.com&pid=10410
       Date:
-      - Sat, 14 Mar 2015 21:06:01 GMT
+      - Fri, 20 Mar 2015 15:12:15 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -133,7 +38,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"invalid_client","error_description":"Invalid client credentials"}'
     http_version: 
-  recorded_at: Sat, 14 Mar 2015 21:06:02 GMT
+  recorded_at: Fri, 20 Mar 2015 15:12:16 GMT
 - request:
     method: post
     uri: https://AUtQPRBP5wTDMqev5PzvwVzPA1xyZl7YO-x4kExMUqeIX-3SA0fHYK1VcAZM:EGGg8RAJ7lRdt9I6gFUj9RKpQxwjMSNrD4BgYMX5MlqtnPfYntTMmtcxW9bt@api.sandbox.paypal.com/v1/oauth2/token
@@ -157,13 +62,13 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Proxy-Server-Info:
-      - host=slcsbplatformapiserv3001.slc.paypal.com;threadId=334
+      - host=slcsbplatformapiserv3002.slc.paypal.com;threadId=291496
       Paypal-Debug-Id:
-      - e1e651164d859
+      - e4bf375a9aa2e
       Server-Info:
-      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=366154&TopLevelTxnStartTime=14c2e3199c7&Host=slcsbidensectoken501.slc.paypal.com&pid=31317
+      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=140&TopLevelTxnStartTime=14c37c1dd04&Host=slcsbidensectoken501.slc.paypal.com&pid=10410
       Date:
-      - Wed, 18 Mar 2015 18:42:25 GMT
+      - Fri, 20 Mar 2015 15:16:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -173,7 +78,60 @@ http_interactions:
       string: '{"scope":"https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.*
         https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks
         openid https://uri.paypal.com/services/invoicing https://uri.paypal.com/payments/payouts
-        https://api.paypal.com/v1/vault/credit-card/.*","access_token":"A015qU6ZOqPmIg8Y0XoYQgaepg3nCF5P3uO4eGbe907z9gk","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":28800}'
+        https://api.paypal.com/v1/vault/credit-card/.*","access_token":"A015CmGx4Vg0IZUO3Zia38xGuT-OjoY5GcQVJv-0taXZaDI","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":28800}'
     http_version: 
-  recorded_at: Wed, 18 Mar 2015 18:42:26 GMT
+  recorded_at: Fri, 20 Mar 2015 15:16:35 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/payments/payment
+    body:
+      encoding: UTF-8
+      string: '{"intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"number":"4417119669820331","type":"visa","expire_month":11,"expire_year":2018,"cvv2":"874","first_name":"Rider","last_name":"Test","billing_address":{"line1":"7502
+        Farrell Vista","city":"Tianachester","country_code":"US","postal_code":"12345","state":"Mississippi"}}}]},"transactions":[{"amount":{"currency":"USD","total":"650.00"},"description":"Registration
+        fee for Rider Test, 2015","item_list":{"items":[{"quantity":"1","name":"rider
+        registration fee","price":"650.00","currency":"USD","sku":"item"}]}}]}'
+    headers:
+      X-Paypal-Sandbox-Email-Address:
+      - Platform.sdk.seller@gmail.com
+      Authorization:
+      - Bearer A015CmGx4Vg0IZUO3Zia38xGuT-OjoY5GcQVJv-0taXZaDI
+      Content-Type:
+      - application/json
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p481-x86_64-darwin13.1.0)
+      Paypal-Request-Id:
+      - 79c59e1e-1a03-4e39-9715-b714afbf6990
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcsbplatformapiserv3002.slc.paypal.com;threadId=53959
+      Paypal-Debug-Id:
+      - 3455916c99427
+      Server-Info:
+      - paymentsplatformserv:v1.payments.payment&CalThreadId=2971&TopLevelTxnStartTime=14c37c1e30f&Host=slcsbpaymentsplatformserv3001.slc.paypal.com&pid=29342
+      Content-Language:
+      - '*'
+      Date:
+      - Fri, 20 Mar 2015 15:16:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1490'
+    body:
+      encoding: UTF-8
+      string: '{"id":"PAY-06P715902C8851623KUGDTUY","create_time":"2015-03-20T15:16:35Z","update_time":"2015-03-20T15:16:57Z","state":"approved","intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"type":"visa","number":"xxxxxxxxxxxx0331","expire_month":"11","expire_year":"2018","first_name":"Rider","last_name":"Test","billing_address":{"line1":"7502
+        Farrell Vista","city":"Tianachester","state":"Mississippi","postal_code":"12345","country_code":"US"}}}]},"transactions":[{"amount":{"total":"650.00","currency":"USD","details":{"subtotal":"650.00"}},"description":"Registration
+        fee for Rider Test, 2015","item_list":{"items":[{"name":"rider registration
+        fee","sku":"item","price":"650.00","currency":"USD","quantity":"1"}]},"related_resources":[{"sale":{"id":"1W324593TU584025T","create_time":"2015-03-20T15:16:35Z","update_time":"2015-03-20T15:16:57Z","amount":{"total":"650.00","currency":"USD"},"state":"completed","parent_payment":"PAY-06P715902C8851623KUGDTUY","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1W324593TU584025T","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1W324593TU584025T/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-06P715902C8851623KUGDTUY","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-06P715902C8851623KUGDTUY","rel":"self","method":"GET"}]}'
+    http_version: 
+  recorded_at: Fri, 20 Mar 2015 15:16:57 GMT
 recorded_with: VCR 2.9.3
