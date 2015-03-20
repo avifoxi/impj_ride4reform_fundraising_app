@@ -53,9 +53,6 @@ class DonationsController < ApplicationController
 	end
 
 	def create_donation_payment
-		p '8'*80
-		p 'params'
-		p "#{params.inspect}"
 
 		# @errors = {full_messages: {}}
 		@donation = Donation.find(params[:id])
@@ -80,11 +77,24 @@ class DonationsController < ApplicationController
 			render :new_donation_payment
 		end
 		
-		unless cc_info
+		if cc_info
+			@donation.user.cc_type = cc_info['type']
+			@donation.user.cc_number = cc_info['number']
+			@donation.user.cc_expire_month = cc_info['expire_month']
+			@donation.user.cc_expire_year = cc_info['expire_year']
+			@donation.user.cc_cvv2 = cc_info['cvv2']
+			unless @donation.user.valid?
+				@donation.user.cc_expire_year = nil
+				re_render_new_dp_w_errors
+				return
+			end
+		else
 			@payment_errors = ['Please enter your full credit card information to complete your registration']
 			re_render_new_dp_w_errors
 			return
 		end
+
+
 
 		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
 			@payment_errors = ['You must select a mailing address.']			

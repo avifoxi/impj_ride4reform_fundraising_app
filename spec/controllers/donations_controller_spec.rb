@@ -171,6 +171,22 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(MailingAddress.all.count).to eq(@ma_count)
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
 		end
+
+		it 'corrupt credit card info, associate to existing address, re-renders with payment errros' do 
+			@don_fee['custom_billing_address'] = '0'
+			@don_fee['cc_number'] = 'corrupt!!'
+
+			post :create_donation_payment, {
+				id: @donation.id,
+				donation: @don_fee
+			}
+			# rider = @donation.rider.persistent_rider_profile
+			expect(response).to render_template(:new_donation_payment)
+			# expect(response).to render_template(persistent_rider_profile_path(rider) )
+			expect(Receipt.all.count).to eq(@rec_count )
+			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+		end
 	end
 
 end
