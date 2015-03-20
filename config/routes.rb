@@ -14,10 +14,10 @@ Rails.application.routes.draw do
   resources :persistent_rider_profiles, :path => "riders" do
     resources :donations, only: [:new, :create]
   end
+  resources :donations, only: [:new, :create]
 
   resources :mailing_addresses, except: [:show, :index]
 
-  resources :donations#, except: [:new]
   
   get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
   post 'donations/:id/create_donation_payment' => 'donations#create_donation_payment', as: :create_donation_payment
