@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "donations", force: true do |t|
-    t.boolean  "anonymous_to_public"
+    t.boolean  "anonymous_to_public",        default: false
     t.text     "note_to_rider"
     t.integer  "rider_year_registration_id"
     t.integer  "receipt_id"
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.integer  "ride_year_id"
     t.integer  "user_id"
     t.integer  "goal"
-    t.integer  "raised",         default: 0
     t.boolean  "agree_to_terms"
     t.string   "ride_option"
     t.integer  "receipt_id"

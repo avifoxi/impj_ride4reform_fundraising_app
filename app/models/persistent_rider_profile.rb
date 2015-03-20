@@ -2,8 +2,9 @@ class PersistentRiderProfile < ActiveRecord::Base
 	belongs_to :user
 	has_many :rider_year_registrations, through: :user
 
-	delegate :full_name, :first_name, to: :user
+	delegate :full_name, :first_name, :mailing_addresses, :rider_year_registrations, to: :user
 
+	accepts_nested_attributes_for :user
 
 	validates_associated :user, on: :create
 	validate :has_at_least_one_rider_year_registration
@@ -28,14 +29,18 @@ class PersistentRiderProfile < ActiveRecord::Base
     {:bucket => ENV['AWS_S3_BUCKET'], :access_key_id => ENV['AWS_ACCESS_KEY_ID'], :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']}
   end
 
-  def delegate_ryr_method(year, method)
+  def delegate_ryr_method(year, method, args=nil)
 		if year.is_a?(Integer)
 			ride_year = RideYear.find_by(year: year)
 		else
 			ride_year = year
 		end
 		ryr = self.rider_year_registrations.find_by(ride_year: ride_year)
-		ryr.send(method)
+		if args
+			ryr.send(method, args)
+		else
+			ryr.send(method)
+		end
 	end
 
 	def current_registration

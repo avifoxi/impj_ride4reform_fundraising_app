@@ -187,7 +187,10 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 	context 'new_pay_reg_fee', :ryr_fully_associated_for_pay do 
 		
 		it 'valid user, valid ryr, valid associations for payment, serves new payment form and assigns vars' do 
-
+			# IF TEST FAILS -- likely bc the env vars are lost somehow -- uncomment and re-rerun, see if vars accessible
+			# p '*'*80
+			# p "ENV['PAYPAL_CLIENT_ID']"
+			# p "#{ENV['PAYPAL_CLIENT_ID']}"
 			get :new_pay_reg_fee, rider_year_registration: ryr_instance
 
 			expect(response).to render_template(:new_pay_reg_fee)

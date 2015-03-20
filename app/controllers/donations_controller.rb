@@ -9,34 +9,27 @@ class DonationsController < ApplicationController
 	end
 
 	def create
-		p '*'*80
-		p " full params"
-		p "#{full_params.inspect}"
-		p '*'*80
 
-		## account for current_user in assigning user, and perhaps in previous step 
 		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
 
-		p '*'*80
-		p " @donation"
-		p "#{@donation.inspect}"
-		p '*'*80
+		def error_n_render
+			@donation.user = @user
+			@donation.valid?
+			@errors = @donation.errors
+			@donation.user.errors.each do |k,v|
+				@errors.messages[k.to_sym] = [v]
+			end
+			render 'new'
+		end
 
-		## TODO -- the error handling should maybe be a rescue? so as not to repeat the SAME code for error renders at different stages of @donation + @user instantiation
 		@user = User.find_by(email: full_params[:user][:email])
 		unless @user
 			@user = User.new(full_params[:user])
 			@user.title = 'None'
 			@user.password = Devise.friendly_token.first(8)
 			unless @user.save
-				@donation.user = @user
-				@donation.valid?
-				@errors = @donation.errors
-				@donation.user.errors.each do |k,v|
-					@errors.messages[k.to_sym] = [v]
-				end
-				render 'new'
+				error_n_render
 				return
 			end
 		end
@@ -44,17 +37,10 @@ class DonationsController < ApplicationController
 		@donation.rider_year_registration = @rider.current_registration
 		@donation.user = @user
 
-		if @donation.valid? 
-			@donation.save
+		if @donation.save 
 			redirect_to new_donation_payment_path(@donation)
 		else
-			@errors = @donation.errors
-			if @donation.user.errors 
-				@donation.user.errors.each do |k,v|
-					@errors.messages[k.to_sym] = [v]
-				end
-			end
-			render 'new'
+			error_n_render
 		end
 	end
 
@@ -67,7 +53,6 @@ class DonationsController < ApplicationController
 	end
 
 	def create_donation_payment
-
 		@donation = Donation.find(params[:id])
 
 		def re_render_new_dp_w_errors
@@ -77,7 +62,7 @@ class DonationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
-			if @custom_billing_address.errors 
+			if @custom_billing_address && @custom_billing_address.errors
 				@custom_billing_address.errors.each do |k,v|
 					@errors.messages[k.to_sym] = [v]
 				end
@@ -89,8 +74,22 @@ class DonationsController < ApplicationController
 			render :new_donation_payment
 		end
 		
-		unless cc_info
+		if cc_info
+			@donation.user.cc_type = cc_info['type']
+			@donation.user.cc_number = cc_info['number']
+			@donation.user.cc_cvv2 = cc_info['cvv2']
+			unless @donation.user.valid?
+				re_render_new_dp_w_errors
+				return
+			end
+		else
 			@payment_errors = ['Please enter your full credit card information to complete your registration']
+			re_render_new_dp_w_errors
+			return
+		end
+
+		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
+			@payment_errors = ['You must select a mailing address.']			
 			re_render_new_dp_w_errors
 			return
 		end
