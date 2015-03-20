@@ -39,18 +39,74 @@ RSpec.describe DonationsController, :type => :controller do
 	end
 
 	context 'create' do 
+		before(:each) do 
+			@don_count = Donation.all.count
+			@user_count = User.all.count
+		end
+
 		it 'create new user, and create new donation' do
 			don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
-
 			post :create, {
 				persistent_rider_profile_id: @prp.id,
 				donation: don_params
 			}
-
-			
 			expect(response).to redirect_to(new_donation_payment_path(Donation.last) )
+			expect(Donation.all.count).to eq(@don_count + 1)
+			expect(User.all.count).to eq(@user_count + 1)
 		end
 
+		it 'finds existing user in db, and creates new donation' do 
+			user 
+			@user_count = User.all.count
+			# don_count = Donation.all.count
+			don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
+			post :create, {
+				persistent_rider_profile_id: @prp.id,
+				donation: don_params
+			}
+			expect(response).to redirect_to(new_donation_payment_path(Donation.last) )
+			expect(Donation.all.count).to eq(@don_count + 1)
+			expect(User.all.count).to eq(@user_count)
+		end
+
+		it 'donation errors, valid user, re-renders new' do 
+			don_params.except!(:amount)
+			don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
+			post :create, {
+				persistent_rider_profile_id: @prp.id,
+				donation: don_params
+			}
+			expect(response).to render_template(:new)
+			expect(Donation.all.count).to eq(@don_count)
+			expect(User.all.count).to eq(@user_count + 1)
+			expect( assigns(:errors)).to_not be_empty
+
+		end
+
+		it 'donation valid, invalid user, re-renders new' do 
+			don_params[:user] = FactoryGirl.attributes_for(:user, :donor).except!(:email)
+			post :create, {
+				persistent_rider_profile_id: @prp.id,
+				donation: don_params
+			}
+			expect(response).to render_template(:new)
+			expect(Donation.all.count).to eq(@don_count)
+			expect(User.all.count).to eq(@user_count)
+			expect( assigns(:errors)).to_not be_empty
+		end
+
+		it 'all input is junk, re-renders new' do
+			don_params.except!(:amount)
+			don_params[:user] = FactoryGirl.attributes_for(:user, :donor).except!(:email)
+			post :create, {
+				persistent_rider_profile_id: @prp.id,
+				donation: don_params
+			}
+			expect(response).to render_template(:new)
+			expect(Donation.all.count).to eq(@don_count)
+			expect(User.all.count).to eq(@user_count)
+			expect( assigns(:errors)).to_not be_empty
+		end
 	end
 
 end

@@ -9,18 +9,18 @@ class DonationsController < ApplicationController
 	end
 
 	def create
-		p '*'*80
-		p " params"
-		p "#{params.inspect}"
-		p '*'*80
+		# p '*'*80
+		# p " params"
+		# p "#{params.inspect}"
+		# p '*'*80
 		## account for current_user in assigning user, and perhaps in previous step 
 		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
 
-		p '*'*80
-		p " @donation"
-		p "#{@donation.inspect}"
-		p '*'*80
+		# p '*'*80
+		# p " @donation"
+		# p "#{@donation.inspect}"
+		# p '*'*80
 
 		## TODO -- the error handling should maybe be a rescue? so as not to repeat the SAME code for error renders at different stages of @donation + @user instantiation
 		@user = User.find_by(email: full_params[:user][:email])
@@ -35,10 +35,10 @@ class DonationsController < ApplicationController
 				@donation.user.errors.each do |k,v|
 					@errors.messages[k.to_sym] = [v]
 				end
-				p '*'*80
-				p " @errors"
-				p "#{@errors.inspect}"
-				p '*'*80
+				# p '*'*80
+				# p " @errors"
+				# p "#{@errors.inspect}"
+				# p '*'*80
 				render 'new'
 				return
 			end
@@ -57,10 +57,10 @@ class DonationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
-			p '*'*80
-				p " @errors"
-				p "#{@errors.inspect}"
-				p '*'*80
+			# p '*'*80
+			# 	p " @errors"
+			# 	p "#{@errors.inspect}"
+			# 	p '*'*80
 			render 'new'
 		end
 	end
