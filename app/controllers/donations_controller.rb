@@ -53,7 +53,11 @@ class DonationsController < ApplicationController
 	end
 
 	def create_donation_payment
+		p '8'*80
+		p 'params'
+		p "#{params.inspect}"
 
+		# @errors = {full_messages: {}}
 		@donation = Donation.find(params[:id])
 
 		def re_render_new_dp_w_errors
@@ -63,7 +67,7 @@ class DonationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
-			if @custom_billing_address.errors 
+			if @custom_billing_address && @custom_billing_address.errors
 				@custom_billing_address.errors.each do |k,v|
 					@errors.messages[k.to_sym] = [v]
 				end
@@ -79,6 +83,11 @@ class DonationsController < ApplicationController
 			@payment_errors = ['Please enter your full credit card information to complete your registration']
 			re_render_new_dp_w_errors
 			return
+		end
+
+		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
+			# @errors[:full_messages][:mailing_addresses] = 'You must enter address information'
+			re_render_new_dp_w_errors
 		end
 
 		if full_params['custom_billing_address'] == '1'

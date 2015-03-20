@@ -17,6 +17,7 @@ RSpec.describe DonationsController, :type => :controller do
 		
 		if example.metadata[:build_donation_pre_fee]
       # must build prp manually... bc of validations, etc
+      user.mailing_addresses.create(m_a_params)
 	    @donation = Donation.new(don_params)
 	    @donation.update_attributes(rider_year_registration: ryr, user: user)
     end		
@@ -116,10 +117,18 @@ RSpec.describe DonationsController, :type => :controller do
 
 	context 'new_donation_payment', :build_donation_pre_fee do
 		it 'assigns appropriately and renders form' do
-			
+
 			get :new_donation_payment, id: @donation.id
 			expect( assigns(:donation)).to eq(@donation)
-			# expect( assigns(:rider) ).to eq(PersistentRiderProfile.last)
+			expect( assigns(:custom_billing_address) ).to be_a(MailingAddress)
+			expect( assigns(:mailing_addresses) ).to eq( @donation.mailing_addresses)
+		end
+	end
+
+	context 'create_donation_payment', :build_donation_pre_fee do
+		
+		it 'all valid inputs, creates new address, receipt, and updates donation to fee_is_processed' do 
+
 		end
 	end
 
