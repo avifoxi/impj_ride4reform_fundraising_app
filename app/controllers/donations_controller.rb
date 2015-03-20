@@ -53,12 +53,9 @@ class DonationsController < ApplicationController
 	end
 
 	def create_donation_payment
-
-		# @errors = {full_messages: {}}
 		@donation = Donation.find(params[:id])
 
 		def re_render_new_dp_w_errors
-			puts "ERRORS METHOD CALL"
 			@errors = @donation.errors
 			if @donation.user.errors 
 				@donation.user.errors.each do |k,v|
@@ -80,11 +77,8 @@ class DonationsController < ApplicationController
 		if cc_info
 			@donation.user.cc_type = cc_info['type']
 			@donation.user.cc_number = cc_info['number']
-			@donation.user.cc_expire_month = cc_info['expire_month']
-			@donation.user.cc_expire_year = cc_info['expire_year']
 			@donation.user.cc_cvv2 = cc_info['cvv2']
 			unless @donation.user.valid?
-				@donation.user.cc_expire_year = nil
 				re_render_new_dp_w_errors
 				return
 			end
@@ -93,8 +87,6 @@ class DonationsController < ApplicationController
 			re_render_new_dp_w_errors
 			return
 		end
-
-
 
 		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
 			@payment_errors = ['You must select a mailing address.']			

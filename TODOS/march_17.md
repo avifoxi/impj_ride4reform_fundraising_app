@@ -1,5 +1,6 @@
 DOING
 
+	Donations tests
 
 TODO 
 
@@ -8,6 +9,9 @@ prp => mailing address crud for user ui
 
 prp show page 
 	- allow current_user == prp to edit content
+
+ryr_registration_payment -- 
+	add cc_info validations as in donation pyament 
 
 
 very importatn rake task:

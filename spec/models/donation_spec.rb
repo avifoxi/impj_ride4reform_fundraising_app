@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Donation, :type => :model do
-  let(:don) { FactoryGirl.build(:donation)}
+  let(:don) { FactoryGirl.build(:donation, :with_valid_associations_before_fee_processed)}
 
 	it "has a valid factory" do
 		expect( don ).to be_an_instance_of(Donation)

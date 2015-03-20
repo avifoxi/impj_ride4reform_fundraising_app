@@ -172,7 +172,7 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
 		end
 
-		it 'corrupt credit card info, associate to existing address, re-renders with payment errros' do 
+		it 'corrupt credit card info, associate to existing address, re-renders with payment errrors' do 
 			@don_fee['custom_billing_address'] = '0'
 			@don_fee['cc_number'] = 'corrupt!!'
 
@@ -180,11 +180,37 @@ RSpec.describe DonationsController, :type => :controller do
 				id: @donation.id,
 				donation: @don_fee
 			}
-			# rider = @donation.rider.persistent_rider_profile
 			expect(response).to render_template(:new_donation_payment)
-			# expect(response).to render_template(persistent_rider_profile_path(rider) )
-			expect(Receipt.all.count).to eq(@rec_count )
-			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(Receipt.all.count).to eq(@rec_count)
+			expect( assigns(:errors)).to_not be_empty
+			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+		end
+
+		it 'valid credit card, invalid custom address, re-renders with payment errrors' do 
+			@don_fee[:mailing_address]['line_1'] = nil
+
+			post :create_donation_payment, {
+				id: @donation.id,
+				donation: @don_fee
+			}
+			expect(response).to render_template(:new_donation_payment)
+			expect(Receipt.all.count).to eq(@rec_count)
+			expect( assigns(:errors)).to_not be_empty
+			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+		end
+
+		it 'valid credit card, user forgets all mailing_address info, re-renders with payment errrors' do 
+			@don_fee[:mailing_address] = nil
+			@don_fee[:mailing_addresses] = nil
+			@don_fee[:custom_billing_address] = '0'
+
+			post :create_donation_payment, {
+				id: @donation.id,
+				donation: @don_fee
+			}
+			expect(response).to render_template(:new_donation_payment)
+			expect(Receipt.all.count).to eq(@rec_count)
+			expect( assigns(:payment_errors)).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
 		end
 	end
