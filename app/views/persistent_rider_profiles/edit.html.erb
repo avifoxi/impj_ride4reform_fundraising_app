@@ -1,19 +1,36 @@
-<h1>i am editing!</h1>
+<h3>Mailing Addresses</h3>
 
-<!-- < %= @prp.inspect %> -->
+<% @mailing_addresses.each do |m| %>
+	<%= m.one_liner %> <%= link_to 'Edit address', edit_mailing_address_path(m) %>
+	<%= button_to "Delete", m, :method => :delete %>
+<% end %>
+
+
+<h3>Edit Your Rider Profile</h3>
+
+<%= render 'shared/form_errors' %>
 
 <%= simple_form_for @prp do |p| %>
 	
 	<%= render 'shared/prp_form', :p => p %>
-	<!-- < %= p.button :submit %> -->
+	
+	<%= p.simple_fields_for @this_years_registration do |f| %>
+		<%= render 'shared/rider_year_registration_form', :f => f %>
+	<% end %>
+
+	<%= p.button :submit %>
 
 <% end %>
 
 <hr>
-<br><%= @this_years_registration.inspect %>
+<!-- <br>< %= @this_years_registration.inspect %>
+<hr> -->
 
-<%= simple_form_for @this_years_registration do |f| %>
+
+
+<!-- < %= simple_form_for @this_years_registration do |f| %>
 	
-	<%= render 'shared/rider_year_registration_form', :f => f %>
+	< %= render 'shared/rider_year_registration_form', :f => f %>
 
-<% end %>
+< % end %>
+ -->

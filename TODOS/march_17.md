@@ -3,6 +3,9 @@ DOING
 
 TODO 
 
+prp => mailing address crud for user ui
+	links are up, but not functional
+
 prp show page 
 	- allow current_user == prp to edit content
 

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     resources :donations, only: [:new, :create]
   end
 
+  resources :mailing_addresses, except: [:show, :index]
+
   resources :donations#, except: [:new]
   
   get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
