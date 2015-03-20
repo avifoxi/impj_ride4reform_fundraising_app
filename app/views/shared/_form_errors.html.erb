@@ -1,4 +1,4 @@
-<% if @errors %>
+<% if @errors && !@errors.empty? %>
   <div class="alert alert-danger" role="alert">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <%= @errors.full_messages.to_sentence %>  

@@ -61,6 +61,7 @@ class DonationsController < ApplicationController
 		@donation = Donation.find(params[:id])
 
 		def re_render_new_dp_w_errors
+			puts "ERRORS METHOD CALL"
 			@errors = @donation.errors
 			if @donation.user.errors 
 				@donation.user.errors.each do |k,v|
@@ -86,8 +87,9 @@ class DonationsController < ApplicationController
 		end
 
 		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
-			# @errors[:full_messages][:mailing_addresses] = 'You must enter address information'
+			@payment_errors = ['You must select a mailing address.']			
 			re_render_new_dp_w_errors
+			return
 		end
 
 		if full_params['custom_billing_address'] == '1'

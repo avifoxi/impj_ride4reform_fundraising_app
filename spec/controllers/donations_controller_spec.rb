@@ -20,6 +20,18 @@ RSpec.describe DonationsController, :type => :controller do
       user.mailing_addresses.create(m_a_params)
 	    @donation = Donation.new(don_params)
 	    @donation.update_attributes(rider_year_registration: ryr, user: user)
+    end
+    if example.metadata[:don_fee_params]
+    	@don_fee = {
+    		cc_type: 'visa',
+    		cc_number: '4417119669820331',
+    		cc_expire_month: '11', 
+    		'cc_expire_year(1i)' => "2015", 
+    		cc_cvv2: '874', 
+    		custom_billing_address: "1",
+    		mailing_address: FactoryGirl.attributes_for(:mailing_address, :second), 
+    		mailing_addresses: "#{user.mailing_addresses.first.id}"
+    	}
     end		
 	end
 
@@ -125,10 +137,39 @@ RSpec.describe DonationsController, :type => :controller do
 		end
 	end
 
-	context 'create_donation_payment', :build_donation_pre_fee do
-		
-		it 'all valid inputs, creates new address, receipt, and updates donation to fee_is_processed' do 
+	context 'create_donation_payment', :build_donation_pre_fee, :don_fee_params do
 
+		before(:each) do 
+			@rec_count = Receipt.all.count
+			@ma_count = MailingAddress.all.count
+			@rider_raised_sum = @donation.rider_year_registration.raised
+		end
+		
+		it 'all valid inputs, creates new address, receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
+			
+			post :create_donation_payment, {
+				id: @donation.id,
+				donation: @don_fee
+			}
+			rider = @donation.rider.persistent_rider_profile
+			expect(response).to redirect_to(persistent_rider_profile_path(rider) )
+			expect(Receipt.all.count).to eq(@rec_count + 1)
+			expect(MailingAddress.all.count).to eq(@ma_count + 1)
+			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
+		end
+
+		it 'all valid inputs, associate to existing address, create receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
+			@don_fee['custom_billing_address'] = '0'
+
+			post :create_donation_payment, {
+				id: @donation.id,
+				donation: @don_fee
+			}
+			rider = @donation.rider.persistent_rider_profile
+			expect(response).to redirect_to(persistent_rider_profile_path(rider) )
+			expect(Receipt.all.count).to eq(@rec_count + 1)
+			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
 		end
 	end
 
