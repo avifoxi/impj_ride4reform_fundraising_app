@@ -9,9 +9,10 @@ RSpec.describe RideYear, :type => :model do
 	end
 
 	it "can set and get current year" do 
-		current_year.set_as_current
-		expect(current_year.current).to eq(1)
-		expect(RideYear.current).to eq(current_year)
+		current_year
+		old_year.set_as_current
+		expect(old_year.current).to eq(2)
+		expect(RideYear.current).to eq(old_year)
 	end
 
 end
