@@ -1,8 +1,12 @@
 DOING
 
-	Donations tests
+prp_controller tests
+
+	
 
 TODO 
+
+multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
 
 prp => mailing address crud for user ui
 	links are up, but not functional
@@ -25,8 +29,15 @@ review forms --
 WHAT IF - 
 	- user stops registration midway, before creating prp -- then what ?
 
+QUESTIONS FOR DAD --
+	- give donor ability to cancel their own donation? (what does kickstarter do?)
+	- cancellations ? refund policy ? if a rider cancels, policy to refund the donors ? 
+		-- and what does this mean for deleting a profile? we shoudl perhaps have an 'active' field in prp, and only show prp if 'active'
 
 DONE
+
+Donations tests
+
 prp show page 
 	- show all donations on prp 
 		- add donations to ryr model

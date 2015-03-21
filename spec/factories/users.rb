@@ -14,6 +14,12 @@ FactoryGirl.define do
 			email "rider@test.com"	
 	  end
 
+	  trait :rider_two do 
+	  	first_name "Rider2"
+			last_name "Test2"
+			email "rider2@test2.com"	
+	  end
+
 	  trait :donor do
 	    first_name "Donor"
 			last_name "Test"
