@@ -10,5 +10,10 @@ FactoryGirl.define do
   		association :user, factory: [:user, :rider]
 		end
 
+    trait :old do
+      association :ride_year, factory: [:ride_year, :old]
+      association :user, factory: [:user, :rider_two]
+    end
+
   end
 end

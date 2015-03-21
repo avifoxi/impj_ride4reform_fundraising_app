@@ -4,14 +4,20 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 
 	let(:user) {FactoryGirl.create(:user, :donor) }
 	let(:ryr) { FactoryGirl.create(:rider_year_registration, :with_valid_associations) }
+	let(:ryr_old) { FactoryGirl.create(:rider_year_registration, :old) }
 	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
 	let(:m_a_params) { FactoryGirl.attributes_for(:mailing_address) }
 
 	before do |example|
 
+		if example.metadata[:multi_year_prps]
+      @p_old = ryr_old.user.build_persistent_rider_profile(user: ryr_old.user)
+	  	@p_old.update_attributes(prp_params)
+    end
+
 		@prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
 	  @prp.update_attributes(prp_params)
-
+	  
 	  if example.metadata[:sign_in_prp_owner]
       sign_in @prp.user
     end
@@ -79,8 +85,10 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 	end
 
 	context 'index' do
-		it 'renders all prps for current ride year' do
+		it 'renders all prps for current ride year', :multi_year_prps do
 
+			p "p_old::: #{@p_old.inspect}" 
+			p "p NEW::: #{@prp.inspect}" 
 			get :index
 			# expect( assigns(:prp_owner_signed_in) ).to eq(false)
 			# expect( assigns(:rider) ).to eq(@prp)
