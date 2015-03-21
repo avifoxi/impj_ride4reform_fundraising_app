@@ -1,10 +1,12 @@
 DOING
 
+prp_controller tests
+
 	
 
 TODO 
 
-prp_controller tests
+multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
 
 prp => mailing address crud for user ui
 	links are up, but not functional

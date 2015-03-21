@@ -98,6 +98,104 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 		end
 	end
 
+	context 'edit' do
+		it 'renders form for logged in prp-owner', :sign_in_prp_owner do
+
+			get :edit, id: @prp.id
+			expect( assigns(:prp) ).to eq(@prp)
+			expect( assigns(:this_years_registration) ).to eq(@prp.rider_year_registrations.find_by(ride_year: RideYear.current ))
+			expect( assigns(:mailing_addresses)).to eq(@prp.mailing_addresses)
+		end
+	end
+
+	context 'update' do
+		it 'all valid fields, updates to db', :sign_in_prp_owner do
+			up_params = {
+				:id => @prp.id,
+				:persistent_rider_profile => 
+				{
+					:bio => "updating my entry", 
+					:primary_phone => '0987654321',
+					:secondary_phone => '0987654321',
+					:rider_year_registration => 
+						{
+							:goal => 5000
+						}
+					}	
+				}
+
+			put :update, up_params
+			# must renew from db to see changes
+			@prp = PersistentRiderProfile.find(@prp.id,)
+		
+      expect(response).to redirect_to(persistent_rider_profile_path(@prp))
+			expect( @prp.bio ).to eq("updating my entry")
+			expect( @prp.rider_year_registrations.last.goal ).to eq(5000)
+		end
+
+		it 'invalid prp, re-renders w errors', :sign_in_prp_owner do
+			up_params = {
+				:id => @prp.id,
+				:persistent_rider_profile => 
+				{
+					:bio => "updating my entry", 
+					:primary_phone => nil,
+					:secondary_phone => '0987654321',
+					:rider_year_registration => 
+						{
+							:goal => 5000
+					}
+				}	
+			}
+			put :update, up_params
+			# must renew from db to see changes
+			@prp = PersistentRiderProfile.find(@prp.id,)
+		
+      expect(response).to render_template(:edit)
+      expect( assigns(:errors)).to_not be_empty
+			# expect( @prp.bio ).to eq("updating my entry")
+			# expect( @prp.rider_year_registrations.last.goal ).to eq(5000)
+		end
+
+		it 'invalid ryr, re-renders w errors', :sign_in_prp_owner do
+			up_params = {
+				:id => @prp.id,
+				:persistent_rider_profile => 
+				{
+					:bio => "updating my entry", 
+					:rider_year_registration => 
+					{
+							:goal => 3
+					}
+				}	
+			}
+			put :update, up_params
+			# must renew from db to see changes
+			@prp = PersistentRiderProfile.find(@prp.id,)
+		
+      expect(response).to render_template(:edit)
+      expect( assigns(:errors)).to_not be_empty
+		end
+		it 'all invalid, re-renders w errors', :sign_in_prp_owner do
+			up_params = {
+				:id => @prp.id,
+				:persistent_rider_profile => 
+				{
+					:primary_phone => nil, 
+					:rider_year_registration => 
+					{
+							:goal => 3
+					}
+				}	
+			}
+			put :update, up_params
+			# must renew from db to see changes
+			@prp = PersistentRiderProfile.find(@prp.id,)
+		
+      expect(response).to render_template(:edit)
+      expect( assigns(:errors)).to_not be_empty
+		end
+	end
 
 
 end
