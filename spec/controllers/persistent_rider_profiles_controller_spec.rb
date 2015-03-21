@@ -10,7 +10,10 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 
 	before do |example|
 
+		ryr.ride_year.set_as_current
+
 		if example.metadata[:multi_year_prps]
+			ryr_old.update_attributes(ride_year: FactoryGirl.create(:ride_year, :old) )
       @p_old = ryr_old.user.build_persistent_rider_profile(user: ryr_old.user)
 	  	@p_old.update_attributes(prp_params)
     end
@@ -87,24 +90,12 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 	context 'index' do
 		it 'renders all prps for current ride year', :multi_year_prps do
 
-			p "p_old::: #{@p_old.inspect}" 
-			p "p NEW::: #{@prp.inspect}" 
 			get :index
-			# expect( assigns(:prp_owner_signed_in) ).to eq(false)
-			# expect( assigns(:rider) ).to eq(@prp)
-			# expect( assigns(:years_registration)).to eq(@prp.rider_year_registrations.last)
-			# expect( assigns(:donations)).to eq(@prp.rider_year_registrations.last.donations)
-			# expect( assigns(:raised)).to eq(@prp.rider_year_registrations.last.raised)
-			# expect( assigns(:percent_of_goal)).to eq(@prp.rider_year_registrations.last.percent_of_goal)
-			# expect( assigns(:goal)).to eq(@prp.rider_year_registrations.last.goal)
+			this_years_riders = RideYear.current.rider_year_registrations.map{|ryr| ryr.persistent_rider_profile}.keep_if{|p| p != nil }
+			expect( assigns(:riders) ).to eq(this_years_riders)
+			expect( assigns(:riders) ).not_to include(@p_old)
+			expect( assigns(:year)).to eq(RideYear.current)
 		end
-
-		# it 'prp-owner signs in, assigns locals appropriately, shows edit link', :sign_in_prp_owner do
-		# 	get :show, id: @prp.id	
-		# 	expect( assigns(:prp_owner_signed_in) ).to eq(true)
-		# 	expect( assigns(:rider) ).to eq(@prp)
-			
-		# end
 	end
 
 
