@@ -24,25 +24,7 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 	  if example.metadata[:sign_in_prp_owner]
       sign_in @prp.user
     end
-		
-		if example.metadata[:build_donation_pre_fee]
-      # must build prp manually... bc of validations, etc
-      user.mailing_addresses.create(m_a_params)
-	    @donation = Donation.new(don_params)
-	    @donation.update_attributes(rider_year_registration: ryr, user: user)
-    end
-    # if example.metadata[:don_fee_params]
-    # 	@don_fee = {
-    # 		cc_type: 'visa',
-    # 		cc_number: '4417119669820331',
-    # 		cc_expire_month: '11', 
-    # 		'cc_expire_year(1i)' => "2015", 
-    # 		cc_cvv2: '874', 
-    # 		custom_billing_address: "1",
-    # 		mailing_address: FactoryGirl.attributes_for(:mailing_address, :second), 
-    # 		mailing_addresses: "#{user.mailing_addresses.first.id}"
-    # 	}
-    # end		
+
 	end
 
 	context 'non-logged in access + permissions' do

@@ -6,6 +6,11 @@ prp_controller tests
 
 TODO 
 
+Build the email engine, that will mail users after they register, riders when they receive a new donation, and allow admin to send batch emails
+
+Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
+
+
 multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
 
 prp => mailing address crud for user ui
