@@ -10,6 +10,7 @@ class PersistentRiderProfilesController < ApplicationController
 		@raised = @rider.delegate_ryr_method(RideYear.current, 'raised')
 		@percent_of_goal = @rider.delegate_ryr_method(RideYear.current, 'percent_of_goal')
 		@goal = @rider.delegate_ryr_method(RideYear.current, 'goal')
+		@prp_owner_signed_in = @rider.user == current_user
 	end
 
 	def index

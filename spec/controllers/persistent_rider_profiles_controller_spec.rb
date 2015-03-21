@@ -11,6 +11,10 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
 
 		@prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
 	  @prp.update_attributes(prp_params)
+
+	  if example.metadata[:sign_in_prp_owner]
+      sign_in @prp.user
+    end
 		
 		if example.metadata[:build_donation_pre_fee]
       # must build prp manually... bc of validations, etc
@@ -32,31 +36,69 @@ RSpec.describe PersistentRiderProfilesController, :type => :controller do
     # end		
 	end
 
-	context 'access + permissions' do
+	context 'non-logged in access + permissions' do
 		it 'anyone can access index' do 
 			get :index
 			expect(response).to render_template(:index)
+			# next method actually not comprehenseiv -- as not filtering on ride_year -- but do this in index test
+			expect( assigns(:riders)).to eq(PersistentRiderProfile.all)
+		end
+
+		it 'anonymous users can access show, without seeing edit link' do 
+			get :show, id: @prp.id
+			expect(response).to render_template(:show)
+			expect(response.body).not_to eq( 'Edit your profile?')
+		end
+
+		it 'redirects non-prp-owner-user away from edit page' do 
 			sign_in user
+			get :edit, id: @prp.id
+			expect(response).to redirect_to root_path
+			expect(response.body).not_to eq( 'Edit')
+		end
+	end
+
+	context 'show' do
+		it 'anon user, assigns locals appropriately' do
+			get :show, id: @prp.id
+			expect( assigns(:prp_owner_signed_in) ).to eq(false)
+			expect( assigns(:rider) ).to eq(@prp)
+			expect( assigns(:years_registration)).to eq(@prp.rider_year_registrations.last)
+			expect( assigns(:donations)).to eq(@prp.rider_year_registrations.last.donations)
+			expect( assigns(:raised)).to eq(@prp.rider_year_registrations.last.raised)
+			expect( assigns(:percent_of_goal)).to eq(@prp.rider_year_registrations.last.percent_of_goal)
+			expect( assigns(:goal)).to eq(@prp.rider_year_registrations.last.goal)
+		end
+
+		it 'prp-owner signs in, assigns locals appropriately, shows edit link', :sign_in_prp_owner do
+			get :show, id: @prp.id	
+			expect( assigns(:prp_owner_signed_in) ).to eq(true)
+			expect( assigns(:rider) ).to eq(@prp)
+			
+		end
+	end
+
+	context 'index' do
+		it 'renders all prps for current ride year' do
+
 			get :index
-			expect(response).to render_template(:index)
+			# expect( assigns(:prp_owner_signed_in) ).to eq(false)
+			# expect( assigns(:rider) ).to eq(@prp)
+			# expect( assigns(:years_registration)).to eq(@prp.rider_year_registrations.last)
+			# expect( assigns(:donations)).to eq(@prp.rider_year_registrations.last.donations)
+			# expect( assigns(:raised)).to eq(@prp.rider_year_registrations.last.raised)
+			# expect( assigns(:percent_of_goal)).to eq(@prp.rider_year_registrations.last.percent_of_goal)
+			# expect( assigns(:goal)).to eq(@prp.rider_year_registrations.last.goal)
 		end
 
-		it 'anyone can access show' do 
-			get :show, id: @prp.id
-			expect(response).to render_template(:show)
-			sign_in user
-			get :show, id: @prp.id
-			expect(response).to render_template(:show)
-		end
-
-
-
-		# it 'allows logged in users to access ' do 
-		# 	sign_in user
-		# 	get :new, persistent_rider_profile_id: @prp.id
-		# 	expect(response).to render_template(:new)
+		# it 'prp-owner signs in, assigns locals appropriately, shows edit link', :sign_in_prp_owner do
+		# 	get :show, id: @prp.id	
+		# 	expect( assigns(:prp_owner_signed_in) ).to eq(true)
+		# 	expect( assigns(:rider) ).to eq(@prp)
+			
 		# end
 	end
+
 
 
 end
