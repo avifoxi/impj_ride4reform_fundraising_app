@@ -1,4 +1,12 @@
-	include PayPal::SDK::REST
+mailer resources... don't upgrade on this project
+
+http://www.gotealeaf.com/blog/handling-emails-in-rails	
+
+http://railsapps.github.io/rails-release-history.html
+
+
+
+include PayPal::SDK::REST
 
 valid credit for sandbox:
 4417119669820331
