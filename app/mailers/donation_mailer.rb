@@ -16,4 +16,7 @@ class DonationMailer < ApplicationMailer
   	@percent_of_goal = @prp.delegate_ryr_method(RideYear.current, 'percent_of_goal')
   	mail(to: @donor.email, subject: 'foo bar baz?')
   end
+
+  def successful_donation_thank_donor(donation)
+  end
 end

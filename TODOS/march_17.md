@@ -1,12 +1,10 @@
 DOING
 
-prp_controller tests
-
-
+Build the email engine, that will mail users after they register, riders when they receive a new donation, and allow admin to send batch emails
 
 TODO 
 
-Build the email engine, that will mail users after they register, riders when they receive a new donation, and allow admin to send batch emails
+rider/:id/donations --- table with tools for rider to access + maintain relationships with 
 
 Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
 

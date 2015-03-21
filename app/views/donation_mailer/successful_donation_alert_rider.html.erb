@@ -10,8 +10,8 @@
 </div>
 
 <p>
-	Be sure to thank them with an email!
-You can view their contribution on your <%= link_to "profile page's donor's list", persistent_rider_profile_path(@prp) %>.
+	Be sure to thank them with an email! <%= mail_to @donor.email %>
+	You can view their contribution on your <%= link_to "profile page's donor's list", persistent_rider_profile_path(@prp) %>.
 </p>
 
 <p>Congratulations on reaching <%= @percent_of_goal %>% of your goal! Keep it going!</p>
