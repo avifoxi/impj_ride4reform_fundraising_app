@@ -18,5 +18,12 @@ class DonationMailer < ApplicationMailer
   end
 
   def successful_donation_thank_donor(donation)
+  	@donation = donation
+  	@receipt = @donation.receipt
+  	@donor = @donation.user
+  	@rider = @donation.rider
+  	@prp = @rider.persistent_rider_profile
+  	@percent_of_goal = @prp.delegate_ryr_method(RideYear.current, 'percent_of_goal')
+  	mail(to: @donor.email, subject: 'foo bar baz?')
   end
 end
