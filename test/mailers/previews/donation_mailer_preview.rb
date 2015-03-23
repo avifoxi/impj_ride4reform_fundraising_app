@@ -6,4 +6,8 @@ class DonationMailerPreview < ActionMailer::Preview
   def successful_donation_alert_rider_preview
   	DonationMailer.successful_donation_alert_rider(Donation.first)
   end
+
+  def successful_donation_thank_donor
+  	DonationMailer.successful_donation_thank_donor(Donation.first)
+  end
 end

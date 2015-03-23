@@ -70,7 +70,7 @@ require 'faker'
   	end
   	
   end
-
+Faker::Internet.password
   amounts = (18..800).to_a
   50.times do 
     user = users.sample
@@ -82,6 +82,9 @@ require 'faker'
       user: user,
       amount: amounts.sample,
       fee_is_processed: true
+    )
+    don.create_receipt(
+      amount: don.amount, paypal_id: Faker::Internet.password, user: don.user
     )
   end
 

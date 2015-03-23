@@ -1,0 +1,12 @@
+<h3>Dear <%= @donor.first_name %>,</h3>
+
+<p>Thank you for your generous donation to <%= @rider.full_name %>!</p>
+
+<%= @receipt.inspect %>
+
+<p>
+	You can view your contribution and note on <%= link_to "#{@rider.full_name}'s donor's list", persistent_rider_profile_path(@prp) %>.
+</p>
+
+
+<p>Many thanks for contributing to the success of this year's Ride4Reform!</p>

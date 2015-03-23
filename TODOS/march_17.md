@@ -1,8 +1,12 @@
 DOING
 
+remove user_id from receipt ...
+
 Build the email engine, that will mail users after they register, riders when they receive a new donation, and allow admin to send batch emails
 
-TODO 
+TODO
+
+in seeds --> create receipts on successful donation
 
 rider/:id/donations --- table with tools for rider to access + maintain relationships with 
 
