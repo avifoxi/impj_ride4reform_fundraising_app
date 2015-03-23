@@ -3,7 +3,7 @@ class RiderYearRegistration < ActiveRecord::Base
   belongs_to :user
 
   # registration_payment_receipt
-  belongs_to :receipt #registration_payment_receipt, :class_name => 'Receipt'#, :foreign_key => 'id'
+  belongs_to :registration_payment_receipt, :class_name => 'Receipt'
 
   delegate :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :email, :full_name, to: :user
 
