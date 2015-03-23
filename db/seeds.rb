@@ -50,8 +50,11 @@ require 'faker'
   		agree_to_terms: true,
   		ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
   	)
+    ride_year = RideYear.all.sample
+    # rider.update_attributes()
 
-    rider.update_attributes(ride_year: RideYear.all.sample)
+    rider.update_attributes(ride_year: ride_year, registration_payment_receipt: rider.create_registration_payment_receipt(user: user, amount: ride_year.registration_fee, paypal_id: Faker::Internet.password) )
+
 
   	rider.mailing_addresses.create(
   			line_1: Faker::Address.street_address,
@@ -71,7 +74,7 @@ require 'faker'
   	end
   	
   end
-Faker::Internet.password
+
   amounts = (18..800).to_a
   50.times do 
     user = users.sample
