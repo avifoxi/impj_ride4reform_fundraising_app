@@ -8,7 +8,7 @@ class RiderYearRegistrationsMailer < ApplicationMailer
   	# @receipt = @donation.receipt
   	# @donor = @donation.user
   	# @rider = @donation.rider
-  	# @prp = @rider.persistent_rider_profile
+  	@prp = @ryr.persistent_rider_profile
   	mail(to: @ryr.email, subject: "Receipt for donation to #{@ryr.full_name}")
   end
 end

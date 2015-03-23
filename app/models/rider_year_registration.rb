@@ -5,7 +5,7 @@ class RiderYearRegistration < ActiveRecord::Base
   # registration_payment_receipt
   belongs_to :registration_payment_receipt, :class_name => 'Receipt'
 
-  delegate :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :email, :full_name, to: :user
+  delegate :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :email, :full_name, :persistent_rider_profile, to: :user
 
   has_many :mailing_addresses, through: :user
   accepts_nested_attributes_for :mailing_addresses
