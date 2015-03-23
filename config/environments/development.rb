@@ -1,4 +1,17 @@
 Rails.application.configure do
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for gmail
+  ActionMailer::Base.smtp_settings = {
+   :address              => "smtp.gmail.com",
+   :port                 => 587,
+   :domain               => "gmail.com",
+   :user_name            => ENV['GMAIL_ADDRESS'],
+   :password             => ENV['GMAIL_PASSWORD'],
+   :authentication       => "plain",
+   :enable_starttls_auto => true
+  }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -14,7 +27,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Add as per devise configuration options, In production, :host should be set to the actual host of your application:
 
