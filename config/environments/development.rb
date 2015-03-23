@@ -4,11 +4,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   # SMTP settings for gmail
   ActionMailer::Base.smtp_settings = {
-   :address              => "smtp.gmail.com",
+   :address              => "smtp.mailgun.org",
    :port                 => 587,
-   :domain               => "gmail.com",
-   :user_name            => ENV['GMAIL_ADDRESS'],
-   :password             => ENV['GMAIL_PASSWORD'],
+   :domain               => ENV['MAILGUN_DOMAIN'],
+   :user_name            => ENV['MAILGUN_USERNAME'],
+   :password             => ENV['MAILGUN_PASSWORD'],
    :authentication       => "plain",
    :enable_starttls_auto => true
   }
