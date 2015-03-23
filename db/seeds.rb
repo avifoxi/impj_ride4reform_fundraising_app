@@ -34,6 +34,7 @@ require 'faker'
       p 'errors'
       p "#{prp.errors.inspect}"
     end
+  avi.update_attributes(registration_payment_receipt: avi.create_registration_payment_receipt(user: User.first, amount: RideYear.current.registration_fee, paypal_id: 'rando string') )
 
 	users = []
 	50.times do 

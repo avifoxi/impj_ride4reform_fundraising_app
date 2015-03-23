@@ -3,6 +3,8 @@ class RiderYearRegistrationsMailer < ApplicationMailer
 
   def successful_registration_welcome_rider(ryr)
   	@ryr = ryr
+  	@year = RideYear.current.year
+  	@receipt  = @ryr.registration_payment_receipt
   	# @receipt = @donation.receipt
   	# @donor = @donation.user
   	# @rider = @donation.rider
