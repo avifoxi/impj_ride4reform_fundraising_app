@@ -1,11 +1,11 @@
 <h3>Mailing Addresses</h3>
 
 <% @mailing_addresses.each do |m| %>
-	<%= m.one_liner %> <%= link_to 'Edit address', edit_mailing_address_path(m) %>
+	<%= m.one_liner %> <%= link_to 'Edit address', edit_mailing_address_path(m), :class => "btn btn-default" %>
 	<%= button_to "Delete", m, :method => :delete if @mailing_addresses.count > 1  %>
 <% end %>
 
-<%= link_to 'Add a new mailing address?', new_mailing_address_path %>
+<br><%= link_to 'Add a new mailing address?', new_mailing_address_path, :class => "btn btn-info" %>
 
 
 <h3>Edit Your Rider Profile</h3>
