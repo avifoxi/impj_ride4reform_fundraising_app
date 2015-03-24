@@ -34,6 +34,7 @@ require 'faker'
       p 'errors'
       p "#{prp.errors.inspect}"
     end
+  avi.update_attributes(registration_payment_receipt: avi.create_registration_payment_receipt(user: User.first, amount: RideYear.current.registration_fee, paypal_id: 'rando string') )
 
 	users = []
 	50.times do 
@@ -49,8 +50,11 @@ require 'faker'
   		agree_to_terms: true,
   		ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
   	)
+    ride_year = RideYear.all.sample
+    # rider.update_attributes()
 
-    rider.update_attributes(ride_year: RideYear.all.sample)
+    rider.update_attributes(ride_year: ride_year, registration_payment_receipt: rider.create_registration_payment_receipt(user: user, amount: ride_year.registration_fee, paypal_id: Faker::Internet.password) )
+
 
   	rider.mailing_addresses.create(
   			line_1: Faker::Address.street_address,
@@ -82,6 +86,9 @@ require 'faker'
       user: user,
       amount: amounts.sample,
       fee_is_processed: true
+    )
+    don.create_receipt(
+      amount: don.amount, paypal_id: Faker::Internet.password, user: don.user
     )
   end
 

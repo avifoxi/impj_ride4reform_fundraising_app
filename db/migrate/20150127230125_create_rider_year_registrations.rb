@@ -6,7 +6,7 @@ class CreateRiderYearRegistrations < ActiveRecord::Migration
       t.integer :goal
       t.boolean :agree_to_terms
       t.string :ride_option
-      t.references :receipt
+      t.references :registration_payment_receipt
 
       t.timestamps
     end

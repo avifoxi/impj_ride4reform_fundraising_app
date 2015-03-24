@@ -96,4 +96,43 @@ http_interactions:
         donation to rider","sku":"item","price":"300.00","currency":"USD","quantity":"1"}]},"related_resources":[{"sale":{"id":"6RT82712U88126949","create_time":"2015-03-20T20:24:54Z","update_time":"2015-03-20T20:25:17Z","amount":{"total":"300.00","currency":"USD"},"state":"completed","parent_payment":"PAY-5GS1786161996603RKUGIEFQ","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/6RT82712U88126949","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/6RT82712U88126949/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5GS1786161996603RKUGIEFQ","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-5GS1786161996603RKUGIEFQ","rel":"self","method":"GET"}]}'
     http_version: 
   recorded_at: Fri, 20 Mar 2015 20:25:17 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcsbplatformapiserv3001.slc.paypal.com;threadId=914
+      Paypal-Debug-Id:
+      - 740d41db7fb4c
+      Server-Info:
+      - identitysecuretokenserv:v1.oauth2.token&CalThreadId=140&TopLevelTxnStartTime=14c475b905c&Host=slcsbidensectoken501.slc.paypal.com&pid=10410
+      Date:
+      - Mon, 23 Mar 2015 15:58:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '75'
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_client","error_description":"Invalid client credentials"}'
+    http_version: 
+  recorded_at: Mon, 23 Mar 2015 15:58:45 GMT
 recorded_with: VCR 2.9.3

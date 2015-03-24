@@ -1,18 +1,24 @@
 DOING
 
-prp_controller tests
-
-	
-
-TODO 
-
-multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
-
 prp => mailing address crud for user ui
 	links are up, but not functional
 
+
+TODO
+
+mailing_address#edit -- does not autoselect existing state value. matters ??
+
 prp show page 
 	- allow current_user == prp to edit content
+`
+
+Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
+
+allow admin to send batch emails
+
+rider/:id/donations --- table with tools for rider to access + maintain relationships with 
+
+multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
 
 ryr_registration_payment -- 
 	add cc_info validations as in donation pyament 
@@ -36,6 +42,10 @@ QUESTIONS FOR DAD --
 
 DONE
 
+mailgun -- need acc't for dad directly 
+
+Build the email engine, that will mail users after they register, riders when they receive a new donation, and 
+
 Donations tests
 
 prp show page 
@@ -52,5 +62,6 @@ donation model --
 root index page
 	- make anon buttons actually do something...
 
+in seeds --> create receipts on successful donation
 
 

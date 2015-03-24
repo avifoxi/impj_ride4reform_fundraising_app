@@ -1,0 +1,9 @@
+<h3>New Mailing Address</h3>
+
+<%= render 'shared/form_errors' %>
+
+<%= simple_form_for @m_a do |m| %>
+	<%= render 'shared/mailing_address_form', :m => m %>
+
+	<%= m.button :submit %>
+<% end %>

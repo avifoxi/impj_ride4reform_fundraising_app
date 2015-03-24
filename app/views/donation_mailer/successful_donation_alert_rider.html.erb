@@ -1,0 +1,17 @@
+<h3>Dear <%= @rider.first_name %>,</h3>
+
+<p>Exciting news!</p>
+
+<p>You've just received a donation of <%= number_to_currency(@donation.amount) %> from <%= @donor.full_name %>.</p>
+
+<div>
+	They sent along this note with the donation:
+	<%= @donation.note_to_rider %>
+</div>
+
+<p>
+	Be sure to thank them with an email! <%= mail_to @donor.email %>
+	You can view their contribution on your <%= link_to "profile page's donor's list", persistent_rider_profile_path(@prp) %>.
+</p>
+
+<p>Congratulations on reaching <%= @percent_of_goal %>% of your goal! Keep it going!</p>

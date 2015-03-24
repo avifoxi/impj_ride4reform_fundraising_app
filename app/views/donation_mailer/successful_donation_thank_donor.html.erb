@@ -1,0 +1,34 @@
+<h3>Dear <%= @donor.first_name %>,</h3>
+
+<p>Thank you for your generous donation to <%= @rider.full_name %>!</p>
+
+<p>Please keep this email for your records, as it serves as a receipt.</p>
+<!-- < %= @receipt.inspect %> -->
+
+<table>
+	<tr>
+		<th>Receipt ID:</th>
+		<td><%= @receipt.paypal_id %></td>
+	</tr>
+	<tr>
+		<th>Amount:</th>
+		<td><%= number_to_currency(@receipt.amount) %></td>
+	</tr>
+	<tr>
+		<th>Donation To Campaign Of:</th>
+		<td><%= @rider.full_name %></td>
+	</tr>
+	<tr>
+		<th>Time of transaction:</th>
+		<td><%= @receipt.created_at.to_time.strftime('%a %b %d %Y at %H:%M %Z') %></td>
+	</tr>
+</table>
+
+
+
+<p>
+	You can view your contribution and note on <%= link_to "#{@rider.full_name}'s donor list", persistent_rider_profile_path(@prp) %>.
+</p>
+
+
+<p>Thank you for contributing to the success of this year's Ride4Reform!</p>
