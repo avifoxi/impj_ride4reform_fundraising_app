@@ -3,11 +3,13 @@ DOING
 prp => mailing address crud for user ui
 	links are up, but not functional
 
-prp show page 
-	- allow current_user == prp to edit content
-
 
 TODO
+
+
+prp show page 
+	- allow current_user == prp to edit content
+`
 
 Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
 
