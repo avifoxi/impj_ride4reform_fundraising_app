@@ -1,16 +1,12 @@
 DOING
 
-prp => mailing address crud for user ui
-	links are up, but not functional
-
 
 TODO
 
+test mailing addresses controller
+
 mailing_address#edit -- does not autoselect existing state value. matters ??
 
-prp show page 
-	- allow current_user == prp to edit content
-`
 
 Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
 
@@ -22,7 +18,6 @@ multi-year riders-- integrating this to sign-up path, and adding link for rider 
 
 ryr_registration_payment -- 
 	add cc_info validations as in donation pyament 
-
 
 very importatn rake task:
 	rake assets:precompile RAILS_ENV=production
@@ -63,5 +58,12 @@ root index page
 	- make anon buttons actually do something...
 
 in seeds --> create receipts on successful donation
+
+prp => mailing address crud for user ui
+	links are up, but not functional
+
+prp show page 
+	- allow current_user == prp to edit content
+`
 
 
