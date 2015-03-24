@@ -6,6 +6,7 @@ prp => mailing address crud for user ui
 
 TODO
 
+mailing_address#edit -- does not autoselect existing state value. matters ??
 
 prp show page 
 	- allow current_user == prp to edit content

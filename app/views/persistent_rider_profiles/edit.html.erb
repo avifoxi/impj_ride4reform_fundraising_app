@@ -1,13 +1,3 @@
-<h3>Mailing Addresses</h3>
-
-<% @mailing_addresses.each do |m| %>
-	<%= m.one_liner %> <%= link_to 'Edit address', edit_mailing_address_path(m), :class => "btn btn-default" %>
-	<%= button_to "Delete", m, :method => :delete if @mailing_addresses.count > 1  %>
-<% end %>
-
-<br><%= link_to 'Add a new mailing address?', new_mailing_address_path, :class => "btn btn-info" %>
-
-
 <h3>Edit Your Rider Profile</h3>
 
 <%= render 'shared/form_errors' %>
@@ -25,14 +15,12 @@
 <% end %>
 
 <hr>
-<!-- <br>< %= @this_years_registration.inspect %>
-<hr> -->
 
+<h3>Mailing Addresses</h3>
 
+<% @mailing_addresses.each do |m| %>
+	<%= m.one_liner %> <%= link_to 'Edit address', edit_mailing_address_path(m), :class => "btn btn-default" %>
+	<%= button_to "Delete", m, :method => :delete if @mailing_addresses.count > 1  %>
+<% end %>
 
-<!-- < %= simple_form_for @this_years_registration do |f| %>
-	
-	< %= render 'shared/rider_year_registration_form', :f => f %>
-
-< % end %>
- -->
+<br><%= link_to 'Add a new mailing address?', new_mailing_address_path, :class => "btn btn-default" %>
