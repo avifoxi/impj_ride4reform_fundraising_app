@@ -29,4 +29,15 @@ RSpec.describe MailingAddress, :type => :model do
 		user.mailing_addresses << second_addy
 		expect(m_ad.users_primary).to eq(0)
 	end
+
+	it 'validates zip against state correctly' do
+
+		donor_m.update_attributes(state: 'CA', zip: '90035')
+		expect(donor_m.valid?).to eq(true)
+		donor_m.update_attributes(state: 'NY', zip: '11225')	
+		expect(donor_m.valid?).to eq(true)
+
+		donor_m.update_attributes(state: 'MI', zip: '11225')	
+		expect(donor_m.valid?).to eq(false)
+	end
 end
