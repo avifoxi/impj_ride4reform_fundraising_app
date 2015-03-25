@@ -23,7 +23,12 @@ class DonationsController < ApplicationController
 			render 'new'
 		end
 
-		@user = User.find_by(email: full_params[:user][:email])
+		if current_user 
+			@user = current_user
+		else
+			@user = User.find_by(email: full_params[:user][:email])
+		end
+
 		unless @user
 			@user = User.new(full_params[:user])
 			@user.title = 'None'
@@ -38,6 +43,9 @@ class DonationsController < ApplicationController
 		@donation.user = @user
 
 		if @donation.save 
+			p '#'*80
+			p '@don'
+			p "#{@donation.inspect}"
 			redirect_to new_donation_payment_path(@donation)
 		else
 			error_n_render

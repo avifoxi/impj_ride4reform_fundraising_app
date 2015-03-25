@@ -6,7 +6,9 @@ class MailingAddress < ActiveRecord::Base
   validates_associated :user, on: :create
   validates_presence_of :line_1, :city, :state, :zip
   validates :zip, length: { is: 5 }
-  validate :zip_num_length_check
+  validate :zip_num_length_check, if: :zip
+
+  validate :check_zip_against_city_and_state, if: [:zip, :state]
 
   before_save :first_in_is_primary
 
@@ -34,4 +36,25 @@ class MailingAddress < ActiveRecord::Base
     end
   end
 
+  # using area gem. neat!
+
+  def check_zip_against_city_and_state
+    # confirmed_city = self.zip.to_region(:city => true)
+    confirmed_state = self.zip.to_region(:state => true)
+    unless self.state == confirmed_state
+      errors.add :zip, "zip code and state must correspond"
+      errors.add :state, "zip code and state must correspond"
+    end
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
