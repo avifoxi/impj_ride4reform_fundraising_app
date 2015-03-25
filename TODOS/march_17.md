@@ -1,5 +1,11 @@
 DOING
 
+3.       We do not check zip vs. State. If that is too complex I can live with that
+
+4.       Other than that looks good. I tried signing up someone with a used logon and that rejected.
+
+
+
 
 TODO
 
@@ -65,5 +71,11 @@ prp => mailing address crud for user ui
 prp show page 
 	- allow current_user == prp to edit content
 `
+
+1.       When you go into edit rider profile it shows all of the fields with their current stuff, except for photo which shows “no file selected”. It is misleading since it makes it appear as if the photo you did upload is not there. https://r4r-take-2-sandbox.herokuapp.com/riders/22/edit
+
+
+
+2.       When donating, donation listed as anonymous even though I did not click that option. My message does appear though.
 
 
