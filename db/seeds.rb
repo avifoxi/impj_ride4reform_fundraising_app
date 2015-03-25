@@ -19,11 +19,7 @@ require 'faker'
       agree_to_terms: true,
       ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
     )
-  avi.mailing_addresses.create(
-        line_1: Faker::Address.street_address,
-        city: Faker::Address.city,
-        zip: Faker::Address.zip_code,
-        state: Faker::Address.state)
+  avi.mailing_addresses.create( FactoryGirl.attributes_for(:mailing_address) )
   prp = avi.user.build_persistent_rider_profile
     unless prp.update_attributes(
           primary_phone: '1234567890',
@@ -57,10 +53,7 @@ require 'faker'
 
 
   	rider.mailing_addresses.create(
-  			line_1: Faker::Address.street_address,
-  			city: Faker::Address.city,
-  			zip: Faker::Address.zip_code,
-  			state: Faker::Address.state)
+  			FactoryGirl.attributes_for(:mailing_address) )
 
   	prp = rider.user.build_persistent_rider_profile
   	unless prp.update_attributes(
