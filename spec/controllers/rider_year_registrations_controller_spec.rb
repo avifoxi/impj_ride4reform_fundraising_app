@@ -220,7 +220,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			receipt_count = Receipt.all.count
 			m_a_count = MailingAddress.all.count
 
-			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '1', 'mailing_address' => {'line_1' => 'custom line 1', 'city' => 'custom city', 'state' => 'NV', 'zip' => '12345'},  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
+			post :create_pay_reg_fee, ryr_id: ryr_instance.id, rider_year_registration: { 'custom_billing_address' => '1', 'mailing_address' => {'line_1' => 'custom line 1', 'city' => 'custom city', 'state' => 'NY', 'zip' => '11226'},  'cc_type' => 'visa', 'cc_number' => '4417119669820331', 'cc_expire_month' => '11', 'cc_expire_year(1i)' => '2018', 'cc_cvv2' => '874'  }
 
 			expect(MailingAddress.all.count).to eq(m_a_count + 1)
 			expect(MailingAddress.last.line_1).to eq('custom line 1')

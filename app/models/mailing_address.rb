@@ -47,8 +47,6 @@ class MailingAddress < ActiveRecord::Base
     end
   end
 
-
-
 end
 
 
