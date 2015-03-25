@@ -62,6 +62,9 @@ gem "paperclip", "~> 4.2"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# for location, zip / state comparison
+gem 'area'
+
 gem 'faker'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
