@@ -1,7 +1,40 @@
 <%= p.input :bio %>
+
+
+<% if @prp.avatar_file_name %>
+ 	<div>
+ 		<%= image_tag @prp.avatar.url(:thumb) %>
+		<br>Your current photo is <strong><%= @prp.avatar_file_name %></strong>. 
+		<br><button class="btn btn-sm btn-default" id="avatar_toggle">Change photo?</button>
+	</div>
+<%  end %>
+
 <%= p.input :avatar, hint: 'Choose your rider profile picture to attach', label: 'Photo', input_html: { class: 'btn' }%>
 
 <%= p.input :birthdate, start_year: Date.today.year - 80,
                           end_year: Date.today.year - 17 %>
 <%= p.input :primary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
 <%= p.input :secondary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
+
+<script>
+
+
+<% if @prp.avatar_file_name %>
+	
+	$('.persistent_rider_profile_avatar').hide();
+
+	$('#avatar_toggle').click(function(e){
+		e.preventDefault();
+		console.log(e);
+		$('.persistent_rider_profile_avatar').show();
+		$('#avatar_toggle').hide();
+
+	});
+
+<%  end %>
+
+
+
+	
+
+</script>
