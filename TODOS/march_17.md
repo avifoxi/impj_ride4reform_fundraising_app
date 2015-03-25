@@ -2,11 +2,6 @@ DOING
 
 3.       We do not check zip vs. State. If that is too complex I can live with that
 
-4.       Other than that looks good. I tried signing up someone with a used logon and that rejected.
-
-
-
-
 TODO
 
 test mailing addresses controller

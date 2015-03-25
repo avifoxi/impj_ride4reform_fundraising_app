@@ -66,15 +66,19 @@ gem "paperclip", "~> 4.2"
 gem 'area'
 
 gem 'faker'
+
+# moving factory girl to here for seed in staging -- ensure the addies are gonna pass the area gem's zip validation against state + city
+gem "factory_girl_rails", "~> 4.0"
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
-  gem "factory_girl_rails", "~> 4.0"
   gem 'database_cleaner', '~> 1.4.0'	
   
 end
+
+
 
 group :test do 
 	gem 'webmock'
