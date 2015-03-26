@@ -3,9 +3,15 @@ class DonationsController < ApplicationController
 	skip_before_action :authenticate_user!
 
 	def new
-		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
 		@donation = Donation.new
 		@donation.build_user
+		if params[:persistent_rider_profile_id]
+			@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+			render :new_for_rider
+		else
+			render :new_for_organization
+		end
+		
 	end
 
 	def create

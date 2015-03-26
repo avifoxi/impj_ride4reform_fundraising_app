@@ -1,6 +1,6 @@
 DOING
 
-3.       We do not check zip vs. State. If that is too complex I can live with that
+donation to org, not rider
 
 TODO
 
