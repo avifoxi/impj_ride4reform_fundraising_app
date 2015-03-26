@@ -1,8 +1,9 @@
 DOING
 
-donation to org, not rider
 
 TODO
+
+test new features in donation controller + model -- ala organizational don
 
 on donation payment form 
 	-- show a better info for the donation -- not just in line.
@@ -78,4 +79,6 @@ prp show page
 
 2.       When donating, donation listed as anonymous even though I did not click that option. My message does appear though.
 
+donation to org, not rider
 
+fix failing don tests
