@@ -132,9 +132,11 @@ class DonationsController < ApplicationController
 		if ppp.create_payment
 			receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
 			@donation.update_attributes(receipt: receipt, fee_is_processed: true)
-			rider = @donation.rider.persistent_rider_profile
+			unless @donation.is_organizational
+				rider = @donation.rider.persistent_rider_profile
+			end
 			flash[:notice] = "Thank you for donating!"
-			redirect_to persistent_rider_profile_path(rider)
+			redirect_to @donation.is_organizational ? root_path : persistent_rider_profile_path(rider)
 		else
 			@payment_errors = ppp.payment.error
 			re_render_new_dp_w_errors
@@ -162,9 +164,9 @@ class DonationsController < ApplicationController
 
   def transaction_details
     {
-      'name' => "user donation to rider",
+      'name' => "user donation to #{@donation.is_organizational ? 'IMPJ' : 'rider' }",
       'amount' =>  '%.2f' % @donation.amount,
-      'description' => "#{ @donation.user.full_name }'s donation to #{@donation.rider.full_name}, in the #{RideYear.current.year} ride year."
+      'description' => "#{ @donation.user.full_name }'s donation to #{@donation.is_organizational ? 'IMPJ' : @donation.rider.full_name}, in the #{RideYear.current.year} ride year."
     }
   end
 end
