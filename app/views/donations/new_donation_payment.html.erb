@@ -1,4 +1,4 @@
-<h3>Please fill out your payment information to finish your donation to <%= @donation.rider.full_name %></h3>
+<h3>Please fill out your payment information to finish your donation to <%= @donation.is_organizational ? 'IMPJ' : @donation.rider.full_name %></h3>
 
 <%= render 'shared/form_errors' %>
 

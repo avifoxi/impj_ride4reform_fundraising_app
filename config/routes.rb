@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
 
   # for devise - must set root to something
-  root to: "persistent_rider_profiles#index"
+  # root to: "persistent_rider_profiles#index"
 
+  root to: "static_pages#home_page"
   
+
+
   # donations new nested under riders, and ALSO without nesting. 
   # if nested under rider-- donate to rider
   # if no rider spec'd, donate to org
@@ -14,7 +17,9 @@ Rails.application.routes.draw do
   resources :persistent_rider_profiles, :path => "riders" do
     resources :donations, only: [:new, :create]
   end
-  resources :donations, only: [:new, :create]
+  resources :donations, only: [:new], as: :donation_to_organization
+
+  resources :donations, only: :create
 
   resources :mailing_addresses, except: [:show, :index]
 

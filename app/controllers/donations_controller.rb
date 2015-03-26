@@ -3,14 +3,18 @@ class DonationsController < ApplicationController
 	skip_before_action :authenticate_user!
 
 	def new
-		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
 		@donation = Donation.new
 		@donation.build_user
+		if params[:persistent_rider_profile_id]
+			@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+			render :new_for_rider
+		else
+			@donation.is_organizational = true
+			render :new_for_organization
+		end
 	end
 
 	def create
-
-		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
 		@donation = Donation.new(full_params.except(:user))
 
 		def error_n_render
@@ -20,7 +24,7 @@ class DonationsController < ApplicationController
 			@donation.user.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
-			render 'new'
+			render params[:persistent_rider_profile_id] ? :new_for_rider : :new_for_organization
 		end
 
 		if current_user 
@@ -39,7 +43,11 @@ class DonationsController < ApplicationController
 			end
 		end
 
-		@donation.rider_year_registration = @rider.current_registration
+		if params[:persistent_rider_profile_id]
+			# TODO -- error handling if rider not found in db ? ?
+			@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+			@donation.rider_year_registration = @rider.current_registration
+		end	
 		@donation.user = @user
 
 		if @donation.save 
@@ -136,7 +144,7 @@ class DonationsController < ApplicationController
 	private
 
 	def full_params
-    params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
+    params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :is_organizational,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],

@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.integer  "user_id"
     t.integer  "amount"
     t.boolean  "fee_is_processed",           default: false
+    t.boolean  "is_organizational",          default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

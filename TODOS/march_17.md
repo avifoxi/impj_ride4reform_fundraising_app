@@ -1,8 +1,14 @@
 DOING
 
-3.       We do not check zip vs. State. If that is too complex I can live with that
 
 TODO
+
+test new features in donation controller + model -- ala organizational don
+
+on donation payment form 
+	-- show a better info for the donation -- not just in line.
+	- also, perhaps add ability to edit the donation from the payment screen ? 
+	- and get js working for hide / show custom address -- wrap the js method in conditional
 
 test mailing addresses controller
 
@@ -73,4 +79,6 @@ prp show page
 
 2.       When donating, donation listed as anonymous even though I did not click that option. My message does appear though.
 
+donation to org, not rider
 
+fix failing don tests

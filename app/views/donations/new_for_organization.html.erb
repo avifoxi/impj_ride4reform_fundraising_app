@@ -1,0 +1,22 @@
+<h3>Your Donation to American Friends of IMPJ</h3>
+
+<%= render 'shared/form_errors' %>
+
+<%= simple_form_for @donation do |f| %>
+  <%= f.input :amount, as: :currency, label: "Amount you would like to donate to the organization: $" %>
+  <%= f.input :note_to_rider, label: 'Note to include on funders list.', hint: 'This note will display along with your contribution.' %>
+  
+  <% unless current_user %>
+		<%= f.simple_fields_for :user do |u| %>
+			<%= u.input :first_name, label: 'Your first name' %>
+			<%= u.input :last_name, label: 'Your last name' %>
+			<%= u.input :email, label: 'Your email address' %>
+		<% end %>
+	<% end %>
+
+	<%= f.input :is_organizational,  :as => :hidden %>
+
+	<%= f.input :anonymous_to_public, label: "Check to make your donation anonymous on our public facing funders list on this site." %>
+
+  <%= f.button :submit %>
+<% end %>

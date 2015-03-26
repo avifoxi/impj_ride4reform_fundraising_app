@@ -11,8 +11,10 @@ class Donation < ActiveRecord::Base
 
 
   # validates_associated :receipt, on: :create
-  validates_associated :rider_year_registration, on: :create
+  validates_associated :rider_year_registration, on: :create#, :unless => :is_organizational
   validates_associated :user, on: :create
 
+  validates_presence_of :user
+  validates_presence_of :rider_year_registration, :unless => :is_organizational
   validates_presence_of :amount
 end

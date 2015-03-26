@@ -38,13 +38,13 @@ RSpec.describe DonationsController, :type => :controller do
 	context 'access + permissions' do
 		it 'allows non-logged in users to access ' do 
 			get :new, persistent_rider_profile_id: @prp.id
-			expect(response).to render_template(:new)
+			expect(response).to render_template(:new_for_rider)
 		end
 
 		it 'allows logged in users to access ' do 
 			sign_in user
 			get :new, persistent_rider_profile_id: @prp.id
-			expect(response).to render_template(:new)
+			expect(response).to render_template(:new_for_rider)
 		end
 	end
 
@@ -94,7 +94,7 @@ RSpec.describe DonationsController, :type => :controller do
 				persistent_rider_profile_id: @prp.id,
 				donation: don_params
 			}
-			expect(response).to render_template(:new)
+			expect(response).to render_template(:new_for_rider)
 			expect(Donation.all.count).to eq(@don_count)
 			expect(User.all.count).to eq(@user_count + 1)
 			expect( assigns(:errors)).to_not be_empty
@@ -107,7 +107,7 @@ RSpec.describe DonationsController, :type => :controller do
 				persistent_rider_profile_id: @prp.id,
 				donation: don_params
 			}
-			expect(response).to render_template(:new)
+			expect(response).to render_template(:new_for_rider)
 			expect(Donation.all.count).to eq(@don_count)
 			expect(User.all.count).to eq(@user_count)
 			expect( assigns(:errors)).to_not be_empty
@@ -120,7 +120,7 @@ RSpec.describe DonationsController, :type => :controller do
 				persistent_rider_profile_id: @prp.id,
 				donation: don_params
 			}
-			expect(response).to render_template(:new)
+			expect(response).to render_template(:new_for_rider)
 			expect(Donation.all.count).to eq(@don_count)
 			expect(User.all.count).to eq(@user_count)
 			expect( assigns(:errors)).to_not be_empty
