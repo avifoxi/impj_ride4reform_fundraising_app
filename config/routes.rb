@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   resources :persistent_rider_profiles, :path => "riders" do
     resources :donations, only: [:new, :create]
   end
-  resources :donations, only: [:new, :create]
+  resources :donations, only: [:new], as: :donation_to_organization
+
+  resources :donations, only: :create
 
   resources :mailing_addresses, except: [:show, :index]
 
