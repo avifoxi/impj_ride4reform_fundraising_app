@@ -11,12 +11,9 @@ class DonationsController < ApplicationController
 		else
 			render :new_for_organization
 		end
-		
 	end
 
-	def create
-
-		@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])		
+	def create	
 		@donation = Donation.new(full_params.except(:user))
 
 		def error_n_render
@@ -26,7 +23,7 @@ class DonationsController < ApplicationController
 			@donation.user.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
-			render 'new'
+			render params[:persistent_rider_profile_id] ? :new_for_rider : :new_for_organization
 		end
 
 		if current_user 
@@ -45,7 +42,11 @@ class DonationsController < ApplicationController
 			end
 		end
 
-		@donation.rider_year_registration = @rider.current_registration
+		if params[:persistent_rider_profile_id]
+			# TODO -- error handling if rider not found in db ? ?
+			@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+			@donation.rider_year_registration = @rider.current_registration
+		end	
 		@donation.user = @user
 
 		if @donation.save 
