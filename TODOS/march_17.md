@@ -4,6 +4,11 @@ donation to org, not rider
 
 TODO
 
+on donation payment form 
+	-- show a better info for the donation -- not just in line.
+	- also, perhaps add ability to edit the donation from the payment screen ? 
+	- and get js working for hide / show custom address -- wrap the js method in conditional
+
 test mailing addresses controller
 
 mailing_address#edit -- does not autoselect existing state value. matters ??

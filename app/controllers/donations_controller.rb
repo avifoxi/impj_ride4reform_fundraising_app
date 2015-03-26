@@ -9,11 +9,12 @@ class DonationsController < ApplicationController
 			@rider = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
 			render :new_for_rider
 		else
+			@donation.is_organizational = true
 			render :new_for_organization
 		end
 	end
 
-	def create	
+	def create
 		@donation = Donation.new(full_params.except(:user))
 
 		def error_n_render
@@ -143,7 +144,7 @@ class DonationsController < ApplicationController
 	private
 
 	def full_params
-    params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
+    params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :is_organizational,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
