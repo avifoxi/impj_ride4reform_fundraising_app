@@ -8,6 +8,7 @@ class CreateDonations < ActiveRecord::Migration
       t.references :user
       t.integer :amount
       t.boolean :fee_is_processed, default: false
+      t.boolean :is_organizational, default: false
 
       t.timestamps
     end
