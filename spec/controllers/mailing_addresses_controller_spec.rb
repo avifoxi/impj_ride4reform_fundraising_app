@@ -25,22 +25,21 @@ RSpec.describe MailingAddressesController, :type => :controller do
 
 		it 'allows logged in users to access ' do 
 			sign_in user
-			get :new#, persistent_rider_profile_id: @prp.id
+			get :new
 			expect(response).to render_template(:new)
 		end
 
-		it 'only allows associated user to edit' do 
+		it 'allows associated user to edit' do 
 			sign_in @prp.user
 			get :edit, id: @prp.mailing_addresses.first.id
-
-			# p '@prp'
-			# p "#{@prp.inspect}"
-			# p 'prp mailing_addresses'
-			# p "#{@prp.mailing_addresses.first.inspect}"
-
 			expect(response).to render_template(:edit)
 			expect( assigns(:m_a) ).to eq(@prp.mailing_addresses.first)
-
+		end
+		
+		it 'redirects non-associated user trying to edit' do 
+			sign_in user
+			get :edit, id: @prp.mailing_addresses.first.id
+			expect(response).to redirect_to(root_path)
 		end
 	end
 
