@@ -10,11 +10,10 @@ RSpec.describe MailingAddressesController, :type => :controller do
 
 
 	before do |example|
-
 		@prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
 	  @prp.update_attributes(prp_params)
 		@prp.mailing_addresses.create(m_a_params)
-		
+		@ma_count = MailingAddress.all.count
 	end
 
 	context 'access + permissions' do
@@ -36,26 +35,38 @@ RSpec.describe MailingAddressesController, :type => :controller do
 			expect( assigns(:m_a) ).to eq(@prp.mailing_addresses.first)
 		end
 		
-		it 'redirects non-associated user trying to edit' do 
+		it 'redirects non-associated user away from edit' do 
 			sign_in user
 			get :edit, id: @prp.mailing_addresses.first.id
 			expect(response).to redirect_to(root_path)
 		end
+
+		it 'redirects non-associated user away from update' do 
+			sign_in user
+			ma_count = MailingAddress.all.count
+			post :edit, {
+				id: @prp.mailing_addresses.first.id,
+				mailing_address: {
+					line_1: 'i cannot change this bc i am not the owner of this addy'
+				}
+			}
+			expect(response).to redirect_to(root_path)
+			expect(@prp.mailing_addresses.first.line_1).to_not eq('i cannot change this bc i am not the owner of this addy')
+		end
 	end
 
-	# context 'new' do
-	# 	it 'assigns appropriately and renders form' do
-	# 		get :new, persistent_rider_profile_id: @prp.id
-	# 		expect( assigns(:donation)).to be_a(Donation)
-	# 		expect( assigns(:rider) ).to eq(PersistentRiderProfile.last)
-	# 	end
-	# end
+	context 'new' do
+		it 'assigns appropriately and renders form' do
+			sign_in @prp.user
+			get :new, persistent_rider_profile_id: @prp.id
+			expect( assigns(:m_a)).to be_a(MailingAddress)
+		end
+	end
 
-	# context 'create' do 
-	# 	before(:each) do 
-	# 		@don_count = Donation.all.count
-	# 		@user_count = User.all.count
-	# 	end
+	context 'create' do 
+		# before(:each) do 
+		# 	@ma_count = MailingAddress.all.count
+		# end
 
 	# 	it 'create new user, and create new donation' do
 	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
@@ -80,7 +91,7 @@ RSpec.describe MailingAddressesController, :type => :controller do
 	# 		expect(response).to redirect_to(new_donation_payment_path(Donation.last) )
 	# 		expect(Donation.all.count).to eq(@don_count + 1)
 	# 		expect(User.all.count).to eq(@user_count)
-	# 	end
+		end
 
 	# 	it 'donation errors, valid user, re-renders new' do 
 	# 		don_params.except!(:amount)
