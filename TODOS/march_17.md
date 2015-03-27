@@ -1,5 +1,8 @@
 DOING
 
+review forms -- 
+	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
+
 
 TODO
 
@@ -31,8 +34,6 @@ very importatn rake task:
 
 images -- size limits on prp image submission
 
-review forms -- 
-	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
 
 WHAT IF - 
 	- user stops registration midway, before creating prp -- then what ?
