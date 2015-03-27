@@ -4,14 +4,7 @@
 <%= simple_form_for @ryr, :url => rider_year_registrations_persistent_rider_profile_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
 
   <%= f.simple_fields_for :persistent_rider_profile do |p| %>
-  	<%= p.input :bio %>
-		<%= p.input :avatar, hint: 'Choose your rider profile picture to attach', label: 'Photo', input_html: { class: 'btn' }%>
-
-		<%= p.input :birthdate, start_year: Date.today.year - 80,
-                              end_year: Date.today.year - 17 %>
-		<%= p.input :primary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
-		<%= p.input :secondary_phone, as: :tel, input_html: { maxlength: 10 }, hint: 'with area code, no breaks or spaces please' %>
-
+  	<%= render 'shared/prp_form', :p => p %>
   <% end %>
   
   <%= f.button :submit %>
