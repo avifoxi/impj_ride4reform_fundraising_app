@@ -1,8 +1,6 @@
 DOING
 
-review forms -- 
-	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
-
+test mailing addresses controller
 
 TODO
 
@@ -13,7 +11,6 @@ on donation payment form
 	- also, perhaps add ability to edit the donation from the payment screen ? 
 	- and get js working for hide / show custom address -- wrap the js method in conditional
 
-test mailing addresses controller
 
 mailing_address#edit -- does not autoselect existing state value. matters ??
 
@@ -83,3 +80,7 @@ prp show page
 donation to org, not rider
 
 fix failing don tests
+
+review forms -- 
+	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
+
