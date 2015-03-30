@@ -1,11 +1,16 @@
 DOING
 
 integrate mailer into controllers
+	- donation controllers 
+		-- work on view for thank you email for org donation
+		-- thank you organizational names of donors -- show where ? 
+
+TODO
+
+integrate mailer into controllers
 	- ryr controller - on successful registration
 	- donation controllers 
 
-
-TODO
 
 UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
 

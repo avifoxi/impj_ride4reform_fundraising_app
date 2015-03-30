@@ -1,6 +1,6 @@
 <h3>Dear <%= @donor.first_name %>,</h3>
 
-<p>Thank you for your generous donation to <%= @rider.full_name %>!</p>
+<p>Thank you for your generous donation to <%= @rider ? @rider.full_name : 'IMPJ' %>!</p>
 
 <p>Please keep this email for your records, as it serves as a receipt.</p>
 <!-- < %= @receipt.inspect %> -->
@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<th>Donation To Campaign Of:</th>
-		<td><%= @rider.full_name %></td>
+		<td><%= @rider ? @rider.full_name : 'IMPJ organization' %></td>
 	</tr>
 	<tr>
 		<th>Time of transaction:</th>

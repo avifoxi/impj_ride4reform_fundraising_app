@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>R4rUpFromModelsRedo</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+	<div class="container">
+
+	
+		<%= render 'shared/hero_unit' %>
+
+		<% if notice %>
+			<p class="notice bg-info"><%= notice %></p>
+		<% end %>
+	  <% if alert %>
+	  	<p class="alert bg-danger"><%= alert %></p>
+	  <% end %>
+
+		<%= yield %>
+
+	</div>
+
+</body>
+</html>
