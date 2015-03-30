@@ -1,6 +1,9 @@
 DOING
 
-test mailing addresses controller
+integrate mailer into controllers
+	- ryr controller - on successful registration
+	- donation controllers 
+
 
 TODO
 
@@ -86,4 +89,6 @@ fix failing don tests
 
 review forms -- 
 	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
+
+test mailing addresses controller
 
