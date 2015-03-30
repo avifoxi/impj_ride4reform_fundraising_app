@@ -34,7 +34,7 @@ class RiderYearRegistrationsController < ApplicationController
 
 	def new_persistent_rider_profile
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
-		@ryr.user.build_persistent_rider_profile(user: @ryr.user)
+		@prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 	end
 
 	def create_persistent_rider_profile

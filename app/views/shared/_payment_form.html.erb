@@ -25,8 +25,37 @@
 		<%= m.input :city %>
 		<%= m.input :state, collection: us_states %>
 		<%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>
-
   <% end %>
 </div>
 
-<%= f.button :submit %>
+<script>
+	
+	$( document ).ready(function() {
+
+		<% if @donation %>
+			var ch = $('#donation_custom_billing_address');
+		<% else %>
+			var ch = $('#rider_year_registration_custom_billing_address') ;
+		<% end %>
+		
+		var c_b_a = $('.custom_billing_address');
+
+		c_b_a.hide();
+
+		_.each( $('.custom_billing_address input'), function(ip){
+			if ( ip.value ){
+				ch.checked = true;
+				c_b_a.show();
+			}
+		});
+		
+		ch.on('change', function(){
+			if ( ch.is(':checked') ) {
+				c_b_a.show();
+			} else {
+				c_b_a.hide();
+			}
+		});   
+	});
+	
+</script>
