@@ -7,6 +7,10 @@ class StaticPagesController < ApplicationController
 	# end
 
 	def home_page
-		render layout: "home_page_hero"
+		# render layout: "home_page_hero"
+	end
+
+	def donors
+		@donors = Donation.all.map{|d| d.user}.uniq!.sort_by! { |a| a.last_name }
 	end
 end

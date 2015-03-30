@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   # root to: "persistent_rider_profiles#index"
 
   root to: "static_pages#home_page"
-  
+
+  get 'donors' => 'static_pages#donors'  
 
 
   # donations new nested under riders, and ALSO without nesting. 
