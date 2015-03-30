@@ -4,6 +4,9 @@ test mailing addresses controller
 
 TODO
 
+UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
+
+
 test new features in donation controller + model -- ala organizational don
 
 on donation payment form 
