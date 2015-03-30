@@ -49,10 +49,18 @@ RSpec.describe DonationsController, :type => :controller do
 	end
 
 	context 'new' do
-		it 'assigns appropriately and renders form' do
+		it 'when request is namespaced to rider, assigns appropriately and renders form' do
 			get :new, persistent_rider_profile_id: @prp.id
 			expect( assigns(:donation)).to be_a(Donation)
+
 			expect( assigns(:rider) ).to eq(PersistentRiderProfile.last)
+			expect(response).to render_template(:new_for_rider)
+		end
+
+		it 'when not namespaced to rider, assigns to organization and renders form' do
+			get :new
+			expect( assigns(:donation)).to be_a(Donation)
+			expect(response).to render_template(:new_for_organization)
 		end
 	end
 
