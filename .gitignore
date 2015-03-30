@@ -17,3 +17,6 @@
 
 # passwords + api keys
 /TODOS/apikeys.yml
+
+# test coverage output
+/coverage

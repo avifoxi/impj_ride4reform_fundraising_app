@@ -6,14 +6,17 @@ RSpec.describe MailingAddressesController, :type => :controller do
 	let(:prp_params) { FactoryGirl.attributes_for(:persistent_rider_profile) }
 	let(:m_a_params) { FactoryGirl.attributes_for(:mailing_address) }
 	let(:second_m_a_params) { FactoryGirl.attributes_for(:mailing_address, :second) }
-	# let(:donation) {FactoryGirl.create(:donation, :with_valid_associations_before_fee_processed)}
-
 
 	before do |example|
 		@prp = ryr.user.build_persistent_rider_profile(user: ryr.user)
 	  @prp.update_attributes(prp_params)
 		@prp.mailing_addresses.create(m_a_params)
 		@ma_count = MailingAddress.all.count
+
+		if example.metadata[:sign_in_prp]
+    	sign_in @prp.user
+    end
+
 	end
 
 	context 'access + permissions' do
@@ -28,8 +31,7 @@ RSpec.describe MailingAddressesController, :type => :controller do
 			expect(response).to render_template(:new)
 		end
 
-		it 'allows associated user to edit' do 
-			sign_in @prp.user
+		it 'allows associated user to edit', :sign_in_prp do 
 			get :edit, id: @prp.mailing_addresses.first.id
 			expect(response).to render_template(:edit)
 			expect( assigns(:m_a) ).to eq(@prp.mailing_addresses.first)
@@ -56,169 +58,85 @@ RSpec.describe MailingAddressesController, :type => :controller do
 	end
 
 	context 'new' do
-		it 'assigns appropriately and renders form' do
-			sign_in @prp.user
+		it 'assigns appropriately and renders form', :sign_in_prp do
 			get :new, persistent_rider_profile_id: @prp.id
 			expect( assigns(:m_a)).to be_a(MailingAddress)
 		end
 	end
 
 	context 'create' do 
-		# before(:each) do 
-		# 	@ma_count = MailingAddress.all.count
-		# end
 
-	# 	it 'create new user, and create new donation' do
-	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
-	# 		post :create, {
-	# 			persistent_rider_profile_id: @prp.id,
-	# 			donation: don_params
-	# 		}
-	# 		expect(response).to redirect_to(new_donation_payment_path(Donation.last) )
-	# 		expect(Donation.all.count).to eq(@don_count + 1)
-	# 		expect(User.all.count).to eq(@user_count + 1)
-	# 	end
-
-	# 	it 'finds existing user in db, and creates new donation' do 
-	# 		user 
-	# 		@user_count = User.all.count
-	# 		# don_count = Donation.all.count
-	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
-	# 		post :create, {
-	# 			persistent_rider_profile_id: @prp.id,
-	# 			donation: don_params
-	# 		}
-	# 		expect(response).to redirect_to(new_donation_payment_path(Donation.last) )
-	# 		expect(Donation.all.count).to eq(@don_count + 1)
-	# 		expect(User.all.count).to eq(@user_count)
+		it 'registered rider, with valid params', :sign_in_prp do
+			post :create, {
+				mailing_address: second_m_a_params
+			}
+			expect(response).to redirect_to(edit_persistent_rider_profile_path(@prp) )
+			expect(MailingAddress.all.count).to eq(@ma_count + 1)
+			expect(@prp.mailing_addresses.count).to eq(2)
 		end
 
-	# 	it 'donation errors, valid user, re-renders new' do 
-	# 		don_params.except!(:amount)
-	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor)
-	# 		post :create, {
-	# 			persistent_rider_profile_id: @prp.id,
-	# 			donation: don_params
-	# 		}
-	# 		expect(response).to render_template(:new_for_rider)
-	# 		expect(Donation.all.count).to eq(@don_count)
-	# 		expect(User.all.count).to eq(@user_count + 1)
-	# 		expect( assigns(:errors)).to_not be_empty
+		it 'registered rider, with invalid params', :sign_in_prp  do 
+			post :create, {
+				mailing_address: second_m_a_params.except(:line_1)
+			}
+			expect(response).to render_template(:new)
+			expect(assigns(:errors)).to_not be_empty
+			expect(MailingAddress.all.count).to eq(@ma_count)
+		end
+	end
 
-	# 	end
+	context 'edit' do
+		it 'assigns appropriately and renders form', :sign_in_prp do
+			get :edit, id: @prp.mailing_addresses.first.id
+			expect( assigns(:m_a)).to eq(@prp.mailing_addresses.first)
+		end
+	end
 
-	# 	it 'donation valid, invalid user, re-renders new' do 
-	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor).except!(:email)
-	# 		post :create, {
-	# 			persistent_rider_profile_id: @prp.id,
-	# 			donation: don_params
-	# 		}
-	# 		expect(response).to render_template(:new_for_rider)
-	# 		expect(Donation.all.count).to eq(@don_count)
-	# 		expect(User.all.count).to eq(@user_count)
-	# 		expect( assigns(:errors)).to_not be_empty
-	# 	end
 
-	# 	it 'all input is junk, re-renders new' do
-	# 		don_params.except!(:amount)
-	# 		don_params[:user] = FactoryGirl.attributes_for(:user, :donor).except!(:email)
-	# 		post :create, {
-	# 			persistent_rider_profile_id: @prp.id,
-	# 			donation: don_params
-	# 		}
-	# 		expect(response).to render_template(:new_for_rider)
-	# 		expect(Donation.all.count).to eq(@don_count)
-	# 		expect(User.all.count).to eq(@user_count)
-	# 		expect( assigns(:errors)).to_not be_empty
-	# 	end
-	# end
+	context 'update' do 
 
-	# context 'new_donation_payment', :build_donation_pre_fee do
-	# 	it 'assigns appropriately and renders form' do
+		it 'registered rider, edits with valid params', :sign_in_prp do
+			put :update, {
+				id: @prp.mailing_addresses.first.id,
+				mailing_address: second_m_a_params
+			}
+			expect(response).to redirect_to(edit_persistent_rider_profile_path(@prp) )
+			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(@prp.mailing_addresses.first.line_1).to eq('second line second')
+		end
 
-	# 		get :new_donation_payment, id: @donation.id
-	# 		expect( assigns(:donation)).to eq(@donation)
-	# 		expect( assigns(:custom_billing_address) ).to be_a(MailingAddress)
-	# 		expect( assigns(:mailing_addresses) ).to eq( @donation.mailing_addresses)
-	# 	end
-	# end
+		it 'registered rider, with invalid params', :sign_in_prp  do 
+			put :update, {
+				id: @prp.mailing_addresses.first.id,
+				mailing_address: second_m_a_params.except(:zip)
+			}
+			expect(response).to render_template(:edit)
+			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(assigns(:m_a)).to eq(@prp.mailing_addresses.first)
+			expect(assigns(:errors)).to_not be_empty
+		end
+	end
 
-	# context 'create_donation_payment', :build_donation_pre_fee, :don_fee_params do
+	context 'destroy' do 
 
-	# 	before(:each) do 
-	# 		@rec_count = Receipt.all.count
-	# 		@ma_count = MailingAddress.all.count
-	# 		@rider_raised_sum = @donation.rider_year_registration.raised
-	# 	end
-		
-	# 	it 'all valid inputs, creates new address, receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
-			
-	# 		post :create_donation_payment, {
-	# 			id: @donation.id,
-	# 			donation: @don_fee
-	# 		}
-	# 		rider = @donation.rider.persistent_rider_profile
-	# 		expect(response).to redirect_to(persistent_rider_profile_path(rider) )
-	# 		expect(Receipt.all.count).to eq(@rec_count + 1)
-	# 		expect(MailingAddress.all.count).to eq(@ma_count + 1)
-	# 		expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
-	# 	end
+		it 'registered rider, tries to delete their sole address', :sign_in_prp do
+			delete :destroy, {
+				id: @prp.mailing_addresses.first.id
+			}
+			expect(response).to redirect_to(edit_persistent_rider_profile_path(@prp) )
+			expect(MailingAddress.all.count).to eq(@ma_count)
+			expect(flash[:alert]).to be_present	
+		end
 
-	# 	it 'all valid inputs, associate to existing address, create receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
-	# 		@don_fee['custom_billing_address'] = '0'
-
-	# 		post :create_donation_payment, {
-	# 			id: @donation.id,
-	# 			donation: @don_fee
-	# 		}
-	# 		rider = @donation.rider.persistent_rider_profile
-	# 		expect(response).to redirect_to(persistent_rider_profile_path(rider) )
-	# 		expect(Receipt.all.count).to eq(@rec_count + 1)
-	# 		expect(MailingAddress.all.count).to eq(@ma_count)
-	# 		expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
-	# 	end
-
-	# 	it 'corrupt credit card info, associate to existing address, re-renders with payment errrors' do 
-	# 		@don_fee['custom_billing_address'] = '0'
-	# 		@don_fee['cc_number'] = 'corrupt!!'
-
-	# 		post :create_donation_payment, {
-	# 			id: @donation.id,
-	# 			donation: @don_fee
-	# 		}
-	# 		expect(response).to render_template(:new_donation_payment)
-	# 		expect(Receipt.all.count).to eq(@rec_count)
-	# 		expect( assigns(:errors)).to_not be_empty
-	# 		expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
-	# 	end
-
-	# 	it 'valid credit card, invalid custom address, re-renders with payment errrors' do 
-	# 		@don_fee[:mailing_address]['line_1'] = nil
-
-	# 		post :create_donation_payment, {
-	# 			id: @donation.id,
-	# 			donation: @don_fee
-	# 		}
-	# 		expect(response).to render_template(:new_donation_payment)
-	# 		expect(Receipt.all.count).to eq(@rec_count)
-	# 		expect( assigns(:errors)).to_not be_empty
-	# 		expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
-	# 	end
-
-	# 	it 'valid credit card, user forgets all mailing_address info, re-renders with payment errrors' do 
-	# 		@don_fee[:mailing_address] = nil
-	# 		@don_fee[:mailing_addresses] = nil
-	# 		@don_fee[:custom_billing_address] = '0'
-
-	# 		post :create_donation_payment, {
-	# 			id: @donation.id,
-	# 			donation: @don_fee
-	# 		}
-	# 		expect(response).to render_template(:new_donation_payment)
-	# 		expect(Receipt.all.count).to eq(@rec_count)
-	# 		expect( assigns(:payment_errors)).to_not be_empty
-	# 		expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
-	# 	end
-	# end
+		it 'registered rider, deletes their addy with a second on file', :sign_in_prp  do 
+			if @prp.mailing_addresses.create(second_m_a_params)
+				@ma_count = MailingAddress.all.count
+			end
+			delete :destroy, {
+				id: @prp.mailing_addresses.first.id
+			}
+			expect(MailingAddress.all.count).to eq(@ma_count - 1)
+		end
+	end
 
 end
