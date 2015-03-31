@@ -1,8 +1,18 @@
 DOING
 
-test mailing addresses controller
+integrate mailer into controllers
+	- donation controllers 
+		-- work on view for thank you email for org donation
+		-- thank you organizational names of donors -- show where ? 
 
 TODO
+
+sidekiq integration for email
+
+integrate mailer into controllers
+	- ryr controller - on successful registration
+	- donation controllers 
+
 
 UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
 
@@ -86,4 +96,6 @@ fix failing don tests
 
 review forms -- 
 	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
+
+test mailing addresses controller
 

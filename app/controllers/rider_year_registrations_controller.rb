@@ -114,6 +114,8 @@ class RiderYearRegistrationsController < ApplicationController
 				@ryr.create_registration_payment_receipt(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
 			)
 			@rider = current_user.persistent_rider_profile
+			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
+
 			flash[:notice] = "Thank you for registering to ride!"
 			redirect_to persistent_rider_profile_path(@rider)
 		else
