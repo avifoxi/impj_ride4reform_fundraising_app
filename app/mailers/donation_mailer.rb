@@ -14,7 +14,15 @@ class DonationMailer < ApplicationMailer
   	@rider = @donation.rider
   	@prp = @rider.persistent_rider_profile
   	@percent_of_goal = @prp.delegate_ryr_method(RideYear.current, 'percent_of_goal')
-  	mail(to: @donor.email, subject: "Donation received from #{@donor.full_name}")
+    # subject: "Donation received from #{@donor.full_name}"
+  	mail(to: @donor.email) do |format|
+      format.html do
+        string = render_to_string("successful_donation_alert_rider")
+        p '#'*80
+        p "#{string.inspect}"
+        return string
+      end
+    end
   end
 
   def successful_donation_thank_donor(donation)

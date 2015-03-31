@@ -7,6 +7,8 @@ integrate mailer into controllers
 
 TODO
 
+sidekiq integration for email
+
 integrate mailer into controllers
 	- ryr controller - on successful registration
 	- donation controllers 
