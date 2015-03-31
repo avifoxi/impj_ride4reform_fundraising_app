@@ -132,8 +132,8 @@ class DonationsController < ApplicationController
 		if ppp.create_payment
 			receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
 			@donation.update_attributes(receipt: receipt, fee_is_processed: true)	
-			DonationMailer.successful_donation_alert_rider(@donation)
-			DonationMailer.successful_donation_thank_donor(@donation)
+			DonationMailer.successful_donation_alert_rider(@donation).deliver
+			DonationMailer.successful_donation_thank_donor(@donation).deliver
 	
 			unless @donation.is_organizational
 				rider = @donation.rider.persistent_rider_profile
