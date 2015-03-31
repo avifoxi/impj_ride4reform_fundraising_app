@@ -35,5 +35,20 @@ module R4rUpFromModelsRedo
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
 
     config.serve_static_assets = true
+
+    config.action_mailer.default_url_options = { host: 'friendsofimpj.org' }
+
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.delivery_method = :smtp
+    ActionMailer::Base.smtp_settings = {
+       :address              => "smtp.mailgun.org",
+       :port                 => 587,
+       # :domain               => ENV['MAILGUN_DOMAIN'],
+       :user_name            => ENV['MAILGUN_USERNAME'],
+       :password             => ENV['MAILGUN_PASSWORD'],
+       :authentication       => "plain",
+       :enable_starttls_auto => true
+    }
+
   end
 end

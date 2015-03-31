@@ -202,6 +202,10 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 	end
 
 	context 'create_pay_reg_fee', :ryr_fully_associated_for_pay do 
+
+		before(:each) do 
+			@mailers_count = ActionMailer::Base.deliveries.count
+		end
 		
 		it 'valid user, valid ryr, reference existing address, create receipt, and redirect to persistent_rider_profile', :vcr, record: :new_episodes do 
 
@@ -213,6 +217,8 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(MailingAddress.all.count).to eq(m_a_count)
 			expect(Receipt.all.count).to eq(receipt_count + 1)
 			expect(response).to redirect_to(persistent_rider_profile_path(ryr_instance.persistent_rider_profile))
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 1)
+
 		end
 
 		it 'valid user, valid ryr, create NEW mailing_address, create receipt, and redirect to persistent_rider_profile', :vcr, record: :new_episodes do 
@@ -226,6 +232,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(MailingAddress.last.line_1).to eq('custom line 1')
 			expect(Receipt.all.count).to eq(receipt_count + 1)
 			expect(response).to redirect_to(persistent_rider_profile_path(ryr_instance.persistent_rider_profile))
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 1)
 		end
 
 		it 'valid user, valid ryr, forgets to enter some credit info' do 
@@ -235,6 +242,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(receipt_count)
 			expect(response).to render_template(:new_pay_reg_fee)
 			expect(assigns(:payment_errors)).not_to be_empty
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 		end
 
 		it 'valid user, valid ryr, create NEW mailing_address w invalid address info' do 
@@ -247,6 +255,7 @@ RSpec.describe RiderYearRegistrationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(receipt_count)
 			expect(response).to render_template(:new_pay_reg_fee)
 			expect(assigns(:errors)).not_to be_empty
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 		end		
 
 	end
