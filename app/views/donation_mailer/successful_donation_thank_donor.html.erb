@@ -5,7 +5,7 @@
 <p>Please keep this email for your records, as it serves as a receipt.</p>
 <!-- < %= @receipt.inspect %> -->
 
-<table>
+<table class="table">
 	<tr>
 		<th>Receipt ID:</th>
 		<td><%= @receipt.paypal_id %></td>
@@ -25,10 +25,12 @@
 </table>
 
 
-
-<p>
-	You can view your contribution and note on <%= link_to "#{@rider.full_name}'s donor list", persistent_rider_profile_path(@prp) %>.
-</p>
-
+<% if @rider %>
+	<p>
+		You can view your contribution and note on <%= link_to "#{@rider.full_name}'s donor list", persistent_rider_profile_url(@prp) %>.
+	</p>
+<% else %>
+	<p>You'll see your name added to <%= link_to "the donors list", donors_url %></p>
+<% end %>
 
 <p>Thank you for contributing to the success of this year's Ride4Reform!</p>
