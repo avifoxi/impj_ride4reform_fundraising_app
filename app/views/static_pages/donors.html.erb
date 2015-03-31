@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong> Donors to IMPJ and Ride for Reform</strong></div>
+  <div class="panel-body">
+    <p>We'd like to thank all of our donors! There are more who have chosen not to be listed, and a heartfelt thanks to all of them too. </p>
+  </div>
+
+  <!-- List group -->
+  <ul class="list-group">
+
+    <% @donors.each do |d| %>
+      <li class="list-group-item"><%= d.full_name  %></li>
+    <% end %>
+  </ul>
+</div>
