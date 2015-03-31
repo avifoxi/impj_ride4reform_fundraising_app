@@ -1,9 +1,10 @@
 DOING
 
-integrate mailer into controllers
-	- donation controllers 
-		-- work on view for thank you email for org donation
-		-- thank you organizational names of donors -- show where ? 
+add mailer tests
+
+fix failing tests
+
+
 
 TODO
 
@@ -98,4 +99,9 @@ review forms --
 	- move all shared html to partials, ensure we render from partials rather than custom html in each form. => revise older work to call partials as the newer forms do now, and test
 
 test mailing addresses controller
+
+integrate mailer into controllers
+	- donation controllers 
+		-- work on view for thank you email for org donation
+		-- thank you organizational names of donors -- show where ? 
 
