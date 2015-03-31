@@ -151,6 +151,7 @@ RSpec.describe DonationsController, :type => :controller do
 			@rec_count = Receipt.all.count
 			@ma_count = MailingAddress.all.count
 			@rider_raised_sum = @donation.rider_year_registration.raised
+			@mailers_count = ActionMailer::Base.deliveries.count
 		end
 		
 		it 'all valid inputs, creates new address, receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
@@ -164,6 +165,7 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(@rec_count + 1)
 			expect(MailingAddress.all.count).to eq(@ma_count + 1)
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 2)
 		end
 
 		it 'all valid inputs, associate to existing address, create receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
@@ -178,6 +180,7 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(@rec_count + 1)
 			expect(MailingAddress.all.count).to eq(@ma_count)
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 2)
 		end
 
 		it 'corrupt credit card info, associate to existing address, re-renders with payment errrors' do 
@@ -192,6 +195,8 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(@rec_count)
 			expect( assigns(:errors)).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
+
 		end
 
 		it 'valid credit card, invalid custom address, re-renders with payment errrors' do 
@@ -205,6 +210,8 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(@rec_count)
 			expect( assigns(:errors)).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
+
 		end
 
 		it 'valid credit card, user forgets all mailing_address info, re-renders with payment errrors' do 
@@ -220,6 +227,7 @@ RSpec.describe DonationsController, :type => :controller do
 			expect(Receipt.all.count).to eq(@rec_count)
 			expect( assigns(:payment_errors)).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
+			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 		end
 	end
 

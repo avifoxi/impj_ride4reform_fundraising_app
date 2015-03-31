@@ -30,12 +30,11 @@ RSpec.describe DonationMailer, :type => :mailer do
   end
 
   context 'successful_donation_alert_rider' do
-
-
+  	
   	it 'renders the subject' do
       expect(@mail.subject).to eql("Donation received from #{user.full_name}")
     end
- 
+
     it 'renders the receiver email address' do
       expect(@mail.to).to eql([ryr.email])
     end
@@ -48,9 +47,9 @@ RSpec.describe DonationMailer, :type => :mailer do
       expect(@mail.body.encoded).to match(user.full_name)
     end
  
-    # it 'assigns @confirmation_url' do
-    #   expect(mail.body.encoded).to match("http://aplication_url/#{user.id}/confirmation")
-    # end
+    it 'assigns correct user email for rider to thank' do
+      expect(@mail.body.encoded).to match(user.email)
+    end
 
   end
 
