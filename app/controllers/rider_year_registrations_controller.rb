@@ -42,6 +42,9 @@ class RiderYearRegistrationsController < ApplicationController
 		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 
 		if prp.update_attributes(prp_params)
+			user_register_for_ride_before_payment
+			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr)
+
 			redirect_to rider_year_registrations_mailing_address_path(rider_year_registration: @ryr)
 		else
 			@errors = prp.errors
