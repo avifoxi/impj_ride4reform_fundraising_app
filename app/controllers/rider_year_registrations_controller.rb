@@ -102,7 +102,7 @@ class RiderYearRegistrationsController < ApplicationController
 			end
 			billing_address = @custom_billing_address
 		else
-			billing_address = MailingAddress.find(full_params['mailing_address_ids'])
+			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 	
 		ppp = PaypalPaymentPreparer.new({
@@ -145,7 +145,7 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def full_params
-    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_address_ids,
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
