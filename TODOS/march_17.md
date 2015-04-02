@@ -1,3 +1,5 @@
+https://devcenter.heroku.com/articles/request-timeout
+
 DOING
 
 add mailer tests
@@ -7,6 +9,8 @@ fix failing tests
 
 
 TODO
+
+MAYBE --- confirmation of prp creation happens initially -- and registration paymetn receipt in separate action 
 
 sidekiq integration for email
 

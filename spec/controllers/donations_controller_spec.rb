@@ -160,12 +160,14 @@ RSpec.describe DonationsController, :type => :controller do
 				id: @donation.id,
 				donation: @don_fee
 			}
+			body = JSON.parse(response.body)
 			rider = @donation.rider.persistent_rider_profile
-			expect(response).to redirect_to(persistent_rider_profile_path(rider) )
+			expect(response.status).to eq(200) 
 			expect(Receipt.all.count).to eq(@rec_count + 1)
 			expect(MailingAddress.all.count).to eq(@ma_count + 1)
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 2)
+			expect(body['redirect_address']).to eq( persistent_rider_profile_url(@prp) )
 		end
 
 		it 'all valid inputs, associate to existing address, create receipt, and updates donation to fee_is_processed', :vcr, record: :new_episodes do 
@@ -176,11 +178,14 @@ RSpec.describe DonationsController, :type => :controller do
 				donation: @don_fee
 			}
 			rider = @donation.rider.persistent_rider_profile
-			expect(response).to redirect_to(persistent_rider_profile_path(rider) )
+			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count + 1)
 			expect(MailingAddress.all.count).to eq(@ma_count)
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum + @donation.amount)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count + 2)
+			body = JSON.parse(response.body)
+			expect(body['redirect_address']).to eq( persistent_rider_profile_url(@prp) )
+
 		end
 
 		it 'corrupt credit card info, associate to existing address, re-renders with payment errrors' do 
@@ -191,9 +196,10 @@ RSpec.describe DonationsController, :type => :controller do
 				id: @donation.id,
 				donation: @don_fee
 			}
-			expect(response).to render_template(:new_donation_payment)
+			body = JSON.parse(response.body)
+			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count)
-			expect( assigns(:errors)).to_not be_empty
+			expect( body['errors']).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 
@@ -206,9 +212,11 @@ RSpec.describe DonationsController, :type => :controller do
 				id: @donation.id,
 				donation: @don_fee
 			}
-			expect(response).to render_template(:new_donation_payment)
+			body = JSON.parse(response.body)
+
+			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count)
-			expect( assigns(:errors)).to_not be_empty
+			expect( body['errors']).to_not be_empty
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 
@@ -223,9 +231,11 @@ RSpec.describe DonationsController, :type => :controller do
 				id: @donation.id,
 				donation: @don_fee
 			}
-			expect(response).to render_template(:new_donation_payment)
+			body = JSON.parse(response.body)
+			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count)
-			expect( assigns(:payment_errors)).to_not be_empty
+			expect( body['errors']).to_not be_empty
+
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)
 		end

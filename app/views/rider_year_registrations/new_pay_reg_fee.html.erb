@@ -2,9 +2,39 @@
 
 <%= render 'shared/form_errors' %>
 
-<%= simple_form_for @ryr, :url => rider_year_registrations_pay_reg_fee_path(@ryr, ryr_id: @ryr), :method => :post do |f| %>
+<%= simple_form_for @ryr, :url => rider_year_registrations_pay_reg_fee_path(@ryr, ryr_id: @ryr), :method => :post, :remote => true do |f| %>
 
 	<%= render 'shared/payment_form', :f => f %>
 
 	<%= f.button :submit %>
 <% end %>
+
+<%= render 'shared/payment_processing_modal' %>
+
+
+<script>
+	
+	var msg;
+
+	$( document ).ajaxSend(function() {
+		$('.modal').modal({
+			backdrop: 'static'
+		});		
+	});
+	
+	$("#edit_rider_year_registration_" + <%= @ryr.id %>).bind('ajax:complete', function(event, xhr, settings) {
+
+		$('.ajax-errors').remove(); 
+		msg = JSON.parse(xhr.responseText);
+		if (msg.errors) {
+			var html = '<div class="alert alert-danger ajax-errors" role="alert">' +
+				'<i class="fa fa-icon-exclamation"></i>' +
+				msg.errors + '</div>';
+			$('h3').after(html);
+			$('.modal').modal('toggle');
+		} else {
+			window.location = msg.prp_address;
+			// console.log(msg);
+		}
+   });
+</script>
