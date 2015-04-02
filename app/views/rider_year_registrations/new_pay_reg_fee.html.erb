@@ -9,10 +9,18 @@
 	<%= f.button :submit %>
 <% end %>
 
+<%= render 'shared/payment_processing_modal' %>
+
 
 <script>
 	
 	var msg;
+
+	$( document ).ajaxSend(function() {
+		$('.modal').modal({
+			backdrop: 'static'
+		});		
+	});
 	
 	$("#edit_rider_year_registration_" + <%= @ryr.id %>).bind('ajax:complete', function(event, xhr, settings) {
 
@@ -20,14 +28,13 @@
 		msg = JSON.parse(xhr.responseText);
 		if (msg.errors) {
 			var html = '<div class="alert alert-danger ajax-errors" role="alert">' +
-				'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
+				'<i class="fa fa-icon-exclamation"></i>' +
 				msg.errors + '</div>';
 			$('h3').after(html);
+			$('.modal').modal('toggle');
 		} else {
-			// window.location = msg.prp_address;
-			console.log(msg);
+			window.location = msg.prp_address;
+			// console.log(msg);
 		}
-		
-
    });
 </script>
