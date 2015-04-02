@@ -78,8 +78,6 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def create_pay_reg_fee
-		p 'params ajax'
-		p "#{params.inspect}"
 
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 
@@ -136,10 +134,6 @@ class RiderYearRegistrationsController < ApplicationController
 			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 
-		
-		p '#'*80
-		p 'do we have billing_address in scope? '
-		p "#{billing_address.inspect}"
 		ppp = PaypalPaymentPreparer.new({
 			user: current_user,
 			cc_info: cc_info, 
@@ -154,8 +148,6 @@ class RiderYearRegistrationsController < ApplicationController
 			@rider = current_user.persistent_rider_profile
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
 
-			# flash[:notice] = "Thank you for registering to ride!"
-			# redirect_to persistent_rider_profile_path(@rider)
 			render json: {
 				success: 'no errors what?',
 				prp_address: persistent_rider_profile_url(@rider),
@@ -165,13 +157,6 @@ class RiderYearRegistrationsController < ApplicationController
 		else
 			@payment_errors = ppp.payment.error
 			errors_via_json
-			# @mailing_addresses = @ryr.mailing_addresses
-			# unless @custom_billing_address
-			# 	@custom_billing_address = MailingAddress.new
-			# end
-			# @registration_fee = current_fee
-
-			# render :new_pay_reg_fee
 		end
 	end
 

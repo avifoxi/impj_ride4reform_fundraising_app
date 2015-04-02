@@ -137,9 +137,6 @@ class DonationsController < ApplicationController
 			unless @donation.is_organizational
 				rider = @donation.rider.persistent_rider_profile
 			end
-
-			# flash[:notice] = "Thank you for donating!"
-			# redirect_to @donation.is_organizational ? root_url : persistent_rider_profile_url(rider)
 			render json: {
 				success: 'no errors what?',
 				redirect_address: @donation.is_organizational ? root_url : persistent_rider_profile_url(rider)
