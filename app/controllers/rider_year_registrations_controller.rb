@@ -91,6 +91,12 @@ class RiderYearRegistrationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
+			if @custom_billing_address && @custom_billing_address.errors
+				@custom_billing_address.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
+
 			render json: {
 				errors: @errors.full_messages.to_sentence
 			} 
@@ -111,20 +117,26 @@ class RiderYearRegistrationsController < ApplicationController
 			return
 		end
 
-		# if full_params['custom_billing_address'] == '1'
-		# 	@custom_billing_address = MailingAddress.new(custom_billing_address)
-		# 	@custom_billing_address.user = current_user
-		# 	unless @custom_billing_address.save
-		# 		@errors = @custom_billing_address.errors
-		# 		@mailing_addresses = @ryr.mailing_addresses
-		# 		render :new_pay_reg_fee
-		# 		return
-		# 	end
-		# 	billing_address = @custom_billing_address
-		# else
-		# 	billing_address = MailingAddress.find(full_params['mailing_addresses'])
-		# end
-	
+		if full_params['custom_billing_address'] == '1'
+			@custom_billing_address = MailingAddress.new(custom_billing_address)
+			@custom_billing_address.user = current_user
+			unless @custom_billing_address.save
+				errors_via_json
+				return
+			end
+			billing_address = @custom_billing_address
+		else
+			unless full_params['mailing_addresses']
+				@ryr.errors.add(:billing_address, 'You must specify a billing address')
+				errors_via_json
+			end
+			billing_address = MailingAddress.find(full_params['mailing_addresses'])
+		end
+
+		
+		p '#'*80
+		p 'do we have billing_address in scope? '
+		p "#{billing_address.inspect}"
 		# ppp = PaypalPaymentPreparer.new({
 		# 	user: current_user,
 		# 	cc_info: cc_info, 
@@ -151,6 +163,11 @@ class RiderYearRegistrationsController < ApplicationController
 
 		# 	render :new_pay_reg_fee
 		# end
+		render json: {
+			success: 'no errors what?',
+			billing_address: billing_address,
+			ryr: @ryr
+		} 
 	end
 
 	private 

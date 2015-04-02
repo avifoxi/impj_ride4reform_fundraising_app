@@ -13,6 +13,7 @@
 <script>
 	
 	var msg;
+	
 	$("#edit_rider_year_registration_" + <%= @ryr.id %>).bind('ajax:complete', function(event, xhr, settings) {
 
 		$('.ajax-errors').remove(); 
