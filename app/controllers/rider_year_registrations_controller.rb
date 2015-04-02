@@ -92,7 +92,7 @@ class RiderYearRegistrationsController < ApplicationController
 				end
 			end
 			render json: {
-				errors: @errors 
+				errors: @errors.full_messages.to_sentence
 			} 
 			return
 		end
