@@ -18,11 +18,15 @@
 
 		$('.ajax-errors').remove(); 
 		msg = JSON.parse(xhr.responseText);
-		var html = '<div class="alert alert-danger ajax-errors" role="alert">' +
-			'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
-			msg.errors + '</div>';
-
-		$('h3').after(html);
+		if (msg.errors) {
+			var html = '<div class="alert alert-danger ajax-errors" role="alert">' +
+				'<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>' +
+				msg.errors + '</div>';
+			$('h3').after(html);
+		} else {
+			console.log(msg);
+		}
+		
 
    });
 </script>

@@ -96,7 +96,9 @@ class RiderYearRegistrationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
-
+			if @payment_errors
+				@errors.add(:payment, @payment_errors)
+			end
 			render json: {
 				errors: @errors.full_messages.to_sentence
 			} 
@@ -129,6 +131,7 @@ class RiderYearRegistrationsController < ApplicationController
 			unless full_params['mailing_addresses']
 				@ryr.errors.add(:billing_address, 'You must specify a billing address')
 				errors_via_json
+				return
 			end
 			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
@@ -137,37 +140,39 @@ class RiderYearRegistrationsController < ApplicationController
 		p '#'*80
 		p 'do we have billing_address in scope? '
 		p "#{billing_address.inspect}"
-		# ppp = PaypalPaymentPreparer.new({
-		# 	user: current_user,
-		# 	cc_info: cc_info, 
-		# 	billing_address: billing_address,
-		# 	transaction_details: transaction_details
-		# })
-
-		# if ppp.create_payment
-		# 	@ryr.update_attributes(registration_payment_receipt:
-		# 		@ryr.create_registration_payment_receipt(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-		# 	)
-		# 	@rider = current_user.persistent_rider_profile
-		# 	RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
-
-		# 	flash[:notice] = "Thank you for registering to ride!"
-		# 	redirect_to persistent_rider_profile_path(@rider)
-		# else
-		# 	@payment_errors = ppp.payment.error
-		# 	@mailing_addresses = @ryr.mailing_addresses
-		# 	unless @custom_billing_address
-		# 		@custom_billing_address = MailingAddress.new
-		# 	end
-		# 	@registration_fee = current_fee
-
-		# 	render :new_pay_reg_fee
-		# end
-		render json: {
-			success: 'no errors what?',
+		ppp = PaypalPaymentPreparer.new({
+			user: current_user,
+			cc_info: cc_info, 
 			billing_address: billing_address,
-			ryr: @ryr
-		} 
+			transaction_details: transaction_details
+		})
+
+		if ppp.create_payment
+			@ryr.update_attributes(registration_payment_receipt:
+				@ryr.create_registration_payment_receipt(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
+			)
+			@rider = current_user.persistent_rider_profile
+			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
+
+			# flash[:notice] = "Thank you for registering to ride!"
+			# redirect_to persistent_rider_profile_path(@rider)
+			render json: {
+				success: 'no errors what?',
+				prp_address: persistent_rider_profile_url(@rider),
+				billing_address: billing_address,
+				ryr: @ryr
+			} 
+		else
+			@payment_errors = ppp.payment.error
+			errors_via_json
+			# @mailing_addresses = @ryr.mailing_addresses
+			# unless @custom_billing_address
+			# 	@custom_billing_address = MailingAddress.new
+			# end
+			# @registration_fee = current_fee
+
+			# render :new_pay_reg_fee
+		end
 	end
 
 	private 
