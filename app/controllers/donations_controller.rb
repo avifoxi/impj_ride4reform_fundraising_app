@@ -83,11 +83,15 @@ class DonationsController < ApplicationController
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
-			unless @donation.mailing_addresses.empty?
-				@mailing_addresses = @donation.mailing_addresses
-			end	
-			@custom_billing_address = @custom_billing_address || MailingAddress.new
-			render :new_donation_payment
+			# unless @donation.mailing_addresses.empty?
+			# 	@mailing_addresses = @donation.mailing_addresses
+			# end	
+			# @custom_billing_address = @custom_billing_address || MailingAddress.new
+			# render :new_donation_payment
+			render json: {
+				errors: @errors.full_messages.to_sentence
+			} 
+			return
 		end
 		
 		if cc_info
@@ -99,13 +103,13 @@ class DonationsController < ApplicationController
 				return
 			end
 		else
-			@payment_errors = ['Please enter your full credit card information to complete your registration']
+			@donation.errors.add(:payment, 'Please enter your full credit card information to complete your registration')
 			re_render_new_dp_w_errors
 			return
 		end
 
 		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
-			@payment_errors = ['You must select a mailing address.']			
+			@donation.errors.add(:billing_address, 'You must select a mailing address.')			
 			re_render_new_dp_w_errors
 			return
 		end
@@ -122,29 +126,29 @@ class DonationsController < ApplicationController
 			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 
-		ppp = PaypalPaymentPreparer.new({
-			user: @donation.user,
-			cc_info: cc_info, 
-			billing_address: billing_address,
-			transaction_details: transaction_details
-		})
+		# ppp = PaypalPaymentPreparer.new({
+		# 	user: @donation.user,
+		# 	cc_info: cc_info, 
+		# 	billing_address: billing_address,
+		# 	transaction_details: transaction_details
+		# })
 
-		if ppp.create_payment
-			receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-			@donation.update_attributes(receipt: receipt, fee_is_processed: true)	
-			DonationMailer.successful_donation_alert_rider(@donation).deliver
-			DonationMailer.successful_donation_thank_donor(@donation).deliver
+		# if ppp.create_payment
+		# 	receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
+		# 	@donation.update_attributes(receipt: receipt, fee_is_processed: true)	
+		# 	DonationMailer.successful_donation_alert_rider(@donation).deliver
+		# 	DonationMailer.successful_donation_thank_donor(@donation).deliver
 	
-			unless @donation.is_organizational
-				rider = @donation.rider.persistent_rider_profile
-			end
+		# 	unless @donation.is_organizational
+		# 		rider = @donation.rider.persistent_rider_profile
+		# 	end
 
-			flash[:notice] = "Thank you for donating!"
-			redirect_to @donation.is_organizational ? root_path : persistent_rider_profile_path(rider)
-		else
-			@payment_errors = ppp.payment.error
-			re_render_new_dp_w_errors
-		end
+		# 	flash[:notice] = "Thank you for donating!"
+		# 	redirect_to @donation.is_organizational ? root_path : persistent_rider_profile_path(rider)
+		# else
+		# 	@payment_errors = ppp.payment.error
+		# 	re_render_new_dp_w_errors
+		# end
 	end
 
 	private
