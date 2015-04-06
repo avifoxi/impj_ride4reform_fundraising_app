@@ -52,9 +52,6 @@ class Admin::DonationsController < ApplicationController
 		end
 	end
 
-	 # Parameters: {"utf8"=>"✓", "donation"=>{"receipt"=>{"by_check"=>"1", "check_num"=>"", "bank"=>"", "check_dated(1i)"=>"2015", "check_dated(2i)"=>"4", "check_dated(3i)"=>"6"}, "cc_type"=>"", "cc_number"=>"", "cc_expire_month"=>"", "cc_expire_year(2i)"=>"4", "cc_expire_year(3i)"=>"1", "cc_expire_year(1i)"=>"2015", "cc_cvv2"=>"", "custom_billing_address"=>"0", "mailing_address"=>{"line_1"=>"", "line_2"=>"", "city"=>"", "state"=>"", "zip"=>""}}, "commit"=>"Update Donation", "id"=>"51"}
-
-
 	def create_donation_payment
 		@donation = Donation.find(params[:id])
 
@@ -81,7 +78,7 @@ class Admin::DonationsController < ApplicationController
 			return
 		end
 		
-		if cc_info
+		unless paying_by_check
 			@donation.user.cc_type = cc_info['type']
 			@donation.user.cc_number = cc_info['number']
 			@donation.user.cc_cvv2 = cc_info['cvv2']
@@ -89,10 +86,6 @@ class Admin::DonationsController < ApplicationController
 				re_render_new_dp_w_errors
 				return
 			end
-		else
-			@donation.errors.add(:payment, 'Please enter your full credit card information to complete your registration')
-			re_render_new_dp_w_errors
-			return
 		end
 
 		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
@@ -121,6 +114,7 @@ class Admin::DonationsController < ApplicationController
 			unless @receipt.save
 				# @donation.errors.add(:payment, ppp.payment.error)
 				re_render_new_dp_w_errors
+				return
 			end
 		else # process credit card
 			ppp = PaypalPaymentPreparer.new({
@@ -137,7 +131,15 @@ class Admin::DonationsController < ApplicationController
 				re_render_new_dp_w_errors
 			end
 		end
-
+		# p '$'*80
+		# p '@receipt'
+		# p "#{@receipt.inspect}"
+		# p 'valid?'
+		# p "#{@receipt.valid?}"
+		# p 'errors'
+		# p "#{@receipt.errors.inspect}"
+		# p '#'*80
+		# p 'passed the receipt creation w check'
 		@donation.update_attributes(receipt: @receipt, fee_is_processed: true)	
 		DonationMailer.successful_donation_thank_donor(@donation).deliver
 		
@@ -147,8 +149,17 @@ class Admin::DonationsController < ApplicationController
 		end
 		render json: {
 			success: 'no errors what?',
-			redirect_address: admin_donation_show_url(@donation)
+			redirect_address: admin_donation_url(@donation)
 		} 
+	end
+
+	def show
+		@donation = Donation.find(params[:id])
+		@receipt = @donation.receipt
+		@donor = @donation.user
+		if @donation.rider_year_registration
+			@rider = @donation.rider_year_registration
+		end
 	end
 
 	private
