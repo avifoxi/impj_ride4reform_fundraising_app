@@ -1,4 +1,6 @@
-<h3>Manually Create a Donation</h3>
+<h3>Manually Create User a Donation</h3>
+
+<%= render 'shared/form_errors' %>
 
 
 <%= simple_form_for @donation, :url => admin_donations_path, :method => :post do |f| %>
@@ -23,9 +25,9 @@
 
 <script>
 	var newUserFields = $('.new_user');
-	var selectUser = $('.donation_user');
+	var selectUser = $('.donation_user_id');
 
-	newUserFields.hide();
+	// newUserFields.hide();
 	var dnd = $('#donation_new_donor');
 
 	dnd.change( function(e){
@@ -37,4 +39,5 @@
 			selectUser.show();
 		}
 	});
+	dnd.trigger( "change" );
 </script>

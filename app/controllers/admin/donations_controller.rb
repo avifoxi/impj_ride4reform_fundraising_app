@@ -42,6 +42,11 @@ class Admin::DonationsController < ApplicationController
 		if @donation.save 
 			redirect_to new_donation_payment_path(@donation)
 		else 
+			@current_riders = RiderYearRegistration.where(ride_year: RideYear.current)
+			@donors = User.all
+			if user
+				@donation.build_user(full_params[:user])
+			end
 			@errors = @donation.errors
 			@donation.user.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
