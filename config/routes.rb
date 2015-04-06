@@ -53,6 +53,9 @@ Rails.application.routes.draw do
     resources :admins
     resources :ride_years
     resources :donations
+    get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
+
+    post 'donations/:id/create_donation_payment' => 'donations#create_donation_payment', as: :create_donation_payment
   end
 
   

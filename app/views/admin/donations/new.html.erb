@@ -10,13 +10,14 @@
 
  <h4>Donor Selection</h4>
  <%= f.input :new_donor, as: :boolean, label: 'New donor, and create new user in database?' %>
- <%= f.input :user, label: 'Select donor from existing users in db', collection: @donors, label_method: :full_name, include_blank: false  %>
+ <%= f.input :user_id, label: 'Select donor from existing users in db', collection: @donors, label_method: :full_name, include_blank: false  %>
 
  <%= render 'donations/form', :f => f %>
 
  <!-- < %= render 'shared/payment_form', :f => f %>
  < %= render 'shared/payment_processing_modal' %>
  -->
+ <%= f.button :submit %>
 	
 <% end %>
 
