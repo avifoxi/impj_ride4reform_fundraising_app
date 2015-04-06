@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     resources :users
     resources :admins
     resources :ride_years
+    resources :donations
   end
 
   
