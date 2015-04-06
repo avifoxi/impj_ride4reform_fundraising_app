@@ -1,0 +1,39 @@
+<h3>Manually Create a Donation</h3>
+
+
+<%= simple_form_for @donation, :url => admin_donations_path, :method => :post do |f| %>
+	
+	<h4>Rider Recipient Selection</h4>
+	<%= f.input :is_organizational,  :as => :boolean, label: 'Check to make an organizational donation, not tied to a specific rider.' %>
+	<%= f.input :rider_year_registration, label: 'Choose from current year riders', collection: @current_riders, label_method: :full_name,
+ include_blank: false %>
+
+ <h4>Donor Selection</h4>
+ <%= f.input :new_donor, as: :boolean, label: 'New donor, and create new user in database?' %>
+ <%= f.input :user, label: 'Select donor from existing users in db', collection: @donors, label_method: :full_name, include_blank: false  %>
+
+ <%= render 'donations/form', :f => f %>
+
+ <!-- < %= render 'shared/payment_form', :f => f %>
+ < %= render 'shared/payment_processing_modal' %>
+ -->
+	
+<% end %>
+
+<script>
+	var newUserFields = $('.new_user');
+	var selectUser = $('.donation_user');
+
+	newUserFields.hide();
+	var dnd = $('#donation_new_donor');
+
+	dnd.change( function(e){
+		if (e.target.checked) {
+			newUserFields.show();
+			selectUser.hide();
+		} else {
+			newUserFields.hide();
+			selectUser.show();
+		}
+	});
+</script>

@@ -17,4 +17,6 @@ class Donation < ActiveRecord::Base
   validates_presence_of :user
   validates_presence_of :rider_year_registration, :unless => :is_organizational
   validates_presence_of :amount
+
+  attr_accessor :new_donor, :pay_with_check
 end

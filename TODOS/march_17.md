@@ -41,6 +41,9 @@ QUESTIONS FOR DAD --
 	- cancellations ? refund policy ? if a rider cancels, policy to refund the donors ? 
 		-- and what does this mean for deleting a profile? we shoudl perhaps have an 'active' field in prp, and only show prp if 'active'
 
+	Admin / Donations -- 
+		- right now, only showing list of current riders to receive donations. make sense ? 
+
 DONE
 
 mailgun -- need acc't for dad directly 
