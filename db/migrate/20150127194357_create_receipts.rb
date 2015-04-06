@@ -5,6 +5,10 @@ class CreateReceipts < ActiveRecord::Migration
       t.integer :amount
       t.string :paypal_id
       t.text :full_paypal_hash
+      t.boolean :by_check, default: false
+      t.integer :check_num
+      t.string :bank
+      t.date :check_dated
 
       t.timestamps
     end

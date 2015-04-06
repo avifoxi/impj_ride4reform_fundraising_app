@@ -84,6 +84,10 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.integer  "amount"
     t.string   "paypal_id"
     t.text     "full_paypal_hash"
+    t.boolean  "by_check",         default: false
+    t.integer  "check_num"
+    t.string   "bank"
+    t.date     "check_dated"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
