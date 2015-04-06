@@ -2,6 +2,10 @@ class Admin::DonationsController < ApplicationController
 	skip_before_action :authenticate_user!
 	layout "admins"
 
+	def index
+
+	end
+	
 	def new
 		@donation = Donation.new
 		@current_riders = RiderYearRegistration.where(ride_year: RideYear.current)

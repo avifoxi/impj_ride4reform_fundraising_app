@@ -1,0 +1,39 @@
+<!-- :id => 76,
+           :user_id => 1,
+            :amount => 89,
+         :paypal_id => nil,
+  :full_paypal_hash => nil,
+          :by_check => true,
+         :check_num => 234242,
+              :bank => "stuuuopid bnk",
+       :check_dated => Mon, 06 Apr 2015,
+        :created_at => Mon, 06 Apr 2015 22:33:34 UTC +00:00,
+        :updated_at  -->
+
+
+<table class="table table-condensed">
+  <% if @receipt.by_check %>
+  <tr>
+    <th>Check Number</th>
+    <td><%= @receipt.check_num %></td>
+  </tr>
+  <tr>
+    <th>Band</th>
+    <td><%= @receipt.bank %></td>
+  </tr>
+  <tr>
+    <th>Check Dated</th>
+    <td><%= @receipt.check_dated %></td>
+  </tr>
+
+  <% else %>
+  <tr>
+    <th>Paypal ID</th>
+    <td><%= @receipt.paypal_id %></td>
+  </tr>
+  <tr>
+    <th>Full Paypal Return Hash</th>
+    <td><%= @receipt.full_paypal_hash %></td>
+  </tr>
+  <% end %>
+</table>
