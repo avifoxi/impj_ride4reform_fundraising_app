@@ -41,6 +41,7 @@ class Admin::DonationsController < ApplicationController
 
 	def new_donation_payment 
 		@donation = Donation.find(params[:id])
+		@receipt = @donation.build_receipt
 		unless @donation.mailing_addresses.empty?
 			@mailing_addresses = @donation.mailing_addresses
 		end
@@ -50,6 +51,9 @@ class Admin::DonationsController < ApplicationController
 			@rider = @donation.rider_year_registration
 		end
 	end
+
+	 # Parameters: {"utf8"=>"✓", "donation"=>{"receipt"=>{"by_check"=>"1", "check_num"=>"", "bank"=>"", "check_dated(1i)"=>"2015", "check_dated(2i)"=>"4", "check_dated(3i)"=>"6"}, "cc_type"=>"", "cc_number"=>"", "cc_expire_month"=>"", "cc_expire_year(2i)"=>"4", "cc_expire_year(3i)"=>"1", "cc_expire_year(1i)"=>"2015", "cc_cvv2"=>"", "custom_billing_address"=>"0", "mailing_address"=>{"line_1"=>"", "line_2"=>"", "city"=>"", "state"=>"", "zip"=>""}}, "commit"=>"Update Donation", "id"=>"51"}
+
 
 	def create_donation_payment
 		@donation = Donation.find(params[:id])
@@ -63,6 +67,11 @@ class Admin::DonationsController < ApplicationController
 			end
 			if @custom_billing_address && @custom_billing_address.errors
 				@custom_billing_address.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
+			if @receipt && @receipt.errors
+				@receipt.errors.each do |k,v|
 					@errors.messages[k.to_sym] = [v]
 				end
 			end
@@ -104,30 +113,42 @@ class Admin::DonationsController < ApplicationController
 			billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
 
-		# ppp = PaypalPaymentPreparer.new({
-		# 	user: @donation.user,
-		# 	cc_info: cc_info, 
-		# 	billing_address: billing_address,
-		# 	transaction_details: transaction_details
-		# })
-
-		# if ppp.create_payment
-		# 	receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-		# 	@donation.update_attributes(receipt: receipt, fee_is_processed: true)	
-		# 	DonationMailer.successful_donation_thank_donor(@donation).deliver
+		if paying_by_check
 			
-		# 	unless @donation.is_organizational
-		# 		rider = @donation.rider.persistent_rider_profile
-		# 		DonationMailer.successful_donation_alert_rider(@donation).deliver
-		# 	end
-		# 	render json: {
-		# 		success: 'no errors what?',
-		# 		redirect_address: @donation.is_organizational ? root_url : persistent_rider_profile_url(rider)
-		# 	} 
-		# else
-		# 	@donation.errors.add(:payment, ppp.payment.error)
-		# 	re_render_new_dp_w_errors
-		# end
+			@receipt = Receipt.new({ 
+				user: @donation.user, amount: @donation.amount
+			}.merge( full_params[:receipt] ))
+			unless @receipt.save
+				# @donation.errors.add(:payment, ppp.payment.error)
+				re_render_new_dp_w_errors
+			end
+		else # process credit card
+			ppp = PaypalPaymentPreparer.new({
+				user: @donation.user,
+				cc_info: cc_info, 
+				billing_address: billing_address,
+				transaction_details: transaction_details
+			})
+
+			if ppp.create_payment
+				@receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
+			else
+				@donation.errors.add(:payment, ppp.payment.error)
+				re_render_new_dp_w_errors
+			end
+		end
+
+		@donation.update_attributes(receipt: @receipt, fee_is_processed: true)	
+		DonationMailer.successful_donation_thank_donor(@donation).deliver
+		
+		unless @donation.is_organizational
+			rider = @donation.rider.persistent_rider_profile
+			DonationMailer.successful_donation_alert_rider(@donation).deliver
+		end
+		render json: {
+			success: 'no errors what?',
+			redirect_address: admin_donation_show_url(@donation)
+		} 
 	end
 
 	private
@@ -145,13 +166,19 @@ class Admin::DonationsController < ApplicationController
     	],
     	:mailing_address => [
     		:line_1, :line_2, :city, :state, :zip
+    	], 
+    	:receipt => [
+    		:by_check,
+				:check_num,
+				:bank,
+				:check_dated
     	]  
     )
   end
   # "{\"amount\"=>\"890\", \"anonymous_to_public\"=>\"0\", \"note_to_rider\"=>\"feep\", \"is_organizational\"=>\"false\", \"rider_year_registration\"=>\"22\", \"new_donor\"=>\"0\", \"user_id\"=>\"1\", \"user\"=>{\"first_name\"=>\"\", \"last_name\"=>\"\", \"email\"=>\"\"}}"
 
-  def new_don_params
-
+  def paying_by_check
+  	full_params[:receipt][:by_check] == "1"
   end
 
   # def donor
