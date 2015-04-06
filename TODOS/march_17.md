@@ -2,27 +2,13 @@ https://devcenter.heroku.com/articles/request-timeout
 
 DOING
 
-add mailer tests
-
-fix failing tests
+	Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
 
 
 
 TODO
 
-MAYBE --- confirmation of prp creation happens initially -- and registration paymetn receipt in separate action 
-
-sidekiq integration for email
-
-integrate mailer into controllers
-	- ryr controller - on successful registration
-	- donation controllers 
-
-
 UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
-
-
-test new features in donation controller + model -- ala organizational don
 
 on donation payment form 
 	-- show a better info for the donation -- not just in line.
@@ -31,9 +17,6 @@ on donation payment form
 
 
 mailing_address#edit -- does not autoselect existing state value. matters ??
-
-
-Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
 
 allow admin to send batch emails
 
@@ -108,4 +91,8 @@ integrate mailer into controllers
 	- donation controllers 
 		-- work on view for thank you email for org donation
 		-- thank you organizational names of donors -- show where ? 
+
+integrate mailer into controllers
+	- ryr controller - on successful registration
+	- donation controllers 
 
