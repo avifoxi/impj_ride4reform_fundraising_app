@@ -12,8 +12,7 @@
   <tr>
   	<th>Recipient</th>
   	<td><%= @rider ? @rider.full_name : 'IMPJ' %></td>
-  </tr>
-		
+  </tr>	
 	<% end %>
 
   <tr>
@@ -32,7 +31,7 @@
 
 
 
-<%= simple_form_for @donation, :action => :create_donation_payment, :url => create_donation_payment_path(@donation), :method => :post, :remote => true do |f| %>
+<%= simple_form_for @donation, :action => :create_donation_payment, :url => "#{ current_admin ? admin_create_donation_payment_path(@donation) : create_donation_payment_path(@donation)}", :method => :post, :remote => true do |f| %>
 
 	<%= render 'shared/payment_form', :f => f %>
 

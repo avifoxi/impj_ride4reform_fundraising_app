@@ -11,17 +11,8 @@ class Admin::DonationsController < ApplicationController
 	end
 
 	def create
-		# p '$'*80
-		# p 'params'
-		# p "#{params.inspect}"
-
-		# p '$'*80
-		# p 'full_params'
-		# p "#{full_params.inspect}"
-
 		@donation = Donation.new(full_params.except(:rider_year_registration, :user_id, :user ))
 
-		## assign donor
 		if full_params[:new_donor] == '0'
 			@donation.user = User.find(full_params[:user_id])
 		else
@@ -35,30 +26,108 @@ class Admin::DonationsController < ApplicationController
 			@donation.rider_year_registration = RiderYearRegistration.find( full_params[:rider_year_registration] )
 		end
 
-		p '$'*80
-		p '@donation'
-		p "#{@donation.inspect}"
-
 		if @donation.save 
-			redirect_to new_donation_payment_path(@donation)
+			redirect_to admin_new_donation_payment_path(@donation)
 		else 
 			@current_riders = RiderYearRegistration.where(ride_year: RideYear.current)
 			@donors = User.all
-			if user
-				@donation.build_user(full_params[:user])
-			end
 			@errors = @donation.errors
 			@donation.user.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
 			render :new
 		end
-		
- 
 	end
 
 	def new_donation_payment 
+		@donation = Donation.find(params[:id])
+		unless @donation.mailing_addresses.empty?
+			@mailing_addresses = @donation.mailing_addresses
+		end
+		@custom_billing_address = MailingAddress.new
+		@donor = @donation.user
+		if @donation.rider_year_registration
+			@rider = @donation.rider_year_registration
+		end
+	end
 
+	def create_donation_payment
+		@donation = Donation.find(params[:id])
+
+		def re_render_new_dp_w_errors
+			@errors = @donation.errors
+			if @donation.user.errors 
+				@donation.user.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
+			if @custom_billing_address && @custom_billing_address.errors
+				@custom_billing_address.errors.each do |k,v|
+					@errors.messages[k.to_sym] = [v]
+				end
+			end
+			render json: {
+				errors: @errors.full_messages.to_sentence
+			} 
+			return
+		end
+		
+		if cc_info
+			@donation.user.cc_type = cc_info['type']
+			@donation.user.cc_number = cc_info['number']
+			@donation.user.cc_cvv2 = cc_info['cvv2']
+			unless @donation.user.valid?
+				re_render_new_dp_w_errors
+				return
+			end
+		else
+			@donation.errors.add(:payment, 'Please enter your full credit card information to complete your registration')
+			re_render_new_dp_w_errors
+			return
+		end
+
+		if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
+			@donation.errors.add(:billing_address, 'You must select a mailing address.')			
+			re_render_new_dp_w_errors
+			return
+		end
+
+		if full_params['custom_billing_address'] == '1'
+			@custom_billing_address = MailingAddress.new(full_params['mailing_address'])
+			@custom_billing_address.user = @donation.user
+			unless @custom_billing_address.save
+				re_render_new_dp_w_errors
+				return
+			end
+			billing_address = @custom_billing_address
+		else
+			billing_address = MailingAddress.find(full_params['mailing_addresses'])
+		end
+
+		# ppp = PaypalPaymentPreparer.new({
+		# 	user: @donation.user,
+		# 	cc_info: cc_info, 
+		# 	billing_address: billing_address,
+		# 	transaction_details: transaction_details
+		# })
+
+		# if ppp.create_payment
+		# 	receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
+		# 	@donation.update_attributes(receipt: receipt, fee_is_processed: true)	
+		# 	DonationMailer.successful_donation_thank_donor(@donation).deliver
+			
+		# 	unless @donation.is_organizational
+		# 		rider = @donation.rider.persistent_rider_profile
+		# 		DonationMailer.successful_donation_alert_rider(@donation).deliver
+		# 	end
+		# 	render json: {
+		# 		success: 'no errors what?',
+		# 		redirect_address: @donation.is_organizational ? root_url : persistent_rider_profile_url(rider)
+		# 	} 
+		# else
+		# 	@donation.errors.add(:payment, ppp.payment.error)
+		# 	re_render_new_dp_w_errors
+		# end
 	end
 
 	private

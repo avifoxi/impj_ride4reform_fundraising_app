@@ -27,10 +27,22 @@
 	var newUserFields = $('.new_user');
 	var selectUser = $('.donation_user_id');
 
-	// newUserFields.hide();
-	var dnd = $('#donation_new_donor');
+	var dryr = $('.donation_rider_year_registration');
+	var dryrCheck = $('#donation_is_organizational');
 
-	dnd.change( function(e){
+	dryrCheck.change(function(e){
+		console.log('chchchcanges');
+		if (e.target.checked) {
+			dryr.hide();
+		} else {
+			dryr.show();
+		}
+	});
+
+	// newUserFields.hide();
+	var dndCheck = $('#donation_new_donor');
+
+	dndCheck.change( function(e){
 		if (e.target.checked) {
 			newUserFields.show();
 			selectUser.hide();
@@ -39,5 +51,6 @@
 			selectUser.show();
 		}
 	});
-	dnd.trigger( "change" );
+	dndCheck.trigger( "change" );
+	dryrCheck.trigger( "change" );
 </script>
