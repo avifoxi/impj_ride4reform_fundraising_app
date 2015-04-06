@@ -1,3 +1,10 @@
+<% if current_admin %>
+	<%= f.simple_fields_for @receipt do |r| %>
+	
+	<% end %>	
+<% end %>
+
+
 <%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
 
 <%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
@@ -30,7 +37,7 @@
 
 <script>
 	
-	// $( document ).ready(function() {
+	$( document ).ready(function() {
 
 		<% if @donation %>
 			var ch = $('#donation_custom_billing_address');
@@ -55,7 +62,8 @@
 			} else {
 				c_b_a.hide();
 			}
-		});   
-	// });
+		}); 
+		ch.trigger('change');  
+	});
 	
 </script>
