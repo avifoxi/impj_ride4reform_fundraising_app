@@ -2,6 +2,8 @@ class Donation < ActiveRecord::Base
   belongs_to :rider_year_registration
   has_one :rider, through: :rider_year_registration, source: :user
 
+  belongs_to :ride_year
+
   belongs_to :receipt
   # has_one :donor, through: :receipt, source: :user
 
@@ -19,4 +21,16 @@ class Donation < ActiveRecord::Base
   validates_presence_of :amount
 
   attr_accessor :new_donor, :pay_with_check
+
+  before_create :associate_to_current_ride_year
+
+  private
+
+  def associate_to_current_ride_year
+    if self.is_organizational
+      self.ride_year = RideYear.current 
+    else 
+      self.ride_year = self.rider_year_registration.ride_year
+    end
+  end
 end

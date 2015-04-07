@@ -6,9 +6,9 @@ class Admin::DonationsController < ApplicationController
 		ride_years = RideYear.all
 		@donations_by_ride_year = ride_years.map do |r|
 			{
-				ride_year: r, 
-				rider_donations: r.rider_year_registrations.each_with_object([]) {|ryr, arr| arr << ryr.donations }, 
-				org_donations: Donation.where(ride_year: r).select{|d| d.}
+				# ride_year: r, 
+				# rider_donations: r.rider_year_registrations.each_with_object([]) {|ryr, arr| arr << ryr.donations }, 
+				# org_donations: Donation.where(ride_year: r).select{|d| d.is_organizational}
 			}
 		end
 
