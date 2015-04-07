@@ -1,4 +1,25 @@
 <h3>Donations Index</h3>
 
 
-<%= @donations_by_ride_year.inspect %>
+<% @donations_by_ride_year.each do |year_riders_orgs| %>
+
+	<h4><%= year_riders_orgs[:ride_year] %></h4>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h4 class="panel-title">Organizational Donations</h3>
+	  </div>
+	  <div class="panel-body">
+	    <%= render 'admin/donations/collection_stats', dons: year_riders_orgs[:org_donations] %>
+	  </div>
+	</div>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h4 class="panel-title">Rider Donations</h3>
+	  </div>
+	  <div class="panel-body">
+	    <%= render 'admin/donations/collection_stats', dons: year_riders_orgs[:rider_donations] %>
+	  </div>
+	</div>
+
+
+<% end %>

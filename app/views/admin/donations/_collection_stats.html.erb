@@ -1,0 +1,11 @@
+<table class="table table-condensed">
+  <tr>
+    <th>Donor</th>
+    <th>Recipient</th>
+    <th>Amount</th>    
+  </tr>
+  <% dons.each do |d| %>
+    <%= d.user.inspect %>
+    <%= render partial: 'admin/donations/table_row', locals: { d: d } %>
+  <% end %>
+</table>
