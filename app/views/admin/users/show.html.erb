@@ -80,24 +80,10 @@
 <% else %>
 	<h4>No rider history</h4>
 <% end %>
-ride year
-option
-goal 
-raised
-registration_payment_receipt
-donors count
 
 <h3>Donor History</h3>
-to 
-<table class="table table-condensed">
-  <tr>
-    <th>Link to Donation Show / Edit</th>
-    <th>Donor</th>
-    <th>Recipient</th>
-    <th>Amount</th>    
-  </tr>
-  < % dons.each do |d| %>
-    <!-- < %= d.user.inspect %> -->
-    < %= render partial: 'admin/donations/table_row', locals: { d: d } %>
-  < % end %>
-</table>
+<% if @donations %>
+	<%= render 'admin/donations/collection_stats', dons: @donations %>
+<% else %>
+	<h4>No Donation History</h4>
+<% end %>

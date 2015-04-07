@@ -15,7 +15,7 @@ class Admin::UsersController < ApplicationController
 				@current_ryr = @user.rider_year_registrations.find_by(ride_year: RideYear.current)
 			end
 		end
-		if @user.donations
+		unless @user.donations.empty?
 			@donations = @user.donations
 		end
 	end
