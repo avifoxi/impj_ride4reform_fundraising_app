@@ -1,5 +1,11 @@
 <tr>
-  <td><%= d.user.full_name %></td>
-  <td><%= d.is_organizational ? 'IMPJ' : d.rider_year_registration.full_name %></td>
-  <td><%= d.amount %></td>    
+	<td><%= link_to "Donation ##{d.id}", admin_donation_path(d) %></td>
+  <td><%= link_to d.user.full_name, admin_user_path(d.user) %></td>
+  <% if  d.is_organizational %>
+  	<td>IMPJ</td>
+  <% else %>
+  	<td><%= link_to d.rider_year_registration.full_name, admin_user_path(d.rider_year_registration.user) %></td>
+  <% end %>
+
+  <td>$<%= d.amount %></td>    
 </tr>
