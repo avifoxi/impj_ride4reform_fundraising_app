@@ -1,8 +1,12 @@
 <h3>Donations For <%= @current_ride_year.year %></h3>
 
-<% @ride_years.each do |ry| %>
-	<%= link_to "Donations for #{ry.year}", admin_ride_year_donations_path(ry) %>
-<% end %>
+<%= link_to 'Create Manual Donation', new_admin_donation_path, class: 'btn btn-default' %></br>
+
+<ul>
+  <% @ride_years.each do |ry| %>
+  	<li><%= link_to "Donations for #{ry.year}", admin_ride_year_donations_path(ry) %></li>
+  <% end %>
+</ul>
 
 <div class="panel panel-default">
   <div class="panel-heading">
