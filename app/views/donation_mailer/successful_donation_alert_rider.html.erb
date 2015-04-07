@@ -1,17 +1,22 @@
-<h3>Dear <%= @rider.first_name %>,</h3>
+<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+		<h3>Dear <%= @rider.first_name %>,</h3>
+		<p>Exciting news!</p>
+		<p>You've just received a donation of <%= number_to_currency(@donation.amount) %> from <%= @donor.full_name %>.</p>
+		<p>They sent along this note with the donation:</p>
+		<p><%= @donation.note_to_rider %></p>
+		<p>
+			Be sure to thank them with an email! <br><%= mail_to @donor.email %>
+			<br>You can view their contribution on your profile page.
+		</p>
+		<p>Congratulations on reaching <%= @percent_of_goal %>% of your goal! Keep it going!</p>
 
-<p>Exciting news!</p>
 
-<p>You've just received a donation of <%= number_to_currency(@donation.amount) %> from <%= @donor.full_name %>.</p>
 
-<div>
-	They sent along this note with the donation:
-	<%= @donation.note_to_rider %>
-</div>
+	</td>
+</tr>
+								
 
-<p>
-	Be sure to thank them with an email! <%= mail_to @donor.email %>
-	You can view their contribution on your <%= link_to "profile page's donor's list", persistent_rider_profile_path(@prp) %>.
-</p>
-
-<p>Congratulations on reaching <%= @percent_of_goal %>% of your goal! Keep it going!</p>
+<tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+	<td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+		<a href="<%= persistent_rider_profile_url(@prp) %>" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background: #348eda; margin: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">Visit your profile page, and check your progress!</a>
+	</td>

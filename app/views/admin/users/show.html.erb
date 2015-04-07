@@ -1,2 +1,89 @@
-<%= @user.full_name %>
+<h3>User Attributes</h3>
+<table class="table table-condensed">
+  <tr>
+    <th>Full Name</th>
+    <td><%= @user.full_name %></td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td><%= @user.email %></td>
+  </tr>
+ 
+</table>
 
+
+
+<h3>Rider Profile</h3>
+<% if @prp %>
+
+	<table class="table table-condensed">
+	  <tr>
+	    <th>Bio</th>
+	    <td><%= @prp.bio %></td>
+	  </tr>
+	  <tr>
+	    <th>Birthdate</th>
+	    <td><%= @prp.birthdate %></td>
+	  </tr>
+	  <tr>
+	    <th>Primary phone</th>
+	    <td><%= @prp.primary_phone %></td>
+	  </tr>
+	  <tr>
+	    <th>Secondary phone</th>
+	    <td><%= @prp.secondary_phone %></td>
+	  </tr>
+	  <tr>
+	    <th>Photo Uploaded?</th>
+	    <td><%= @prp.avatar_file_name ? @prp.avatar_file_name : 'None' %></td>
+	  </tr>
+	</table>
+
+<% else %>
+	<h4>No rider history</h4>
+<% end %>
+
+
+<h3>Ride History</h3>
+<% if @all_rides %>
+
+	<table class="table table-condensed">
+		<tr>
+			<th>Ride Year</th>
+			<th>Ride Option</th>
+			<th>Goal Set</th>
+			<th>Amount Raised</th>
+			<th>Donations Count</th>
+		</tr>
+		<% @all_rides.each do |r| %>
+		  <tr>
+		  	<td>
+		  		<%= r.ride_year.year %>
+		  	</td>
+		  	<td>
+		  		<%= r.ride_option %>
+		  	</td>
+		  	<td>
+		  		<%= r.goal %>
+		  	</td>
+		  	<td>
+		  		<%= r.raised %>
+		  	</td>
+		  	<td>
+		  		<%= r.donations.count %>
+		  	</td>
+
+		  </tr>
+	  <% end %>
+	</table>
+
+<% else %>
+	<h4>No rider history</h4>
+<% end %>
+
+<h3>Donor History</h3>
+<% if @donations %>
+	<%= render 'admin/donations/collection_stats', dons: @donations %>
+<% else %>
+	<h4>No Donation History</h4>
+<% end %>

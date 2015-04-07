@@ -2,37 +2,10 @@
 
 <%= render 'shared/form_errors' %>
 
-
-<table class="table table-condensed">
-	<% if current_admin %>
-	<tr>
-  	<th>Donor</th>
-  	<td><%= @donor.full_name %></td>
-  </tr>
-  <tr>
-  	<th>Recipient</th>
-  	<td><%= @rider ? @rider.full_name : 'IMPJ' %></td>
-  </tr>
-		
-	<% end %>
-
-  <tr>
-  	<th>Amount</th>
-  	<td><%= @donation.amount %></td>
-  </tr>
-  <tr>
-  	<th>Note to display:</th>
-  	<td><%= @donation.note_to_rider %></td>
-  </tr>
-  <tr>
-  	<th>Make anonymous?</th>
-  	<td><%= @donation.anonymous_to_public %></td>
-  </tr>
-</table>
+<%= render 'donations/stats' %>
 
 
-
-<%= simple_form_for @donation, :action => :create_donation_payment, :url => create_donation_payment_path(@donation), :method => :post, :remote => true do |f| %>
+<%= simple_form_for @donation, :action => :create_donation_payment, :url => "#{ current_admin ? admin_create_donation_payment_path(@donation) : create_donation_payment_path(@donation)}", :method => :post, :remote => true do |f| %>
 
 	<%= render 'shared/payment_form', :f => f %>
 

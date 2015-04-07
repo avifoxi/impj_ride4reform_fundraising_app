@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.text     "note_to_rider"
     t.integer  "rider_year_registration_id"
     t.integer  "receipt_id"
+    t.integer  "ride_year_id"
     t.integer  "user_id"
     t.integer  "amount"
     t.boolean  "fee_is_processed",           default: false
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
   end
 
   add_index "donations", ["receipt_id"], name: "index_donations_on_receipt_id", using: :btree
+  add_index "donations", ["ride_year_id"], name: "index_donations_on_ride_year_id", using: :btree
   add_index "donations", ["rider_year_registration_id"], name: "index_donations_on_rider_year_registration_id", using: :btree
 
   create_table "mailing_addresses", force: true do |t|
@@ -84,6 +86,10 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.integer  "amount"
     t.string   "paypal_id"
     t.text     "full_paypal_hash"
+    t.boolean  "by_check",         default: false
+    t.integer  "check_num"
+    t.string   "bank"
+    t.date     "check_dated"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

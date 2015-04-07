@@ -1,0 +1,33 @@
+<table class="table table-condensed">
+  <% if current_admin %>
+  <tr>
+    <th>Donor</th>
+    <td><%= link_to @donor.full_name, admin_user_path(@donor) %></td>
+  </tr>
+  <tr>
+    <th>Recipient</th>
+    <% if  @rider %>
+      <td><%= link_to @rider.full_name, admin_user_path(@rider.user) %></td>
+    <% else %>
+      <td>IMPJ</td>
+    <% end %>
+  </tr> 
+  <tr>
+    <th>Fee Is Processed?</th>
+    <td><%= @donation.fee_is_processed %></td>
+  </tr>
+  <% end %>
+
+  <tr>
+    <th>Amount</th>
+    <td>$<%= @donation.amount %></td>
+  </tr>
+  <tr>
+    <th>Note to display:</th>
+    <td><%= @donation.note_to_rider %></td>
+  </tr>
+  <tr>
+    <th>Make anonymous?</th>
+    <td><%= @donation.anonymous_to_public %></td>
+  </tr>
+</table>

@@ -1,11 +1,27 @@
-<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
+<% if current_admin %>
+	
+	<%= f.simple_fields_for @receipt do |r| %>
+		<%= r.input :by_check, label: 'Is the donor paying by check?' %>
+	
+		<div class="check_fields">
+			<%= r.input :check_num, label: 'Check Number' %>
+			<%= r.input :bank %>
+			<%= r.input :check_dated %>		
+		</div>
+	<% end %>	
+	
+<% end %>
 
-<%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
-<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
-<%= f.input :cc_expire_year, as: :date, start_year: Date.today.year,
-                            end_year: Date.today.year + 10, discard_day: true, discard_month: true,
-                            order: [:year], label: 'Expiration year' %>
-<%= f.input :cc_cvv2, input_html: { maxlength: 4 }, label: 'security code (cvv)' %>
+<div class="cc_fields">
+	<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
+
+	<%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
+	<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
+	<%= f.input :cc_expire_year, as: :date, start_year: Date.today.year,
+	                            end_year: Date.today.year + 10, discard_day: true, discard_month: true,
+	                            order: [:year], label: 'Expiration year' %>
+	<%= f.input :cc_cvv2, input_html: { maxlength: 4 }, label: 'security code (cvv)' %>
+</div>
 
 <% if @mailing_addresses %>
 	<%= f.input :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
@@ -55,7 +71,25 @@
 			} else {
 				c_b_a.hide();
 			}
-		});   
+		}); 
+		ch.trigger('change'); 
+
+		var payByCheck = $('#donation_receipt_by_check');
+
+		if ( !_.isEmpty(payByCheck) ) {
+			payByCheck.change(function(e){
+				if (e.target.checked){
+					$('.check_fields').show();
+					$('.cc_fields').hide();
+				} else {
+					$('.check_fields').hide();
+					$('.cc_fields').show();
+				}
+
+			});
+			payByCheck.trigger('change');
+		}
+
 	});
 	
 </script>
