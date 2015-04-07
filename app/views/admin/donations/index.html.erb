@@ -1,25 +1,24 @@
-<h3>Donations Index</h3>
+<h3>Donations For <%= @current_ride_year.year %></h3>
 
-
-<% @donations_by_ride_year.each do |year_riders_orgs| %>
-
-	<h4><%= year_riders_orgs[:ride_year] %></h4>
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h4 class="panel-title">Organizational Donations</h3>
-	  </div>
-	  <div class="panel-body">
-	    <%= render 'admin/donations/collection_stats', dons: year_riders_orgs[:org_donations] %>
-	  </div>
-	</div>
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h4 class="panel-title">Rider Donations</h3>
-	  </div>
-	  <div class="panel-body">
-	    <%= render 'admin/donations/collection_stats', dons: year_riders_orgs[:rider_donations] %>
-	  </div>
-	</div>
-
-
+<% @ride_years.each do |ry| %>
+	<%= link_to "Donations for #{ry.year}", admin_ride_year_donations_path(ry) %>
 <% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">Organizational Donations</h3>
+  </div>
+  <div class="panel-body">
+    <%= render 'admin/donations/collection_stats', dons: @org_donations %>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">Rider Donations</h3>
+  </div>
+  <div class="panel-body">
+    <%= render 'admin/donations/collection_stats', dons: @rider_donations %>
+  </div>
+</div>
+
+

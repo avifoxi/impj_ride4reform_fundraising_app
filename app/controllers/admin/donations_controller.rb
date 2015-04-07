@@ -3,15 +3,10 @@ class Admin::DonationsController < ApplicationController
 	layout "admins"
 
 	def index
-		ride_years = RideYear.all.order(created_at: :desc)
-		@donations_by_ride_year = ride_years.map do |r|
-			{
-				ride_year: r.year, 
-				rider_donations: r.rider_year_registrations.each_with_object([]) {|ryr, arr| arr << ryr.donations }, 
-				org_donations: Donation.where(ride_year: r).select{|d| d.is_organizational}
-			}
-		end
-
+		@current_ride_year = params[:ride_year_id] ? RideYear.find(params[:ride_year_id]) : RideYear.current
+		@ride_years = RideYear.all.order(created_at: :desc)
+		@rider_donations = @current_ride_year.donations.select{|d| !d.is_organizational}
+		@org_donations = @current_ride_year.donations.select{|d| d.is_organizational}
 	end
 
 	def new

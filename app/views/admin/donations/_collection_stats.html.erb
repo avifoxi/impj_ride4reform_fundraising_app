@@ -5,7 +5,7 @@
     <th>Amount</th>    
   </tr>
   <% dons.each do |d| %>
-    <%= d.user.inspect %>
+    <!-- < %= d.user.inspect %> -->
     <%= render partial: 'admin/donations/table_row', locals: { d: d } %>
   <% end %>
 </table>

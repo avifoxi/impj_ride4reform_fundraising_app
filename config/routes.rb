@@ -51,7 +51,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
     resources :admins
-    resources :ride_years
+    resources :ride_years do
+      resources :donations, only: :index
+    end
     resources :donations
     
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
