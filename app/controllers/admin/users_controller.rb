@@ -22,4 +22,11 @@ class Admin::UsersController < ApplicationController
 			@mailing_addresses = @user.mailing_addresses
 		end 
 	end
+
+	def edit
+		@user = User.find(params[:id])
+		if @user.persistent_rider_profile
+			@prp = @user.persistent_rider_profile
+		end
+	end
 end

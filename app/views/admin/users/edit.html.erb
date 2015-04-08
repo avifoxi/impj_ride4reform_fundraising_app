@@ -1,0 +1,20 @@
+<h3>Edit User</h3>
+
+<%= simple_form_for @user, :url => admin_user_path(@user), :method => :put do |f| %>
+	
+	<%= f.input :title, collection: User::TITLES %>  
+   
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+
+  <%= f.input :email %>
+
+	<% if @prp %>
+		<%= f.simple_fields_for @prp do |p| %>
+			<%= render 'shared/prp_form', :p => p %>
+		<% end %>
+	<% end %>
+	
+	<%= f.button :submit, data: { confirm: "Double check any changes to user accounts." } %>
+
+<% end %>

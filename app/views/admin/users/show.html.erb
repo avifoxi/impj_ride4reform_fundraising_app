@@ -1,4 +1,5 @@
 <h3>User Attributes</h3>
+
 <table class="table table-condensed">
   <tr>
     <th>Full Name</th>
@@ -11,7 +12,7 @@
  
 </table>
 
-
+<br><%= link_to 'Edit User + Profile', edit_admin_user_path(@user), class: 'btn btn-success btn-default' %>
 
 <h3>Rider Profile</h3>
 <% if @prp %>
