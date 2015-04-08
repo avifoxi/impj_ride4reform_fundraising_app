@@ -1,0 +1,52 @@
+<h3>Rider Stats for <%= @ride_year.year %></h3>
+
+<table class="table table-condensed">
+	<tr>
+		<th>Total Raised Riders + Org Donations:</th>
+		<td>$<%= @total_raised  %></td>
+	</tr>
+	<tr>
+		<th>Average Raised Per Rider:</th>
+		<td>$<%= @avg_raised %></td>
+	</tr>
+	<tr>
+		<th>Average Percent of Goal Reached by Rider:</th>
+		<td><%= @avg_perc %>%</td>
+	</tr>
+
+</table>
+
+<h4>Riders</h4>
+<table class="table table-condensed">
+	<tr>
+		<th>Rider</th>
+		<th>Ride Option</th>
+		<th>Goal Set</th>
+		<th>Amount Raised</th>
+		<th>Percent of Goal</th>
+		<th>Donations Count</th>
+	</tr>
+	<% @ryrs.each do |r| %>
+	  <tr>
+	  	<td>
+	  		<%= r.full_name %>
+	  	</td>
+	  	<td>
+	  		<%= r.ride_option %>
+	  	</td>
+	  	<td>
+	  		$<%= r.goal %>
+	  	</td>
+	  	<td>
+	  		$<%= r.raised %>
+	  	</td>
+	  	<td>
+	  		<%= r.percent_of_goal %>%
+	  	</td>
+	  	<td>
+	  		<%= r.donations.count %>
+	  	</td>
+
+	  </tr>
+  <% end %>
+</table>
