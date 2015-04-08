@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     resources :admins
     resources :ride_years do
       resources :donations, only: :index
+      resources :rider_year_registrations, only: :index
     end
     resources :donations
     resources :mailing_addresses, except: [:show, :index]
