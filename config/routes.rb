@@ -55,7 +55,9 @@ Rails.application.routes.draw do
       resources :donations, only: :index
     end
     resources :donations
-    
+    resources :mailing_addresses, except: [:show, :index]
+    resources :rider_year_registrations, only: :index
+
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
 
     post 'donations/:id/create_donation_payment' => 'donations#create_donation_payment', as: :create_donation_payment

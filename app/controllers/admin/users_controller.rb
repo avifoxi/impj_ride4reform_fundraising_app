@@ -18,5 +18,8 @@ class Admin::UsersController < ApplicationController
 		unless @user.donations.empty?
 			@donations = @user.donations
 		end
+		if @user.mailing_addresses
+			@mailing_addresses = @user.mailing_addresses
+		end 
 	end
 end
