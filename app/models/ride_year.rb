@@ -14,14 +14,20 @@ class RideYear < ActiveRecord::Base
   	RideYear.find_by(current: max)
   end
 
-  # def self.current_fee
-  # 	current = RideYear.current
-  # 	if Time.now < current.early_bird_cutoff
-  # 		current.registration_fee_early
-  # 	else
-  # 		current.registration_fee
-  # 	end
-  # end
+  def avg_raised_by_rider
+    ryrs = self.rider_year_registrations
+    (ryrs.map{|r| r.raised}.inject{|sum, n| sum + n}.to_f / ryrs.count).to_i 
+  end 
+
+  def avg_perc_of_rider_goal_met
+    ryrs = self.rider_year_registrations
+    (ryrs.map{|r| r.percent_of_goal.to_i}.inject{|sum, n| sum + n}.to_f / ryrs.count).to_i  
+  end
+
+  def total_raised
+    self.donations.where("fee_is_processed = ?", true).sum(:amount)
+  end
+
 
   def set_as_current
   	max = RideYear.maximum(:current)
