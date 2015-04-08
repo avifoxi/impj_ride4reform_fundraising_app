@@ -24,6 +24,18 @@ class Donation < ActiveRecord::Base
 
   before_create :associate_to_current_ride_year
 
+  def donor_name
+    self.user.full_name
+  end
+
+  def recipient_name
+    if self.rider_year_registration
+      self.rider_year_registration.full_name
+    else
+      'IMPJ'
+    end
+  end
+
   private
 
   def associate_to_current_ride_year
