@@ -44,6 +44,27 @@ class RiderYearRegistration < ActiveRecord::Base
     perc.to_i.to_s
   end
 
+  # 'percent_of_goal'.humanize.capitalize
+  # def self.to_csv(subset_of_ryrs)
+  #   CSV.generate do |csv|
+  #     columns = ["full_name", "email", "ride_option", "goal", "raised", "donations count", "percent_of_goal raised"]
+  #     csv << columns
+
+  #     subset_of_ryrs.each do |item|
+  #       row = [item.full_name,
+  #              item.email,
+  #              item.ride_option,
+  #              item.goal,
+  #              item.raised,
+  #              item.donations.count,
+  #              item.percent_of_goal
+  #              ]
+  #       csv << row
+  #     end
+  #   end
+  # end
+
+
   private
 
   def goal_meets_min_for_ride_year
