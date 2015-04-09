@@ -56,6 +56,28 @@ class User < ActiveRecord::Base
     end
   end
 
+  def years_ridden
+    self.rider_year_registrations.map{|ryr| ryr.ride_year.year}
+  end
+
+  def total_raised
+    years_raised = self.rider_year_registrations.map{|ryr| ryr.raised}
+    years_raised.inject(:+) || 0
+  end
+
+  def total_donations_received
+    years_dons = self.rider_year_registrations.map{|ryr| ryr.donations.count}
+    years_dons.inject(:+) || 0
+  end
+
+  def total_donations_given
+    self.donations.count
+  end
+
+  def total_amount_donated
+    self.donations.sum(:amount)
+  end
+
   # def complete_donor_list_for_all_rides
   # 	drns = DonorRiderNote.where(rider: self)
   # end

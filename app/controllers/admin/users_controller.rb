@@ -2,8 +2,17 @@ class Admin::UsersController < ApplicationController
 	skip_before_action :authenticate_user!
 	layout "admins"
 
+	include CSVMaker
+
 	def index 
-		@users = User.all
+		@users =  User.all.order(:last_name)
+		respond_to do |format|
+      format.html 
+      format.csv { 
+      	send_data gen_csv(@users, [:full_name, :email, :years_ridden, :total_raised, :total_donations_received, :total_donations_given, :total_amount_donated])  
+      	response.headers['Content-Disposition'] = 'attachment; filename="' + "all_current_users_#{Time.now.strftime("%Y_%m_%d_%H%M")}" + '.csv"'
+      }
+    end
 	end
 
 	def show

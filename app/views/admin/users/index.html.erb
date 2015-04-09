@@ -1,13 +1,41 @@
-<h3>Sorted Views:</h3>
-<ul>
-	<li><a href="#" class="btn btn-default">All Users</a></li>
-	<li><a href="#" class="btn btn-default">Riders By Year</a></li>
-	<li><a href="#" class="btn btn-default">Donors By Year</a></li>
-</ul>
+<h3>All Users</h3>
 
+<%= link_to "Export as CSV", admin_users_path(format: "csv"), class: 'btn btn-info' %> 
 
-<ul>
+<table class="table table-condensed">
+	<tr>
+		<th>Name + Link</th>
+		<th>Email</th>
+		<th>Years Ridden</th>
+		<th>Total Raised to Date</th>
+		<th>Total Number of Donations Received</th>
+		<th>Total Number of Donations Given</th>
+		<th>Total Amount Donated to Date</th>
+	</tr>
 	<% @users.each do |u| %>
-		<li><%= link_to "#{ u.full_name }", admin_user_path(u) %></li>
-	<% end %>
-</ul>
+		<tr>
+	  	<td>
+	  		<%= link_to u.full_name, admin_user_path(u) %>
+	  	</td>
+	  	<td>
+	  		<%= u.email %>
+	  	</td>
+	  	<td>
+	  		<%= u.years_ridden %>
+	  	</td>
+	  	<td>
+	  		$<%= u.total_raised %>
+	  	</td>
+	  	<td>
+	  		<%= u.total_donations_received %>
+	  	</td>
+	  	<td>
+	  		<%= u.total_donations_given %>
+	  	</td>
+	  	<td>
+	  		$<%= u.total_amount_donated %>
+	  	</td>
+
+	  </tr>
+  <% end %>
+</table>
