@@ -37,7 +37,7 @@ class PaymentMaker
 
 	def define_billing_adddress
 		if @full_params['custom_billing_address'] == '1'
-			custom_billing_address = MailingAddress.new(custom_billing_address)
+			custom_billing_address = MailingAddress.new(custom_billing_address_params)
 			custom_billing_address.user = @host_model.user
 			@billing_address = custom_billing_address
 		else
@@ -46,6 +46,10 @@ class PaymentMaker
 			end
 			@billing_address = MailingAddress.find(@full_params['mailing_addresses'])
 		end
+
+		# p 'billing_address'
+		# p "#{@billing_address.inspect}"
+		@billing_address.save
 		@billing_address.valid?
 	end
 
@@ -103,6 +107,10 @@ class PaymentMaker
 			'expire_year' => @full_params['cc_expire_year(1i)'],
 			'cvv2' => @full_params['cc_cvv2']
   	}
+  end
+
+  def custom_billing_address_params
+		@full_params['mailing_address']	
   end
 	
 	def prep_errors_hash
