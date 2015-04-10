@@ -40,20 +40,18 @@ class Admin::UsersController < ApplicationController
 	end
 
 	def update
-				p '$'*80
-		p 'admin_user_params b'
-		p "#{admin_user_params.inspect}"
-
 		@user = User.find(params[:id])
+		@prp = @user.persistent_rider_profile
 		if @user.update_attributes(user_params)
-			redirect_to admin_user_path(@user)
-		else 
-			@errors = @user.errors
-			render 'edit'
+			if (@prp == nil) || ( @prp && @prp.update_attributes(prp_params) )
+				flash[:notice] = 'Changes successfully made'
+				redirect_to admin_user_path(@user)
+				return
+			end
 		end
+		@errors = @user.errors
+		render 'edit'
 	end 
-
-	# "{\"utf8\"=>\"✓\", \"_method\"=>\"put\", \"authenticity_token\"=>\"cdEC3bWxuiIncbBZcYM+n+hLJKkPCdNfsmRT7+kXTCE=\", \"user\"=>{\"title\"=>\"Dr\", \"first_name\"=>\"Avi\", \"last_name\"=>\"Rider\", \"email\"=>\"a@a.com\", \"persistent_rider_profile\"=>{\"bio\"=>\"Try to hack the RSS array, maybe it will connect the back-end alarm!\", \"birthdate(1i)\"=>\"1967\", \"birthdate(2i)\"=>\"12\", \"birthdate(3i)\"=>\"16\", \"primary_phone\"=>\"1234567890\", \"secondary_phone\"=>\"\"}}, \"commit\"=>\"Update User\", \"action\"=>\"update\", \"controller\"=>\"admin/users\", \"id\"=>\"1\"}"
 
 	private
 

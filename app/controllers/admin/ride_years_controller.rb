@@ -15,7 +15,13 @@ class Admin::RideYearsController < ApplicationController
 
 	def update 
 		@ride_year = RideYear.find(params[:id])
+		p '#'*80
+		p 'ride_year_params'
+		p "#{ride_year_params.inspect}"
 		if @ride_year.update_attributes(ride_year_params)
+			if ride_year_params[:set_current_in_form] == "1"
+				@ride_year.set_as_current
+			end
 			redirect_to admin_ride_years_path
 		else 
 			@errors = @ride_year.errors

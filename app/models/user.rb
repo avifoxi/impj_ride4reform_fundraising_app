@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :mailing_addresses, :persistent_rider_profile
 
+  delegate :bio, to: :persistent_rider_profile
+
 	has_many :rider_year_registrations
 	has_many :receipts
   has_many :donations

@@ -14,9 +14,11 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		respond_to do |format|
       format.html {
       	@all_ride_years = RideYear.all
-      	@avg_raised = @ride_year.avg_raised_by_rider
-				@avg_perc = @ride_year.avg_perc_of_rider_goal_met  
-				@total_raised = @ride_year.total_raised
+      	unless @ryrs.empty?
+	      	@avg_raised = @ride_year.avg_raised_by_rider
+					@avg_perc = @ride_year.avg_perc_of_rider_goal_met  
+					@total_raised = @ride_year.total_raised
+				end
       }
       format.csv { 
       	send_data gen_csv(@ryrs, [:full_name, :ride_option, :goal, :raised, :percent_of_goal])  

@@ -11,15 +11,15 @@
 <table class="table table-condensed">
 	<tr>
 		<th>Total Raised Riders + Org Donations:</th>
-		<td>$<%= @total_raised  %></td>
+		<td>$<%= @total_raised if @total_raised  %></td>
 	</tr>
 	<tr>
 		<th>Average Raised Per Rider:</th>
-		<td>$<%= @avg_raised %></td>
+		<td>$<%= @avg_raised if @avg_raised %></td>
 	</tr>
 	<tr>
 		<th>Average Percent of Goal Reached by Rider:</th>
-		<td><%= @avg_perc %>%</td>
+		<td><%= @avg_perc if @avg_perc %>%</td>
 	</tr>
 
 </table>
