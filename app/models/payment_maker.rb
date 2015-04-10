@@ -9,7 +9,7 @@ class PaymentMaker
 		@host_model = host_model
 		@payment_type = payment_type
 		@full_params = full_params
-		@amount = @payment_type == :registration ? RideYear.current_fee : @full_params[:amount]
+		@amount = @payment_type == :registration ? RideYear.current_fee : @full_params[:amount].to_i
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
 	end
 
@@ -41,7 +41,8 @@ class PaymentMaker
 			custom_billing_address.user = @host_model.user
 			@billing_address = custom_billing_address
 		else
-			unless @full_params['mailing_addresses']
+			if @full_params['mailing_addresses'] == nil
+				@host_model.errors.add(:billing_address, 'You must specify a billing address.')
 				return false
 			end
 			@billing_address = MailingAddress.find(@full_params['mailing_addresses'])
