@@ -27,4 +27,9 @@ class Admin::RiderYearRegistrationsController < ApplicationController
     end
 	end
 
+	def new
+		@user = User.find(params[:user_id])
+		@ryr = @user.rider_year_registrations.build
+	end
+
 end

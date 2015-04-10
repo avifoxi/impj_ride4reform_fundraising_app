@@ -17,6 +17,7 @@ class Admin::UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+		@current_ride_year = RideYear.current
 		if @user.persistent_rider_profile
 			@prp = @user.persistent_rider_profile
 			@all_rides = @user.rider_year_registrations

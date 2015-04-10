@@ -45,7 +45,12 @@
 <% end %>
 
 
-<h3>Ride History</h3>
+<h3>Ride History 
+	<% unless @user.rider_in_current_year? %>
+		<small><%= link_to "+ Register Rider for #{@current_ride_year.year}",  new_admin_user_rider_year_registration_path(@user), class: 'btn btn-success' %></small>
+	<% end %>
+	
+</h3>
 <% if @all_rides %>
 
 	<table class="table table-condensed">
@@ -55,6 +60,8 @@
 			<th>Goal Set</th>
 			<th>Amount Raised</th>
 			<th>Donations Count</th>
+			<th>Edit Link</th>
+			<th>Delete?</th>
 		</tr>
 		<% @all_rides.each do |r| %>
 		  <tr>
@@ -73,7 +80,12 @@
 		  	<td>
 		  		<%= r.donations.count %>
 		  	</td>
-
+		  	<td>
+		  		<%= link_to 'Edit', edit_admin_rider_year_registration_path(r), class: 'btn btn-default btn-sm'  %>
+		  	</td>
+				<td>
+					<%= link_to 'Delete', admin_rider_year_registration_path(r), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete this Registration" }    %>
+				</td>
 		  </tr>
 	  <% end %>
 	</table>
