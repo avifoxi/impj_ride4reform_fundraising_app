@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   end
 
   def years_ridden
-    self.rider_year_registrations.map{|ryr| ryr.ride_year.year}
+    self.rider_year_registrations.map{|ryr| ryr.ride_year.year}.join('-')
   end
 
   def total_raised
