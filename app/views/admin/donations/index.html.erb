@@ -10,19 +10,22 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="panel-title">Organizational Donations</h3>
+    <h4 class="panel-title">Donations</h4>
+    <%= link_to "Export as CSV", admin_donations_path(@ride_year, format: "csv"), class: 'btn btn-info' %> 
+
+
   </div>
   <div class="panel-body">
-    <%= render 'admin/donations/collection_stats', dons: @org_donations %>
+    <%= render 'admin/donations/collection_stats', dons: @donations %>
   </div>
 </div>
-<div class="panel panel-default">
+<!-- <div class="panel panel-default">
   <div class="panel-heading">
     <h4 class="panel-title">Rider Donations</h3>
   </div>
   <div class="panel-body">
-    <%= render 'admin/donations/collection_stats', dons: @rider_donations %>
+    < %= render 'admin/donations/collection_stats', dons: @rider_donations %>
   </div>
 </div>
-
+ -->
 

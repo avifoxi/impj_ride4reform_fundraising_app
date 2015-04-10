@@ -7,5 +7,6 @@
   	<td><%= link_to d.rider_year_registration.full_name, admin_user_path(d.rider_year_registration.user) %></td>
   <% end %>
 
-  <td>$<%= d.amount %></td>    
+  <td>$<%= d.amount %></td> 
+  <td><%= d.created_at %></td>   
 </tr>

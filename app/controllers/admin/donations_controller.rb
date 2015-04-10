@@ -2,11 +2,21 @@ class Admin::DonationsController < ApplicationController
 	skip_before_action :authenticate_user!
 	layout "admins"
 
+	include CSVMaker
+
 	def index
 		@current_ride_year = params[:ride_year_id] ? RideYear.find(params[:ride_year_id]) : RideYear.current
-		@ride_years = RideYear.all.order(created_at: :desc)
-		@rider_donations = @current_ride_year.donations.select{|d| !d.is_organizational}
-		@org_donations = @current_ride_year.donations.select{|d| d.is_organizational}
+		@donations = @current_ride_year.donations
+		
+		respond_to do |format|
+      format.html {
+      	@ride_years = RideYear.all.order(created_at: :desc)
+      }
+      format.csv { 
+      	send_data gen_csv(@donations, [:id, :donor_name, :recipient_name, :amount, :created_at])  
+      	response.headers['Content-Disposition'] = 'attachment; filename="' + "donations_stats_#{Time.now.strftime("%Y_%m_%d_%H%M")}" + '.csv"'
+      }
+    end
 	end
 
 	def new
