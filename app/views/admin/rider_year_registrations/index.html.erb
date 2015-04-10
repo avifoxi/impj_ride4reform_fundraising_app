@@ -1,5 +1,13 @@
 <h3>Rider Stats for <%= @ride_year.year %></h3>
 
+<ul>
+	<% @all_ride_years.each do |ry| %>
+		<li><%= link_to "Rider Stats for #{ry.year}", admin_ride_year_rider_year_registrations_path(ry) %>
+		</li> 
+	<% end %>
+
+</ul>
+
 <table class="table table-condensed">
 	<tr>
 		<th>Total Raised Riders + Org Donations:</th>
@@ -18,7 +26,7 @@
 
 
 <h4>Riders</h4>
-<%= link_to "CSV", admin_rider_year_registrations_path(@ride_year, format: "csv") %> 
+<%= link_to "Export as CSV", admin_rider_year_registrations_path(@ride_year, format: "csv"),class: 'btn btn-info' %> 
 <table class="table table-condensed">
 	<tr>
 		<th>Rider</th>
@@ -31,7 +39,7 @@
 	<% @ryrs.each do |r| %>
 	  <tr>
 	  	<td>
-	  		<%= r.full_name %>
+	  		<%= link_to "#{r.full_name}", admin_user_path(r.user)  %>
 	  	</td>
 	  	<td>
 	  		<%= r.ride_option %>
