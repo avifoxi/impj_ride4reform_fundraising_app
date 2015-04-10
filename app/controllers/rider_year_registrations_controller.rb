@@ -42,9 +42,6 @@ class RiderYearRegistrationsController < ApplicationController
 		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 
 		if prp.update_attributes(prp_params)
-			# user_register_for_ride_before_payment
-			# RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr)
-
 			redirect_to rider_year_registrations_mailing_address_path(rider_year_registration: @ryr)
 		else
 			@errors = prp.errors
@@ -83,17 +80,12 @@ class RiderYearRegistrationsController < ApplicationController
 		pm = PaymentMaker.new(@ryr, :registration, full_params)
 		receipt_or_errors = pm.process_payment
 
-		# p '*'*80
-		# p 'receipt_or_errors'
-		# p "#{receipt_or_errors.inspect}"
-
 		if receipt_or_errors.instance_of?(Receipt)
 			@rider = current_user.persistent_rider_profile
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
 			render json: {
 				success: 'no errors what?',
 				prp_address: persistent_rider_profile_url(@rider),
-				# billing_address: billing_address,
 				ryr: @ryr
 			} 
 		else
@@ -126,18 +118,6 @@ class RiderYearRegistrationsController < ApplicationController
     )
   end
 
-  # def cc_info
-  # 	unless full_params['cc_type'] && full_params['cc_number'] && full_params['cc_expire_month'] && full_params['cc_expire_year(1i)'] && full_params['cc_cvv2']
-  # 		return false
-  # 	end
-  # 	{
-  # 		'type' => full_params['cc_type'],
-		# 	'number' => full_params['cc_number'],
-		# 	'expire_month' => full_params['cc_expire_month'],
-		# 	'expire_year' => full_params['cc_expire_year(1i)'],
-		# 	'cvv2' => full_params['cc_cvv2']
-  # 	}
-  # end
 
   def mailing_addesses_params
   	full_params['mailing_addresses_attributes']['0']
@@ -154,20 +134,5 @@ class RiderYearRegistrationsController < ApplicationController
   	} 	
   end
 
-  # def custom_billing_address
-		# full_params['mailing_address']	
-  # end
-
-  # def current_fee 
-  # 	RideYear.current_fee
-  # end
-
- #  def transaction_details
- #  	{
-	# 		'name' => "rider registration fee",
-	# 		'amount' =>  '%.2f' % current_fee,
-	# 		'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
-	# 	}
-	# end
 
 end
