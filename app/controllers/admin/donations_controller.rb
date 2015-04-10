@@ -181,7 +181,7 @@ class Admin::DonationsController < ApplicationController
 
 	private
 
-	def full_params
+	def full_params 
     params.require(:donation).permit(:amount, :anonymous_to_public, :note_to_rider, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :is_organizational, :rider_year_registration, :new_donor, :user_id,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip

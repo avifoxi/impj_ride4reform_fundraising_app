@@ -1,84 +1,110 @@
 class PaymentMaker
 
-	PAYMENT_TYPE_OUTPUTS = {
-		user_rider_year_registration: {
-			transaction_details: {
-				'name' => "rider registration fee",
-				'amount' =>  '%.2f' % RideYear.current_fee,
-				'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
-			}
+	PAYMENT_TYPES = [:donation, :registration]
+	
+	## If successful payment, return receipt
+	## else, return errors
 
-		},
-
-
-		'prp_address_redirect',
-		user_donation: 'redirect_type',
-		admin_rider_year_registration: 'admin_user_url',
-		admin_donation: 'admin_donations'
-	}
-
-	def initialize(host_model, payment_type, full_params)
+	def initialize(host_model, payment_type, full_params, admin=nil)
 		@host_model = host_model
+		@payment_type = payment_type
+		@full_params = full_params
+		@amount = @payment_type == :registration ? RideYear.current_fee : @full_params[:amount]
+		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
+	end
+
+	def process_payment
+		unless inputs_are_valid
+			return prep_errors_hash
+		end
+		if @by_check
+			prep_and_return_receipt
+		else
+			call_paypal
+		end
+	end
+
+	def inputs_are_valid
+		validate_cc_info && define_billing_adddress &&prep_transaction_details
 	end
 
 	def validate_cc_info
-		@host_model.user.cc_type = cc_info['type']
-		@host_model.user.cc_number = cc_info['number']
-		@host_model.user.cc_cvv2 = cc_info['cvv2']
-		unless @host_model.user.valid?
-			prep_errors_hash
-			return
-		end
+		@host_model.user.cc_type = @full_params[:cc_type]
+		@host_model.user.cc_number = @full_params[:cc_number]
+		@host_model.user.cc_cvv2 = @full_params[:cc_cvv2]
+		@host_model.user.valid?	
 	end
 
 	def define_billing_adddress
-		if full_params['custom_billing_address'] == '1'
+		if @full_params['custom_billing_address'] == '1'
 			custom_billing_address = MailingAddress.new(custom_billing_address)
 			custom_billing_address.user = @host_model.user
-			unless custom_billing_address.save
-				prep_errors_hash
-				return
-			end
 			@billing_address = custom_billing_address
 		else
-			unless full_params['mailing_addresses']
-				@host_model.errors.add(:billing_address, 'You must specify a billing address')
-				prep_errors_hash
-				return
+			unless @full_params['mailing_addresses']
+				return false
 			end
-			@billing_address = MailingAddress.find(full_params['mailing_addresses'])
+			@billing_address = MailingAddress.find(@full_params['mailing_addresses'])
 		end
+		@billing_address.valid?
 	end
 
 	def prep_transaction_details
 		@transaction_details = {
-			'name' => "rider registration fee",
-			'amount' =>  '%.2f' % current_fee,
-			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
+			'name' => @payment_type.to_s.humanize,
+			'amount' =>  '%.2f' % @amount,
+			'description' => 
+				@payment_type.to_s.match('registration') ? 
+					"Registration fee for #{ @host_model.full_name }, #{RideYear.current.year}" 
+					: 
+					'this must be a donation... placeholder'
 		}
 		
 	end
 
 	def call_paypal
-		ppp = PaypalPaymentPreparer.new({
+		@ppp = PaypalPaymentPreparer.new({
 			user: @host_model.user,
 			cc_info: cc_info, 
 			billing_address: @billing_address,
-			transaction_details: transaction_details
+			transaction_details: @transaction_details
 		})
+		if @ppp.create_payment
+			prep_and_return_receipt
+		else
+			@host_model.errors.add(:payment, ppp.payment.error)
+			prep_errors_hash
+		end
 	end
-	# def make_payment(host_model, payment_type, params)
-	# 	@params = params
-	# 	host_model
 
-	# 	if success 
-	# 		return redirect_address
-	# end
+	def prep_and_return_receipt
+		if @by_check
+			@receipt_params = {}
+		else
+			@receipt_params = {
+				user: @host_model.user, 
+				amount: @amount, 
+				paypal_id: @ppp.payment.id, 
+				full_paypal_hash: @ppp.payment.to_json
+			}
+		end
+		if @payment_type == :registration
+			return @host_model.create_registration_payment_receipt(@receipt_params)
+		else
+			return @host_model.create_receipt(@receipt_params)
+		end
+	end
 
-	# def put_pp
-	# 	puts @params
-	# end
-
+	def cc_info
+  	{
+  		'type' => @full_params['cc_type'],
+			'number' => @full_params['cc_number'],
+			'expire_month' => @full_params['cc_expire_month'],
+			'expire_year' => @full_params['cc_expire_year(1i)'],
+			'cvv2' => @full_params['cc_cvv2']
+  	}
+  end
+	
 	def prep_errors_hash
 		@errors = @host_model.errors
 		# return errors json
@@ -87,8 +113,8 @@ class PaymentMaker
 				@errors.messages[k.to_sym] = [v]
 			end
 		end
-		if @custom_billing_address && @custom_billing_address.errors
-			@custom_billing_address.errors.each do |k,v|
+		if @billing_address && @billing_address.errors
+			@billing_address.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
 		end
@@ -100,83 +126,4 @@ class PaymentMaker
 		} 
 	end
 
-
-end
-
-def errors_via_json
-	@errors = @ryr.errors
-	# return errors json
-	if @ryr.user.errors 
-		@ryr.user.errors.each do |k,v|
-			@errors.messages[k.to_sym] = [v]
-		end
-	end
-	if @custom_billing_address && @custom_billing_address.errors
-		@custom_billing_address.errors.each do |k,v|
-			@errors.messages[k.to_sym] = [v]
-		end
-	end
-	if @payment_errors
-		@errors.add(:payment, @payment_errors)
-	end
-	render json: {
-		errors: @errors.full_messages.to_sentence
-	} 
-	return
-end
-
-if cc_info
-	@ryr.user.cc_type = cc_info['type']
-	@ryr.user.cc_number = cc_info['number']
-	@ryr.user.cc_cvv2 = cc_info['cvv2']
-	unless @ryr.user.valid?
-		errors_via_json
-		return
-	end
-	else
-	@payment_errors = ['Please enter your full credit card information to complete your registration']
-	errors_via_json
-	return
-end
-
-if full_params['custom_billing_address'] == '1'
-	@custom_billing_address = MailingAddress.new(custom_billing_address)
-	@custom_billing_address.user = current_user
-	unless @custom_billing_address.save
-		errors_via_json
-		return
-	end
-	billing_address = @custom_billing_address
-	else
-	unless full_params['mailing_addresses']
-		@ryr.errors.add(:billing_address, 'You must specify a billing address')
-		errors_via_json
-		return
-	end
-	billing_address = MailingAddress.find(full_params['mailing_addresses'])
-end
-
-	ppp = PaypalPaymentPreparer.new({
-	user: current_user,
-	cc_info: cc_info, 
-	billing_address: billing_address,
-	transaction_details: transaction_details
-	})
-
-if ppp.create_payment
-	@ryr.update_attributes(registration_payment_receipt:
-		@ryr.create_registration_payment_receipt(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-	)
-	@rider = current_user.persistent_rider_profile
-	RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
-
-	render json: {
-		success: 'no errors what?',
-		prp_address: persistent_rider_profile_url(@rider),
-		billing_address: billing_address,
-		ryr: @ryr
-	} 
-else
-	@payment_errors = ppp.payment.error
-	errors_via_json
 end
