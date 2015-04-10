@@ -9,8 +9,14 @@ class PaymentMaker
 		@host_model = host_model
 		@payment_type = payment_type
 		@full_params = full_params
-		@amount = @payment_type == :registration ? RideYear.current_fee : @full_params[:amount].to_i
+		@amount = @payment_type == :registration ? RideYear.current_fee : @host_model.amount
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
+
+		p "#"*80
+		p "inside pyment maker -- full_params"
+		p "#{@full_params.inspect}"
+		p '@by_check boolean coorret ? '
+		p "#{@by_check}"
 	end
 
 	def process_payment
@@ -25,14 +31,24 @@ class PaymentMaker
 	end
 
 	def inputs_are_valid
-		validate_cc_info && define_billing_adddress &&prep_transaction_details
+		validate_payment_info && define_billing_adddress &&prep_transaction_details
 	end
 
-	def validate_cc_info
-		@host_model.user.cc_type = @full_params[:cc_type]
-		@host_model.user.cc_number = @full_params[:cc_number]
-		@host_model.user.cc_cvv2 = @full_params[:cc_cvv2]
-		@host_model.user.valid?	
+	def validate_payment_info
+		if @by_check
+			@receipt = @host_model.user.receipts.build(@full_params[:receipt].merge!({ amount: @amount, by_check: @by_check}) )
+
+			p '#'*80
+			p 'in validate_payment_info in pyamnt maker'
+			p "#{@receipt.inspect}"
+
+			@receipt.valid?
+		else
+			@host_model.user.cc_type = @full_params[:cc_type]
+			@host_model.user.cc_number = @full_params[:cc_number]
+			@host_model.user.cc_cvv2 = @full_params[:cc_cvv2]
+			@host_model.user.valid?	
+		end
 	end
 
 	def define_billing_adddress
@@ -47,9 +63,6 @@ class PaymentMaker
 			end
 			@billing_address = MailingAddress.find(@full_params['mailing_addresses'])
 		end
-
-		# p 'billing_address'
-		# p "#{@billing_address.inspect}"
 		@billing_address.save
 		@billing_address.valid?
 	end
@@ -62,7 +75,7 @@ class PaymentMaker
 				@payment_type.to_s.match('registration') ? 
 					"Registration fee for #{ @host_model.full_name }, #{RideYear.current.year}" 
 					: 
-					'this must be a donation... placeholder'
+					"#{ @host_model.user.full_name }'s donation to #{@host_model.is_organizational ? 'IMPJ' : @host_model.rider.full_name}, in the #{RideYear.current.year} ride year."
 		}
 		
 	end
@@ -84,19 +97,19 @@ class PaymentMaker
 
 	def prep_and_return_receipt
 		if @by_check
-			@receipt_params = {}
+			receipt_params = @receipt.attributes
 		else
-			@receipt_params = {
+			receipt_params = {
 				user: @host_model.user, 
-				amount: @amount, 
+				amount: @amount,
 				paypal_id: @ppp.payment.id, 
 				full_paypal_hash: @ppp.payment.to_json
 			}
 		end
 		if @payment_type == :registration
-			return @host_model.create_registration_payment_receipt(@receipt_params)
+			return @host_model.create_registration_payment_receipt(receipt_params)
 		else
-			return @host_model.create_receipt(@receipt_params)
+			return @host_model.create_receipt(receipt_params)
 		end
 	end
 
@@ -119,6 +132,11 @@ class PaymentMaker
 		# return errors json
 		if @host_model.user.errors 
 			@host_model.user.errors.each do |k,v|
+				@errors.messages[k.to_sym] = [v]
+			end
+		end
+		if @receipt && @receipt.errors
+			@receipt.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
 		end
