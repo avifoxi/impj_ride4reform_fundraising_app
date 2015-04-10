@@ -1,7 +1,17 @@
 class PaymentMaker
 
 	PAYMENT_TYPE_OUTPUTS = {
-		user_rider_year_registration: 'prp_address_redirect',
+		user_rider_year_registration: {
+			transaction_details: {
+				'name' => "rider registration fee",
+				'amount' =>  '%.2f' % RideYear.current_fee,
+				'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
+			}
+
+		},
+
+
+		'prp_address_redirect',
 		user_donation: 'redirect_type',
 		admin_rider_year_registration: 'admin_user_url',
 		admin_donation: 'admin_donations'
@@ -24,7 +34,7 @@ class PaymentMaker
 	def define_billing_adddress
 		if full_params['custom_billing_address'] == '1'
 			custom_billing_address = MailingAddress.new(custom_billing_address)
-			custom_billing_address.user = current_user
+			custom_billing_address.user = @host_model.user
 			unless custom_billing_address.save
 				prep_errors_hash
 				return
@@ -38,6 +48,24 @@ class PaymentMaker
 			end
 			@billing_address = MailingAddress.find(full_params['mailing_addresses'])
 		end
+	end
+
+	def prep_transaction_details
+		@transaction_details = {
+			'name' => "rider registration fee",
+			'amount' =>  '%.2f' % current_fee,
+			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
+		}
+		
+	end
+
+	def call_paypal
+		ppp = PaypalPaymentPreparer.new({
+			user: @host_model.user,
+			cc_info: cc_info, 
+			billing_address: @billing_address,
+			transaction_details: transaction_details
+		})
 	end
 	# def make_payment(host_model, payment_type, params)
 	# 	@params = params

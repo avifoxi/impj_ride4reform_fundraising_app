@@ -34,4 +34,14 @@ class RideYear < ActiveRecord::Base
   	self.update_attributes(current: max + 1)
   end
 
+  def self.current_fee 
+    current = RideYear.current
+    if Date.today < current.early_bird_cutoff
+      current.registration_fee_early
+    else
+      current.registration_fee
+    end
+  end
+
+
 end
