@@ -33,19 +33,52 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		@receipt = @ryr.build_registration_payment_receipt
 		@mailing_addresses = @ryr.mailing_addresses
 		@custom_billing_address = MailingAddress.new
-
-
-		p 'mailing_addresses'
-		p "#{@mailing_addresses.inspect}"
-			p '#'*80
-			# p 'one_liner'
-			# p "#{@mailing_addresses.first.one_liner}"
 	end
 
 	def create
-			p '#'*80
-			p 'params and corect routing'
-			p "#{params.inspect}"
+		@user = User.find(params[:user_id])
+		@ryr = @user.rider_year_registrations.build(ryr_params)
+		
+
+		pm = PaymentMaker.new(@ryr, :registration, full_params, current_admin)
+		receipt_or_errors = pm.process_payment
+	
+		if receipt_or_errors.instance_of?(Receipt)
+			@ryr.update_attributes(registration_payment_receipt: receipt_or_errors )
+			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
+			render json: {
+				success: 'no errors what?',
+				redirect_address: admin_user_url(@user)
+			} 
+		else
+			render json: receipt_or_errors
+		end
+
 	end
 
+	private
+
+	def full_params
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
+    	:mailing_addresses_attributes => [
+    			:line_1, :line_2, :city, :state, :zip
+    		],
+    	:persistent_rider_profile_attributes => [
+    			:primary_phone, :secondary_phone, :avatar, :birthdate, :bio
+    		],
+    	:mailing_address => [
+    		:line_1, :line_2, :city, :state, :zip
+    	],
+    	:receipt => [
+    		:by_check,
+				:check_num,
+				:bank,
+				:check_dated
+    	]   
+    )
+  end
+
+  def ryr_params
+  	full_params.slice(:ride_option, :goal)
+  end
 end

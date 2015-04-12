@@ -7,7 +7,9 @@ class Admin::UsersController < ApplicationController
 	def index 
 		@users =  User.all.order(:last_name)
 		respond_to do |format|
-      format.html 
+      format.html {
+      	@user = User.new
+      }
       format.csv { 
       	send_data gen_csv(@users, [:full_name, :email, :years_ridden, :total_raised, :total_donations_received, :total_donations_given, :total_amount_donated])  
       	response.headers['Content-Disposition'] = 'attachment; filename="' + "all_current_users_#{Time.now.strftime("%Y_%m_%d_%H%M")}" + '.csv"'
@@ -53,6 +55,22 @@ class Admin::UsersController < ApplicationController
 		@errors = @user.errors
 		render 'edit'
 	end 
+
+	def create
+		@existing_user = User.find_by(email: full_params[:email])
+		if @existing_user 
+			flash[:notice] = 'User already in system'
+			redirect_to admin_user_path(@existing_user)
+			return
+		end
+		@user = User.new(full_params)
+		if @user.save
+			redirect_to new_admin_user_rider_year_registration_path(@user)
+		else
+			@users = User.all
+			render :index
+		end
+	end
 
 	private
 

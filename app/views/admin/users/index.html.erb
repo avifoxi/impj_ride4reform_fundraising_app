@@ -1,6 +1,18 @@
 <h3>All Users</h3>
+<button class='btn btn-success show_user_form'>Manually register new user for ride</button>
 
-<%= link_to "Export as CSV", admin_users_path(format: "csv"), class: 'btn btn-info' %> 
+<%= simple_form_for @user, url: admin_users_path, method: :post do |u| %>
+
+	<%= u.input :title, collection: User::TITLES %>  
+	<%= u.input :first_name %>
+	<%= u.input :last_name %>
+	<%= u.input :email %>
+	<%= u.button :submit %>
+
+<% end %>
+
+
+<br><%= link_to "Export as CSV", admin_users_path(format: "csv"), class: 'btn btn-info' %> 
 
 <table class="table table-condensed">
 	<tr>

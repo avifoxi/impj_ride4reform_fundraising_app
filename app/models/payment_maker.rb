@@ -12,11 +12,11 @@ class PaymentMaker
 		@amount = @payment_type == :registration ? RideYear.current_fee : @host_model.amount
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
 
-		p "#"*80
-		p "inside pyment maker -- full_params"
-		p "#{@full_params.inspect}"
-		p '@by_check boolean coorret ? '
-		p "#{@by_check}"
+		# p "#"*80
+		# p "inside pyment maker -- full_params"
+		# p "#{@full_params.inspect}"
+		# p '@by_check boolean coorret ? '
+		# p "#{@by_check}"
 	end
 
 	def process_payment
@@ -31,16 +31,16 @@ class PaymentMaker
 	end
 
 	def inputs_are_valid
-		validate_payment_info && define_billing_adddress &&prep_transaction_details
+		@host_model.valid? && validate_payment_info && define_billing_adddress &&prep_transaction_details
 	end
 
 	def validate_payment_info
 		if @by_check
 			@receipt = @host_model.user.receipts.build(@full_params[:receipt].merge!({ amount: @amount, by_check: @by_check}) )
 
-			p '#'*80
-			p 'in validate_payment_info in pyamnt maker'
-			p "#{@receipt.inspect}"
+			# p '#'*80
+			# p 'in validate_payment_info in pyamnt maker'
+			# p "#{@receipt.inspect}"
 
 			@receipt.valid?
 		else
@@ -107,6 +107,7 @@ class PaymentMaker
 			}
 		end
 		if @payment_type == :registration
+			# @host_model.save unless @host_model.id
 			return @host_model.create_registration_payment_receipt(receipt_params)
 		else
 			return @host_model.create_receipt(receipt_params)

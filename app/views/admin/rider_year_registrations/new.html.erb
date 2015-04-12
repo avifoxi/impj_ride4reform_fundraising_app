@@ -1,3 +1,5 @@
+<h3>Register <%= @ryr.full_name %> for current ride year</h3>
+
 <%= render 'shared/form_errors' %>
 
 <%= simple_form_for @ryr, :url => admin_user_rider_year_registrations_path(@user), :method => :post, :remote => true  do |f| %>
