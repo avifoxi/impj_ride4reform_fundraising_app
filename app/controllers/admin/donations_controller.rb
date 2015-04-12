@@ -71,98 +71,12 @@ class Admin::DonationsController < ApplicationController
 
 	def create_donation_payment
 		@donation = Donation.find(params[:id])
-
-		# def re_render_new_dp_w_errors
-		# 	@errors = @donation.errors
-		# 	if @donation.user.errors 
-		# 		@donation.user.errors.each do |k,v|
-		# 			@errors.messages[k.to_sym] = [v]
-		# 		end
-		# 	end
-		# 	if @custom_billing_address && @custom_billing_address.errors
-		# 		@custom_billing_address.errors.each do |k,v|
-		# 			@errors.messages[k.to_sym] = [v]
-		# 		end
-		# 	end
-		# 	if @receipt && @receipt.errors
-		# 		@receipt.errors.each do |k,v|
-		# 			@errors.messages[k.to_sym] = [v]
-		# 		end
-		# 	end
-		# 	render json: {
-		# 		errors: @errors.full_messages.to_sentence
-		# 	} 
-		# 	return
-		# end
-		
-		# unless paying_by_check
-		# 	@donation.user.cc_type = cc_info['type']
-		# 	@donation.user.cc_number = cc_info['number']
-		# 	@donation.user.cc_cvv2 = cc_info['cvv2']
-		# 	unless @donation.user.valid?
-		# 		re_render_new_dp_w_errors
-		# 		return
-		# 	end
-		# end
-
-		# if full_params['custom_billing_address'] == '0' && !full_params['mailing_addresses'] 
-		# 	@donation.errors.add(:billing_address, 'You must select a mailing address.')			
-		# 	re_render_new_dp_w_errors
-		# 	return
-		# end
-
-		# if full_params['custom_billing_address'] == '1'
-		# 	@custom_billing_address = MailingAddress.new(full_params['mailing_address'])
-		# 	@custom_billing_address.user = @donation.user
-		# 	unless @custom_billing_address.save
-		# 		re_render_new_dp_w_errors
-		# 		return
-		# 	end
-		# 	billing_address = @custom_billing_address
-		# else
-		# 	billing_address = MailingAddress.find(full_params['mailing_addresses'])
-		# end
-
 		pm = PaymentMaker.new(@donation, :donation, full_params, current_admin)
 
 		receipt_or_errors = pm.process_payment
-
-		# if paying_by_check
-			
-		# 	@receipt = Receipt.new({ 
-		# 		user: @donation.user, amount: @donation.amount
-		# 	}.merge( full_params[:receipt] ))
-		# 	unless @receipt.save
-		# 		# @donation.errors.add(:payment, ppp.payment.error)
-		# 		re_render_new_dp_w_errors
-		# 		return
-		# 	end
-		# else # process credit card
-		# 	ppp = PaypalPaymentPreparer.new({
-		# 		user: @donation.user,
-		# 		cc_info: cc_info, 
-		# 		billing_address: billing_address,
-		# 		transaction_details: transaction_details
-		# 	})
-
-		# 	if ppp.create_payment
-		# 		@receipt = Receipt.create(user: @donation.user, amount: @donation.amount, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-		# 	else
-		# 		@donation.errors.add(:payment, ppp.payment.error)
-		# 		re_render_new_dp_w_errors
-		# 	end
-		# end
-		# p '$'*80
-		# p '@receipt'
-		# p "#{@receipt.inspect}"
-		# p 'valid?'
-		# p "#{@receipt.valid?}"
-		# p 'errors'
-		# p "#{@receipt.errors.inspect}"
-		# p '#'*80
-		# p 'passed the receipt creation w check'
+		
 		if receipt_or_errors.instance_of?(Receipt)
-			@donation.update_attributes(receipt: receipt_or_errors, fee_is_processed: true)	
+			@donation.update_attributes(fee_is_processed: true)	
 			DonationMailer.successful_donation_thank_donor(@donation).deliver
 			
 			unless @donation.is_organizational
@@ -211,26 +125,5 @@ class Admin::DonationsController < ApplicationController
     	]  
     )
   end
-  # "{\"amount\"=>\"890\", \"anonymous_to_public\"=>\"0\", \"note_to_rider\"=>\"feep\", \"is_organizational\"=>\"false\", \"rider_year_registration\"=>\"22\", \"new_donor\"=>\"0\", \"user_id\"=>\"1\", \"user\"=>{\"first_name\"=>\"\", \"last_name\"=>\"\", \"email\"=>\"\"}}"
-
-  # def paying_by_check
-  # 	full_params[:receipt][:by_check] == "1"
-  # end
-
-  # def donor
-  # 	if full_params[:new_donor] == '0'
-
-  # 	else
-
-  # 	end
-  # end
-
-  # def transaction_details
-  #   {
-  #     'name' => "user donation to #{@donation.is_organizational ? 'IMPJ' : 'rider' }",
-  #     'amount' =>  '%.2f' % @donation.amount,
-  #     'description' => "#{ @donation.user.full_name }'s donation to #{@donation.is_organizational ? 'IMPJ' : @donation.rider.full_name}, in the #{RideYear.current.year} ride year."
-  #   }
-  # end
-
+  
 end

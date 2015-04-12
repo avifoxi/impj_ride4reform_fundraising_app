@@ -75,7 +75,7 @@ class DonationsController < ApplicationController
 		receipt_or_errors = pm.process_payment
 	
 		if receipt_or_errors.instance_of?(Receipt)
-			@donation.update_attributes(receipt: receipt_or_errors, fee_is_processed: true)	
+			@donation.update_attributes(fee_is_processed: true)	
 			DonationMailer.successful_donation_thank_donor(@donation).deliver
 			
 			unless @donation.is_organizational

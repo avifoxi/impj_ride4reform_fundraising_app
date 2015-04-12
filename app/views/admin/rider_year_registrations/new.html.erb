@@ -1,7 +1,10 @@
 <%= render 'shared/form_errors' %>
 
 <%= simple_form_for @ryr  do |f| %>
-   
+
+	<%= render 'shared/rider_year_registration_form', f: f %>
+  
+  <%= render partial: 'shared/payment_form', locals: { :f => f } %>
   
   <%= f.button :submit %>
 <% end %>

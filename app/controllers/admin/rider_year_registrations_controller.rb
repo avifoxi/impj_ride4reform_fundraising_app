@@ -30,6 +30,16 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 	def new
 		@user = User.find(params[:user_id])
 		@ryr = @user.rider_year_registrations.build
+		@receipt = @ryr.build_registration_payment_receipt
+		@mailing_addresses = @ryr.mailing_addresses
+		@custom_billing_address = MailingAddress.new
+
+
+		p 'mailing_addresses'
+		p "#{@mailing_addresses.inspect}"
+			p '#'*80
+			# p 'one_liner'
+			# p "#{@mailing_addresses.first.one_liner}"
 	end
 
 end
