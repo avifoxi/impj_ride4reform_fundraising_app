@@ -44,18 +44,24 @@ Rails.application.routes.draw do
 
   get 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#new_pay_reg_fee' 
   post 'rider_year_registrations/pay_reg_fee' => 'rider_year_registrations#create_pay_reg_fee' 
+  
   resources :rider_year_registrations
 
   get 'admin' => 'admin/admins#index'
 
   namespace :admin do
-    resources :users
+    resources :users do 
+      resources :rider_year_registrations, only: [:new, :create]
+    end
     resources :admins
     resources :ride_years do
       resources :donations, only: :index
+      resources :rider_year_registrations, only: :index
     end
     resources :donations
-    
+    resources :mailing_addresses, except: [:show, :index]
+    resources :rider_year_registrations, except: [:new, :create]
+
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
 
     post 'donations/:id/create_donation_payment' => 'donations#create_donation_payment', as: :create_donation_payment

@@ -3,10 +3,15 @@ https://devcenter.heroku.com/articles/request-timeout
 DOING
 
 	Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
+	
+	Admin creates user new ryr 
+
 
 
 
 TODO
+
+add new field to prp -- on_probation -- basically suspends the page
 
 UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
 

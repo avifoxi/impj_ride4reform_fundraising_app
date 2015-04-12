@@ -24,6 +24,7 @@
 </div>
 
 <% if @mailing_addresses %>
+	<!-- < %= @mailing_addresses.inspect %> -->
 	<%= f.input :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
 
 	<%= f.input :custom_billing_address, as: :boolean, label: 'Add a separate billing address?' %>
@@ -74,7 +75,17 @@
 		}); 
 		ch.trigger('change'); 
 
-		var payByCheck = $('#donation_receipt_by_check');
+		<% if @mailing_addresses.empty? %>
+			ch[0].checked = true;
+			ch.trigger('change');
+			ch.hide();
+		<% end %>
+
+		<% if @ryr  %>
+			var payByCheck = $('#rider_year_registration_receipt_by_check'); 
+		<% else %>
+			var payByCheck = $("#donation_receipt_by_check")
+		<% end %>
 
 		if ( !_.isEmpty(payByCheck) ) {
 			payByCheck.change(function(e){

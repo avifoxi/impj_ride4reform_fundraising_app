@@ -42,9 +42,6 @@ class RiderYearRegistrationsController < ApplicationController
 		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 
 		if prp.update_attributes(prp_params)
-			# user_register_for_ride_before_payment
-			# RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr)
-
 			redirect_to rider_year_registrations_mailing_address_path(rider_year_registration: @ryr)
 		else
 			@errors = prp.errors
@@ -74,89 +71,25 @@ class RiderYearRegistrationsController < ApplicationController
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 		@mailing_addresses = @ryr.mailing_addresses
 		@custom_billing_address = MailingAddress.new
-		@registration_fee = current_fee
+		@registration_fee = RideYear.current_fee
 	end
 
 	def create_pay_reg_fee
 
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
+		pm = PaymentMaker.new(@ryr, :registration, full_params)
+		receipt_or_errors = pm.process_payment
 
-		def errors_via_json
-			@errors = @ryr.errors
-			# return errors json
-			if @ryr.user.errors 
-				@ryr.user.errors.each do |k,v|
-					@errors.messages[k.to_sym] = [v]
-				end
-			end
-			if @custom_billing_address && @custom_billing_address.errors
-				@custom_billing_address.errors.each do |k,v|
-					@errors.messages[k.to_sym] = [v]
-				end
-			end
-			if @payment_errors
-				@errors.add(:payment, @payment_errors)
-			end
-			render json: {
-				errors: @errors.full_messages.to_sentence
-			} 
-			return
-		end
-
-		if cc_info
-			@ryr.user.cc_type = cc_info['type']
-			@ryr.user.cc_number = cc_info['number']
-			@ryr.user.cc_cvv2 = cc_info['cvv2']
-			unless @ryr.user.valid?
-				errors_via_json
-				return
-			end
-		else
-			@payment_errors = ['Please enter your full credit card information to complete your registration']
-			errors_via_json
-			return
-		end
-
-		if full_params['custom_billing_address'] == '1'
-			@custom_billing_address = MailingAddress.new(custom_billing_address)
-			@custom_billing_address.user = current_user
-			unless @custom_billing_address.save
-				errors_via_json
-				return
-			end
-			billing_address = @custom_billing_address
-		else
-			unless full_params['mailing_addresses']
-				@ryr.errors.add(:billing_address, 'You must specify a billing address')
-				errors_via_json
-				return
-			end
-			billing_address = MailingAddress.find(full_params['mailing_addresses'])
-		end
-
-		ppp = PaypalPaymentPreparer.new({
-			user: current_user,
-			cc_info: cc_info, 
-			billing_address: billing_address,
-			transaction_details: transaction_details
-		})
-
-		if ppp.create_payment
-			@ryr.update_attributes(registration_payment_receipt:
-				@ryr.create_registration_payment_receipt(user: current_user, amount: current_fee, paypal_id: ppp.payment.id, full_paypal_hash: ppp.payment.to_json)
-			)
+		if receipt_or_errors.instance_of?(Receipt)
 			@rider = current_user.persistent_rider_profile
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
-
 			render json: {
 				success: 'no errors what?',
 				prp_address: persistent_rider_profile_url(@rider),
-				billing_address: billing_address,
 				ryr: @ryr
 			} 
 		else
-			@payment_errors = ppp.payment.error
-			errors_via_json
+			render json: receipt_or_errors
 		end
 	end
 
@@ -185,18 +118,6 @@ class RiderYearRegistrationsController < ApplicationController
     )
   end
 
-  def cc_info
-  	unless full_params['cc_type'] && full_params['cc_number'] && full_params['cc_expire_month'] && full_params['cc_expire_year(1i)'] && full_params['cc_cvv2']
-  		return false
-  	end
-  	{
-  		'type' => full_params['cc_type'],
-			'number' => full_params['cc_number'],
-			'expire_month' => full_params['cc_expire_month'],
-			'expire_year' => full_params['cc_expire_year(1i)'],
-			'cvv2' => full_params['cc_cvv2']
-  	}
-  end
 
   def mailing_addesses_params
   	full_params['mailing_addresses_attributes']['0']
@@ -213,24 +134,5 @@ class RiderYearRegistrationsController < ApplicationController
   	} 	
   end
 
-  def custom_billing_address
-		full_params['mailing_address']	
-  end
-
-  def current_fee 
-  	if Date.today < RideYear.current.early_bird_cutoff
-  		RideYear.current.registration_fee_early
-  	else
-  		RideYear.current.registration_fee
-  	end
-  end
-
-  def transaction_details
-  	{
-			'name' => "rider registration fee",
-			'amount' =>  '%.2f' % current_fee,
-			'description' => "Registration fee for #{ current_user.full_name }, #{RideYear.current.year}"
-		}
-	end
 
 end

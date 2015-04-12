@@ -214,6 +214,7 @@ RSpec.describe DonationsController, :type => :controller do
 			}
 			body = JSON.parse(response.body)
 
+
 			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count)
 			expect( body['errors']).to_not be_empty
@@ -234,7 +235,7 @@ RSpec.describe DonationsController, :type => :controller do
 			body = JSON.parse(response.body)
 			expect(response.status).to eq(200)
 			expect(Receipt.all.count).to eq(@rec_count)
-			expect( body['errors']).to_not be_empty
+			expect( body['errors']).to be_a String
 
 			expect(@donation.rider_year_registration.raised).to eq(@rider_raised_sum)
 			expect(ActionMailer::Base.deliveries.count).to eq(@mailers_count)

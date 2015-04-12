@@ -1,13 +1,53 @@
-<h3>Sorted Views:</h3>
-<ul>
-	<li><a href="#" class="btn btn-default">All Users</a></li>
-	<li><a href="#" class="btn btn-default">Riders By Year</a></li>
-	<li><a href="#" class="btn btn-default">Donors By Year</a></li>
-</ul>
+<h3>All Users</h3>
+<button class='btn btn-success show_user_form'>Manually register new user for ride</button>
+
+<%= simple_form_for @user, url: admin_users_path, method: :post do |u| %>
+
+	<%= u.input :title, collection: User::TITLES %>  
+	<%= u.input :first_name %>
+	<%= u.input :last_name %>
+	<%= u.input :email %>
+	<%= u.button :submit %>
+
+<% end %>
 
 
-<ul>
+<br><%= link_to "Export as CSV", admin_users_path(format: "csv"), class: 'btn btn-info' %> 
+
+<table class="table table-condensed">
+	<tr>
+		<th>Name + Link</th>
+		<th>Email</th>
+		<th>Years Ridden</th>
+		<th>MultiYear Raised to Date</th>
+		<th>Number of Donations Received</th>
+		<th>Number of Donations Given</th>
+		<th>Amount Donated to Date</th>
+	</tr>
 	<% @users.each do |u| %>
-		<li><%= link_to "#{ u.full_name }", admin_user_path(u) %></li>
-	<% end %>
-</ul>
+		<tr>
+	  	<td>
+	  		<%= link_to u.full_name, admin_user_path(u) %>
+	  	</td>
+	  	<td>
+	  		<%= u.email %>
+	  	</td>
+	  	<td>
+	  		<%= u.years_ridden %>
+	  	</td>
+	  	<td>
+	  		$<%= u.total_raised %>
+	  	</td>
+	  	<td>
+	  		<%= u.total_donations_received %>
+	  	</td>
+	  	<td>
+	  		<%= u.total_donations_given %>
+	  	</td>
+	  	<td>
+	  		$<%= u.total_amount_donated %>
+	  	</td>
+
+	  </tr>
+  <% end %>
+</table>

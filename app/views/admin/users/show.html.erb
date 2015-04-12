@@ -1,4 +1,5 @@
 <h3>User Attributes</h3>
+
 <table class="table table-condensed">
   <tr>
     <th>Full Name</th>
@@ -11,7 +12,7 @@
  
 </table>
 
-
+<br><%= link_to 'Edit User + Profile', edit_admin_user_path(@user), class: 'btn btn-success btn-default' %>
 
 <h3>Rider Profile</h3>
 <% if @prp %>
@@ -44,7 +45,12 @@
 <% end %>
 
 
-<h3>Ride History</h3>
+<h3>Ride History 
+	<% unless @user.rider_in_current_year? %>
+		<small><%= link_to "+ Register Rider for #{@current_ride_year.year}",  new_admin_user_rider_year_registration_path(@user), class: 'btn btn-success' %></small>
+	<% end %>
+	
+</h3>
 <% if @all_rides %>
 
 	<table class="table table-condensed">
@@ -54,6 +60,8 @@
 			<th>Goal Set</th>
 			<th>Amount Raised</th>
 			<th>Donations Count</th>
+			<th>Edit Link</th>
+			<th>Delete?</th>
 		</tr>
 		<% @all_rides.each do |r| %>
 		  <tr>
@@ -72,7 +80,12 @@
 		  	<td>
 		  		<%= r.donations.count %>
 		  	</td>
-
+		  	<td>
+		  		<%= link_to 'Edit', edit_admin_rider_year_registration_path(r), class: 'btn btn-default btn-sm'  %>
+		  	</td>
+				<td>
+					<%= link_to 'Delete', admin_rider_year_registration_path(r), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete this Registration" }    %>
+				</td>
 		  </tr>
 	  <% end %>
 	</table>
@@ -86,4 +99,31 @@
 	<%= render 'admin/donations/collection_stats', dons: @donations %>
 <% else %>
 	<h4>No Donation History</h4>
+<% end %>
+
+<h3>Mailing Addresses</h3>
+<% if @mailing_addresses %>
+	<table class="table table-condensed">
+		<tr>
+			<th>Line 1</th>
+			<th>Line 2</th>
+			<th>City</th>
+			<th>State</th>
+			<th>Zip</th>
+			<th>Edit Link</th>
+			<th>Delete</th>			
+		</tr>
+		<%  @mailing_addresses.each do |m|%>
+		  <td><%= m.line_1  %></td>
+			<td><%= m.line_2 %></td>
+			<td><%= m.city %></td>
+			<td><%= m.state %></td>
+			<td><%= m.zip %></td>
+			<td><%= link_to "Edit ##{m.id}", edit_admin_mailing_address_path(m), class: 'btn btn-default btn-sm' %></td>
+			<td><%= button_to "Delete ##{m.id}", admin_mailing_address_path(m), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete #{m.one_liner}." }   %></td>
+	  <% end %>
+	</table>
+
+<% else %>
+	<h4>No associated addresses</h4>
 <% end %>

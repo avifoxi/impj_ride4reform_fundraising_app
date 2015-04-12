@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :mailing_addresses, :persistent_rider_profile
 
+  delegate :bio, to: :persistent_rider_profile
+
 	has_many :rider_year_registrations
 	has_many :receipts
   has_many :donations
@@ -54,6 +56,28 @@ class User < ActiveRecord::Base
     else
       self.rider_year_registrations.last.ride_year == RideYear.current
     end
+  end
+
+  def years_ridden
+    self.rider_year_registrations.map{|ryr| ryr.ride_year.year}.join('-')
+  end
+
+  def total_raised
+    years_raised = self.rider_year_registrations.map{|ryr| ryr.raised}
+    years_raised.inject(:+) || 0
+  end
+
+  def total_donations_received
+    years_dons = self.rider_year_registrations.map{|ryr| ryr.donations.count}
+    years_dons.inject(:+) || 0
+  end
+
+  def total_donations_given
+    self.donations.count
+  end
+
+  def total_amount_donated
+    self.donations.sum(:amount)
   end
 
   # def complete_donor_list_for_all_rides
