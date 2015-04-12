@@ -75,6 +75,12 @@
 		}); 
 		ch.trigger('change'); 
 
+		<% if @mailing_addresses.empty? %>
+			ch[0].checked = true;
+			ch.trigger('change');
+			ch.hide();
+		<% end %>
+
 		<% if @ryr  %>
 			var payByCheck = $('#rider_year_registration_receipt_by_check'); 
 		<% else %>

@@ -11,7 +11,7 @@ class PaymentMaker
 		@full_params = full_params
 		@amount = @payment_type == :registration ? RideYear.current_fee : @host_model.amount
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
-
+		@admin = admin
 		# p "#"*80
 		# p "inside pyment maker -- full_params"
 		# p "#{@full_params.inspect}"
@@ -31,7 +31,24 @@ class PaymentMaker
 	end
 
 	def inputs_are_valid
-		@host_model.valid? && validate_payment_info && define_billing_adddress &&prep_transaction_details
+		if @payment_type == :donation
+			@host_model.valid? && validate_payment_info && define_billing_adddress && prep_transaction_details
+		elsif @payment_type == :registration
+			@host_model.valid? && prp_valid? && validate_payment_info && define_billing_adddress && prep_transaction_details
+		end
+	end
+
+	def prp_valid? 
+		if @host_model.persistent_rider_profile
+			return true 
+		end
+		if @admin
+			@prp = PersistentRiderProfile.new(@full_params[:persistent_rider_profile].merge!(current_admin: @admin) )
+			if @prp.valid?
+				return true
+			end
+		end
+		false
 	end
 
 	def validate_payment_info
@@ -138,6 +155,11 @@ class PaymentMaker
 		end
 		if @receipt && @receipt.errors
 			@receipt.errors.each do |k,v|
+				@errors.messages[k.to_sym] = [v]
+			end
+		end
+		if @prp && @prp.errors
+			@prp.errors.each do |k,v|
 				@errors.messages[k.to_sym] = [v]
 			end
 		end

@@ -2,12 +2,14 @@ class PersistentRiderProfile < ActiveRecord::Base
 	belongs_to :user
 	has_many :rider_year_registrations, through: :user
 
+	attr_accessor :current_admin
+
 	delegate :full_name, :first_name, :mailing_addresses, :rider_year_registrations, to: :user
 
 	accepts_nested_attributes_for :user
 
 	validates_associated :user, on: :create
-	validate :has_at_least_one_rider_year_registration
+	validate :has_at_least_one_rider_year_registration, unless: :current_admin
 
 	validates_presence_of :primary_phone, length: {is: 10}
 	validates_length_of :secondary_phone, is: 10, :allow_blank => true

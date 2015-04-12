@@ -29,6 +29,9 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 
 	def new
 		@user = User.find(params[:user_id])
+		if @user.rider_year_registrations.empty? 
+			@prp = @user.build_persistent_rider_profile
+		end
 		@ryr = @user.rider_year_registrations.build
 		@receipt = @ryr.build_registration_payment_receipt
 		@mailing_addresses = @ryr.mailing_addresses
@@ -45,6 +48,8 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 	
 		if receipt_or_errors.instance_of?(Receipt)
 			@ryr.update_attributes(registration_payment_receipt: receipt_or_errors )
+			p = @user.build_persistent_rider_profile(full_params[:persistent_rider_profile])
+			p.save
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
 			render json: {
 				success: 'no errors what?',
@@ -63,7 +68,7 @@ class Admin::RiderYearRegistrationsController < ApplicationController
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
-    	:persistent_rider_profile_attributes => [
+    	:persistent_rider_profile => [
     			:primary_phone, :secondary_phone, :avatar, :birthdate, :bio
     		],
     	:mailing_address => [

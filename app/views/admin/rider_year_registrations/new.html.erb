@@ -5,6 +5,13 @@
 <%= simple_form_for @ryr, :url => admin_user_rider_year_registrations_path(@user), :method => :post, :remote => true  do |f| %>
 
 	<%= render 'shared/rider_year_registration_form', f: f %>
+
+	<% if @prp %>
+		<%= f.simple_fields_for @prp do |p| %>
+			<%= render 'shared/prp_form', :p => p %>
+		<% end %>	
+	<% end %>
+		
   
   <%= render partial: 'shared/payment_form', locals: { :f => f } %>
   

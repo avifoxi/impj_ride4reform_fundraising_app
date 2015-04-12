@@ -63,7 +63,7 @@ class Admin::UsersController < ApplicationController
 			redirect_to admin_user_path(@existing_user)
 			return
 		end
-		@user = User.new(full_params)
+		@user = User.new(full_params.merge!(password: Devise.friendly_token.first(8) ))
 		if @user.save
 			redirect_to new_admin_user_rider_year_registration_path(@user)
 		else
