@@ -42,4 +42,10 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 			# p "#{@mailing_addresses.first.one_liner}"
 	end
 
+	def create
+			p '#'*80
+			p 'params and corect routing'
+			p "#{params.inspect}"
+	end
+
 end

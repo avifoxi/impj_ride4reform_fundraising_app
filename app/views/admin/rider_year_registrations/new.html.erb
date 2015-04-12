@@ -1,6 +1,6 @@
 <%= render 'shared/form_errors' %>
 
-<%= simple_form_for @ryr  do |f| %>
+<%= simple_form_for @ryr, :url => admin_user_rider_year_registrations_path(@user), :method => :post, :remote => true  do |f| %>
 
 	<%= render 'shared/rider_year_registration_form', f: f %>
   
@@ -9,4 +9,31 @@
   <%= f.button :submit %>
 <% end %>
 
-<!-- path => admin_user_rider_year_registrations -->
+<%= render 'shared/payment_processing_modal' %>
+
+<script>
+	
+	var msg;
+
+	$( document ).ajaxSend(function() {
+		$('.modal').modal({
+			backdrop: 'static'
+		});		
+	});
+	
+	$("#new_rider_year_registration").bind('ajax:complete', function(event, xhr, settings) {
+
+		$('.ajax-errors').remove(); 
+		msg = JSON.parse(xhr.responseText);
+		if (msg.errors) {
+			var html = '<div class="alert alert-danger ajax-errors" role="alert">' +
+				'<i class="fa fa-icon-exclamation"></i>' +
+				msg.errors + '</div>';
+			$('h3').after(html);
+			$('.modal').modal('toggle');
+		} else {
+			window.location = msg.redirect_address;
+			// console.log(msg);
+		}
+   });
+</script>

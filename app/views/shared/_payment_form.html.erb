@@ -23,12 +23,6 @@
 	<%= f.input :cc_cvv2, input_html: { maxlength: 4 }, label: 'security code (cvv)' %>
 </div>
 
-<%= 	'#'*80 +
-		'one_liner' +
-		"#{@mailing_addresses.first.one_liner}"
- %>
-
-
 <% if @mailing_addresses %>
 	<!-- < %= @mailing_addresses.inspect %> -->
 	<%= f.input :mailing_addresses, as: :radio_buttons, collection: @mailing_addresses.map { |m_a| [m_a.one_liner, m_a.id] }, label: 'Select Billing Address for your credit card' %>
@@ -81,7 +75,11 @@
 		}); 
 		ch.trigger('change'); 
 
-		var payByCheck = $('#donation_receipt_by_check');
+		<% if @ryr  %>
+			var payByCheck = $('#rider_year_registration_receipt_by_check'); 
+		<% else %>
+			var payByCheck = $("#donation_receipt_by_check")
+		<% end %>
 
 		if ( !_.isEmpty(payByCheck) ) {
 			payByCheck.change(function(e){
