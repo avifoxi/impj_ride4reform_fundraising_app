@@ -1,9 +1,15 @@
+DOING
+
+on donation payment form 
+	-- show a better info for the donation, allow user to edit donation on pay screen
+
+
+TODO
+
 UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
 	-- admin only destroy a registration if there are no associated payments
 	--- otherwise if rider drops out -- just hide the public facing page
 
-on donation payment form 
-	-- show a better info for the donation, allow user to edit donation on pay screen
 
 mailing_address#edit -- does not autoselect existing state value. matters ??
 	-- 5 minutes, or fuggedaboutit
@@ -17,8 +23,6 @@ multi-year riders-- integrating this to sign-up path, and adding link for rider 
 very importatn rake task:
 	rake assets:precompile RAILS_ENV=production
 
-images -- size limits on prp image submission
-	-- FIX THIS BOZO
 
 nice images in header + home page
 
@@ -31,4 +35,9 @@ we need register the domain
 move to mickey rosen aws account? 
 
 ------
+
+
+DONE
+images -- size limits on prp image submission
+
 

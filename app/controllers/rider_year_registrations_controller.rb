@@ -39,12 +39,12 @@ class RiderYearRegistrationsController < ApplicationController
 
 	def create_persistent_rider_profile
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
-		prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
+		@prp = @ryr.user.build_persistent_rider_profile(user: @ryr.user)
 
-		if prp.update_attributes(prp_params)
+		if @prp.update_attributes(prp_params)
 			redirect_to rider_year_registrations_mailing_address_path(rider_year_registration: @ryr)
 		else
-			@errors = prp.errors
+			@errors = @prp.errors
 			render :new_persistent_rider_profile
 		end
 

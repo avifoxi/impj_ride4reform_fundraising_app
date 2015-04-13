@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
   resources :donations, only: [:new], as: :donation_to_organization
 
-  resources :donations, only: :create
+  resources :donations, only: [:create, :edit, :update, :destroy]
 
   resources :mailing_addresses, except: [:show, :index]
 
