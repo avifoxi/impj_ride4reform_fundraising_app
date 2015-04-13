@@ -48,8 +48,10 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 	
 		if receipt_or_errors.instance_of?(Receipt)
 			@ryr.update_attributes(registration_payment_receipt: receipt_or_errors )
-			p = @user.build_persistent_rider_profile(full_params[:persistent_rider_profile])
-			p.save
+			if full_params[:persistent_rider_profile]
+				p = @user.build_persistent_rider_profile(full_params[:persistent_rider_profile])
+				p.save
+			end
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
 			render json: {
 				success: 'no errors what?',
@@ -59,6 +61,23 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 			render json: receipt_or_errors
 		end
 
+	end
+
+
+	def edit
+		@ryr = RiderYearRegistration.find(params[:id])
+		unless @ryr.ride_year == RideYear.current
+			flash[:notice] = 'Admin can only edit registrations in the current ride year.'
+			redirect_to admin_user_path(@ryr.user)
+			return
+		end
+	end
+
+	def destroy
+		@ryr = RiderYearRegistration.find(params[:id])
+		@ryr.destroy
+		flash[:notice] = 'Destroyed selected registration'
+		redirect_to admin_user_path(@ryr.user)
 	end
 
 	private
