@@ -119,7 +119,7 @@
 			<td><%= m.city %></td>
 			<td><%= m.state %></td>
 			<td><%= m.zip %></td>
-			<td><%= link_to "Edit ##{m.id}", edit_admin_mailing_address_path(m), class: 'btn btn-default btn-sm' %></td>
+			<td><%= link_to "Edit ##{m.id}", edit_mailing_address_path(m), class: 'btn btn-default btn-sm' %></td>
 			<td><%= button_to "Delete ##{m.id}", admin_mailing_address_path(m), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete #{m.one_liner}." }   %></td>
 	  <% end %>
 	</table>
