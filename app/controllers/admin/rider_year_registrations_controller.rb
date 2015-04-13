@@ -60,9 +60,7 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		else
 			render json: receipt_or_errors
 		end
-
 	end
-
 
 	def edit
 		@ryr = RiderYearRegistration.find(params[:id])

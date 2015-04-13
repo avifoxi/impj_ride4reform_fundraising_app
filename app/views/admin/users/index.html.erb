@@ -11,6 +11,14 @@
 
 <% end %>
 
+<script>
+	$('form').hide();
+	$('.show_user_form').click(function(e){
+		e.preventDefault(); 
+		$('form').show();
+	});
+</script>
+
 
 <br><%= link_to "Export as CSV", admin_users_path(format: "csv"), class: 'btn btn-info' %> 
 
