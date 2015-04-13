@@ -1,8 +1,10 @@
 class Admin::MailingAddressesController < ApplicationController
 
 	skip_before_action :authenticate_user!
+	layout "admins"
 
 	def new
+		@user = User.find(params[:user_id])
 		@m_a = MailingAddress.new
 	end
 
@@ -12,16 +14,15 @@ class Admin::MailingAddressesController < ApplicationController
 		if @m_a.save
 			redirect_to admin_user_path(@user)
 		else
-			@errors = @m_a.errors
+			# @errors = @m_a.errors
 			render 'new'
 		end
 	end
 
 	def destroy
-		@user = User.find(params[:user_id])
-
+		@m_a = MailingAddress.find(params[:id])
+		@user = @m_a.user
 		if @user.mailing_addresses.count > 1
-			@m_a = MailingAddress.find(params[:id])
 			@m_a.destroy
 		else
 			flash[:alert] = 'User must have at least one mailing address on file. Add a new one before deleting the old.'
@@ -31,11 +32,13 @@ class Admin::MailingAddressesController < ApplicationController
 
 	def edit
 		@m_a = MailingAddress.find(params[:id])
+		@user = @m_a.user
 	end
 
 	def update
-		@user = User.find(params[:user_id])
+		# @user = User.find(params[:user_id])
 		@m_a = MailingAddress.find(params[:id])
+		@user = @m_a.user
 		if @m_a.update_attributes(m_a_params)
 			redirect_to admin_user_path(@user)
 		else

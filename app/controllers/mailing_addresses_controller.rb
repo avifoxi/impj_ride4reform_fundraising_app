@@ -2,7 +2,7 @@ class MailingAddressesController < ApplicationController
 	# if current_user
 	skip_before_action :authenticate_admin!#, :authenticate_user!
 	# before_action :ensure_admin_or_user
-	validate_user_w_associated_m_a, except: [ :new, :create ]
+	before_action :validate_user_w_associated_m_a, except: [ :new, :create ]
 	# end
 	# def ensure_user_or_admin
 	# 	if current_user
