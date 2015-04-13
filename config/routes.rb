@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users do 
       resources :rider_year_registrations, only: [:new, :create]
+      resources :mailing_addresses, only: [:new, :create]
     end
     resources :admins
     resources :ride_years do
@@ -59,7 +60,7 @@ Rails.application.routes.draw do
       resources :rider_year_registrations, only: :index
     end
     resources :donations
-    resources :mailing_addresses, except: [:show, :index]
+    resources :mailing_addresses, except: [:show, :index, :new, :create]
     resources :rider_year_registrations, except: [:new, :create]
 
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment

@@ -85,8 +85,8 @@ require 'faker'
     )
   end
 
-  r = RideYear.create(registration_fee: 650, registration_fee_early: 630, min_fundraising_goal: 2500, year: 2016, ride_start_date: "2016-03-16", ride_end_date: "2016-03-21", early_bird_cutoff: "2016-01-16")
-  r.set_as_current
+  # r = RideYear.create(registration_fee: 650, registration_fee_early: 630, min_fundraising_goal: 2500, year: 2016, ride_start_date: "2016-03-16", ride_end_date: "2016-03-21", early_bird_cutoff: "2016-01-16")
+  # r.set_as_current
 
 # when "production"
 # 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')

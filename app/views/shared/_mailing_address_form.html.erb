@@ -2,5 +2,5 @@
 <%= m.input :line_2 %>
 
 <%= m.input :city %>
-<%= m.input :state, collection: us_states %>
+<%= m.input :state, collection: us_states, :include_blank => false %>
 <%= m.input :zip, hint: '5 digits please', input_html: { maxlength: 5 } %>

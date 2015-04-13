@@ -8,7 +8,7 @@ class MailingAddress < ActiveRecord::Base
   validates :zip, length: { is: 5 }
   validate :zip_num_length_check, if: :zip
 
-  validate :check_zip_against_city_and_state, if: [:zip, :state]
+  validate :check_zip_against_city_and_state, unless: Proc.new { |a| a.zip.blank? }
 
   before_save :first_in_is_primary
 
@@ -39,6 +39,8 @@ class MailingAddress < ActiveRecord::Base
   # using area gem. neat!
 
   def check_zip_against_city_and_state
+    return unless :state 
+
     # confirmed_city = self.zip.to_region(:city => true)
     confirmed_state = self.zip.to_region(:state => true)
     unless self.state == confirmed_state

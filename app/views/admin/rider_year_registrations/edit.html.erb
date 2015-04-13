@@ -1,0 +1,11 @@
+<h3>Edit <%= @ryr.full_name %> for current ride year</h3>
+
+<%= render 'shared/form_errors' %>
+
+<%= simple_form_for @ryr, :method => :put, :url => admin_rider_year_registration_path(@ryr) do |f| %>
+
+	<%= render 'shared/rider_year_registration_form', f: f %>
+
+		    
+  <%= f.button :submit %>
+<% end %>

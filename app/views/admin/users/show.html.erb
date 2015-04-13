@@ -101,7 +101,8 @@
 	<h4>No Donation History</h4>
 <% end %>
 
-<h3>Mailing Addresses</h3>
+<h3>Mailing Addresses <%= link_to '+ Add mailing address', new_admin_user_mailing_address_path(@user), class: 'btn btn-success' %>
+</h3>
 <% if @mailing_addresses %>
 	<table class="table table-condensed">
 		<tr>
@@ -114,6 +115,7 @@
 			<th>Delete</th>			
 		</tr>
 		<%  @mailing_addresses.each do |m|%>
+		<tr>
 		  <td><%= m.line_1  %></td>
 			<td><%= m.line_2 %></td>
 			<td><%= m.city %></td>
@@ -121,6 +123,7 @@
 			<td><%= m.zip %></td>
 			<td><%= link_to "Edit ##{m.id}", edit_admin_mailing_address_path(m), class: 'btn btn-default btn-sm' %></td>
 			<td><%= button_to "Delete ##{m.id}", admin_mailing_address_path(m), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete #{m.one_liner}." }   %></td>
+		</tr>
 	  <% end %>
 	</table>
 

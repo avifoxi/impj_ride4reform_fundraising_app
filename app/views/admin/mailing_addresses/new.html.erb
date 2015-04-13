@@ -1,0 +1,9 @@
+<h3>New <%= @user.full_name %> Address</h3>
+
+<%= simple_form_for @m_a, url: admin_user_mailing_addresses_path(@user), :method => :post do |m| %>
+	
+	<%= render 'shared/mailing_address_form', m: m %>
+
+	<%= m.button :submit %>
+
+<% end %>
