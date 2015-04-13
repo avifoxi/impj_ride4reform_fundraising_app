@@ -11,7 +11,7 @@ class Admin::UsersController < ApplicationController
       	@user = User.new
       }
       format.csv { 
-      	send_data gen_csv(@users, [:full_name, :email, :years_ridden, :total_raised, :total_donations_received, :total_donations_given, :total_amount_donated])  
+      	send_data gen_csv(@users, [:full_name, :email, :primary_address, :years_ridden, :total_raised, :total_donations_received, :total_donations_given, :total_amount_donated])  
       	response.headers['Content-Disposition'] = 'attachment; filename="' + "all_current_users_#{Time.now.strftime("%Y_%m_%d_%H%M")}" + '.csv"'
       }
     end
