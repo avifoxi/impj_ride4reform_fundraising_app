@@ -26,7 +26,7 @@ class PersistentRiderProfilesController < ApplicationController
 
 	def index
 		@year = RideYear.current
-		@riders = RideYear.current.rider_year_registrations.map{|ryr| ryr.persistent_rider_profile}.keep_if{|p| p != nil }
+		@riders = RideYear.current.rider_year_registrations.where(active_for_fundraising: true).map{|ryr| ryr.persistent_rider_profile}.keep_if{|p| p != nil }
 	end
 
 	def edit
