@@ -85,6 +85,10 @@ class User < ActiveRecord::Base
     self.donations.sum(:amount)
   end
 
+  def test_side
+    HardWorker.perform_async('bob', 5)
+  end
+
   # def complete_donor_list_for_all_rides
   # 	drns = DonorRiderNote.where(rider: self)
   # end
