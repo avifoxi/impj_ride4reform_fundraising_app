@@ -1,4 +1,4 @@
-<% unless current_user %>
+<% unless current_user || @user %>
 	<div class="new_user">
 	<%= f.simple_fields_for :user do |u| %>
 		<%= u.input :first_name, label:  "#{current_admin ? "Donor's" : "Your"} first name" %>
