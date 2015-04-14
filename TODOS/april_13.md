@@ -4,7 +4,7 @@ UN-registering for a ride-- rider cancels, or does not meet minimum funds. what 
 	-- admin only destroy a registration if there are no associated payments
 		
 
-	--- otherwise if rider drops out -- just hide the public facing page
+	##--- otherwise if rider drops out -- just hide the public facing page
 		add attribute -- deactivate
 
 

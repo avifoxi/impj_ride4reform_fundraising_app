@@ -52,6 +52,14 @@ class RiderYearRegistration < ActiveRecord::Base
     self.update_attributes(active_for_fundraising: true)
   end
 
+  def deleteable?
+    if self.registration_payment_receipt || !self.donations.empty?
+      false
+    else
+      true
+    end
+  end
+
   private
 
   def goal_meets_min_for_ride_year

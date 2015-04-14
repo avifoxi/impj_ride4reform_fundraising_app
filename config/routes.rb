@@ -64,7 +64,12 @@ Rails.application.routes.draw do
     end
     resources :donations
     resources :mailing_addresses, except: [:show, :index, :new, :create]
-    resources :rider_year_registrations, except: [:new, :create]
+    
+    resources :rider_year_registrations, except: [:new, :create] do 
+      post '/deactivate'=> 'rider_year_registrations#deactivate', as: :deactivate
+      post '/reactivate'=> 'rider_year_registrations#reactivate', as: :reactivate
+
+    end
 
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
 
