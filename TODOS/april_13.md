@@ -1,14 +1,15 @@
 DOING
 
-on donation payment form 
-	-- show a better info for the donation, allow user to edit donation on pay screen
+UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
+	-- admin only destroy a registration if there are no associated payments
+		
+
+	--- otherwise if rider drops out -- just hide the public facing page
+		add attribute -- deactivate
 
 
 TODO
 
-UN-registering for a ride-- rider cancels, or does not meet minimum funds. what then? 
-	-- admin only destroy a registration if there are no associated payments
-	--- otherwise if rider drops out -- just hide the public facing page
 
 
 mailing_address#edit -- does not autoselect existing state value. matters ??
@@ -39,5 +40,9 @@ move to mickey rosen aws account?
 
 DONE
 images -- size limits on prp image submission
+
+
+on donation payment form 
+	-- show a better info for the donation, allow user to edit donation on pay screen
 
 
