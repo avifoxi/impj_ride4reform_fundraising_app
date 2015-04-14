@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     post '/deactivate'=> 'persistent_rider_profiles#deactivate_current_ryr', as: :deactivate_current_ryr
     post '/reactivate'=> 'persistent_rider_profiles#reactivate_current_ryr', as: :reactivate_current_ryr
 
-    resources :donations, only: [:new, :create]
+    resources :donations, only: [:new, :create, :index]
   end
   resources :donations, only: [:new], as: :donation_to_organization
 

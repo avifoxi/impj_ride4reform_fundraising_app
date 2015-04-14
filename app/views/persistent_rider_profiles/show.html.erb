@@ -10,8 +10,10 @@
 					<%= link_to 'Deactivate profile', persistent_rider_profile_deactivate_current_ryr_path(@rider), class: 'btn btn-warning', method: :post, params: { persistent_rider_profile: @rider.id } %>
 				<% else %>
 					<%= link_to 'Reactivate profile', persistent_rider_profile_reactivate_current_ryr_path(@rider), class: 'btn btn-success', method: :post, params: { persistent_rider_profile: @rider.id } %>
-
 				<% end %>
+				<hr>
+
+				<%= link_to 'Your Donor List', persistent_rider_profile_donations_path(@rider), class: 'btn btn-success' %>
 			<% end %>
 		</div>
 		<div class="well well-sm"> 

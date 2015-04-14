@@ -1,0 +1,18 @@
+<h3>Your History of Donations Recieved</h3>
+
+<p>
+	Be sure to reach out to all your donors and thank them! 
+</p>
+
+<h4>current ride year</h4>
+<%= render 'table_for_rider', dons: @current_donations %>
+
+<% unless @donations.empty? %>
+	<hr>
+	<p>Past donors are a likely source of donations for your current campaign, so be sure to reach to them first when you start fundraising.</p>
+
+	<h4>past donations</h4>
+	<%= render 'table_for_rider', dons: @donations %>
+
+	
+<% end %>

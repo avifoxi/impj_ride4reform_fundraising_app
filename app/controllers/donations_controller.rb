@@ -126,6 +126,13 @@ class DonationsController < ApplicationController
 		redirect_to root_url
 	end
 
+	def index
+		@prp = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+		@donations = @prp.rider_year_registrations.inject([]){|arr, ryr| arr << ryr.donations}.flatten
+		@current_donations = @donations.select{|d| d.ride_year == RideYear.current}
+		@donations -= @current_donations
+	end
+
 	private
 
 	def full_params
