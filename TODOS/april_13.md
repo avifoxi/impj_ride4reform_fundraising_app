@@ -1,9 +1,5 @@
 DOING
 
-multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
-	-- user facing 
-
-
 TODO
 
 
@@ -41,6 +37,8 @@ UN-registering for a ride-- rider cancels, or does not meet minimum funds. what 
 rider/:id/donations --- table with tools for rider to access + maintain relationships with 
 	-- a mini admin
 
+multi-year riders-- integrating this to sign-up path, and adding link for rider to register for new ride from their prp page
+	-- user facing 
 
 
 
