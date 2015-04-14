@@ -16,7 +16,7 @@
 				<%= link_to 'Your Donor List', persistent_rider_profile_donations_path(@rider), class: 'btn btn-success' %>
 
 				<% if @ask_for_current_participation %>
-					<%= link_to "Register for this year's ride!", admin_path, class: 'btn btn-info' %>
+					<%= link_to "Register for this year's ride!", new_persistent_rider_profile_rider_year_registration_path(@rider), class: 'btn btn-info' %>
 				<% end %>
 			<% end %>
 		</div>
