@@ -5,22 +5,29 @@ class PersistentRiderProfilesController < ApplicationController
 	
 	def show
 		@rider = PersistentRiderProfile.find(params[:id])
-		@years_registration = @rider.rider_year_registrations.find_by(ride_year: RideYear.current )
+		@years_registration = @rider.rider_year_registrations.last
+
+		if @years_registration.ride_year != RideYear.current
+			@ask_for_current_participation = true
+		end
+
+		# @years_registration = @rider.rider_year_registrations.find_by(ride_year: RideYear.current )
 		@prp_owner_signed_in = @rider.user == current_user
+
 
 		if !@years_registration.active_for_fundraising
 			if @prp_owner_signed_in
 				flash[:alert] = "#{@years_registration.full_name} no longer active for this year's ride."
 			else 
-				flash[:notice] = "#{@years_registration.full_name} no longer active for this year's ride."
+				flash[:notice] = "#{@years_registration.full_name} not active for this year's ride."
 				redirect_to persistent_rider_profiles_path
 			end
 		end
 			
-		@donations = @rider.delegate_ryr_method(RideYear.current, 'donations')
-		@raised = @rider.delegate_ryr_method(RideYear.current, 'raised')
-		@percent_of_goal = @rider.delegate_ryr_method(RideYear.current, 'percent_of_goal')
-		@goal = @rider.delegate_ryr_method(RideYear.current, 'goal')
+		@donations = @years_registration.donations
+		@raised = @years_registration.raised
+		@percent_of_goal = @years_registration.percent_of_goal
+		@goal = @years_registration.goal
 		
 	end
 
