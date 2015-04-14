@@ -39,4 +39,4 @@ Developed by [Avi Fox-Rosen](https://github.com/avifoxi) with contributions from
 
  
 
-[Original Spec](https://docs.google.com/document/d/1HaCiJ6or8ZuCRphLkziCouc2JkX5fqHEDdV-8YV6Wms/edit)
+[Original Spec](https://docs.google.com/document/d/1HaCiJ6or8ZuCRphLkziCouc2JkX5fqHEDdV-8YV6Wms/edit?usp=sharing)
