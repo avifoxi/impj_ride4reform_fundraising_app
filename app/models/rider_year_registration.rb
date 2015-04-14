@@ -44,6 +44,14 @@ class RiderYearRegistration < ActiveRecord::Base
     perc.to_i.to_s
   end
 
+  def deactivate
+    self.update_attributes(active_for_fundraising: false)
+  end
+
+  def reactivate
+    self.update_attributes(active_for_fundraising: true)
+  end
+
   private
 
   def goal_meets_min_for_ride_year

@@ -3,8 +3,15 @@
 		<%= render 'picture', :rider => @rider %>
 		<div class="well well-sm"> 
 			<h3><%= @rider.full_name  %></h3>
-			<% if current_user == @rider.user %>
+			<% if @prp_owner_signed_in %>
 				<%= link_to 'Edit your profile?', edit_persistent_rider_profile_path, class: "btn btn-success" %>
+
+				<% if @years_registration.active_for_fundraising %>
+					<%= link_to 'Deactivate profile', persistent_rider_profile_deactivate_current_ryr_path(@rider), class: 'btn btn-warning', method: :post, params: { persistent_rider_profile: @rider.id } %>
+				<% else %>
+					<%= link_to 'Reactivate profile', persistent_rider_profile_reactivate_current_ryr_path(@rider), class: 'btn btn-success', method: :post, params: { persistent_rider_profile: @rider.id } %>
+
+				<% end %>
 			<% end %>
 		</div>
 		<div class="well well-sm"> 

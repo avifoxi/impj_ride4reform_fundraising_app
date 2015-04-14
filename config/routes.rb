@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   # if no rider spec'd, donate to org
 
   resources :persistent_rider_profiles, :path => "riders" do
+    post '/deactivate'=> 'persistent_rider_profiles#deactivate_current_ryr', as: :deactivate_current_ryr
+    post '/reactivate'=> 'persistent_rider_profiles#reactivate_current_ryr', as: :reactivate_current_ryr
+
     resources :donations, only: [:new, :create]
   end
   resources :donations, only: [:new], as: :donation_to_organization

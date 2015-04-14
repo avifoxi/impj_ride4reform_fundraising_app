@@ -1,16 +1,27 @@
-	class PersistentRiderProfilesController < ApplicationController
+class PersistentRiderProfilesController < ApplicationController
 	skip_before_action :authenticate_admin!
 	skip_before_action :authenticate_user!, only: [:show, :index]
-	before_action :validate_user_w_associated_prp, only: [:edit, :update]
+	before_action :validate_user_w_associated_prp, only: [:edit, :update, :deactivate_current_ryr]
 	
 	def show
 		@rider = PersistentRiderProfile.find(params[:id])
 		@years_registration = @rider.rider_year_registrations.find_by(ride_year: RideYear.current )
+		@prp_owner_signed_in = @rider.user == current_user
+
+		if !@years_registration.active_for_fundraising
+			if @prp_owner_signed_in
+				flash[:alert] = "#{@years_registration.full_name} no longer active for this year's ride."
+			else 
+				flash[:notice] = "#{@years_registration.full_name} no longer active for this year's ride."
+				redirect_to persistent_rider_profiles_path
+			end
+		end
+			
 		@donations = @rider.delegate_ryr_method(RideYear.current, 'donations')
 		@raised = @rider.delegate_ryr_method(RideYear.current, 'raised')
 		@percent_of_goal = @rider.delegate_ryr_method(RideYear.current, 'percent_of_goal')
 		@goal = @rider.delegate_ryr_method(RideYear.current, 'goal')
-		@prp_owner_signed_in = @rider.user == current_user
+		
 	end
 
 	def index
@@ -40,10 +51,29 @@
 		end
 	end
 
+	def deactivate_current_ryr
+
+		@prp = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+		@prp.rider_year_registrations.find_by(ride_year: RideYear.current ).deactivate
+		redirect_to persistent_rider_profile_path(@prp)
+
+	end
+
+	def reactivate_current_ryr
+
+		@prp = PersistentRiderProfile.find(params[:persistent_rider_profile_id])
+		@prp.rider_year_registrations.find_by(ride_year: RideYear.current ).reactivate
+		flash[:notice] = "#{@prp.full_name} reactivated for this year's ride."
+
+		redirect_to persistent_rider_profile_path(@prp)
+
+	end
+
 	private
 
 	def validate_user_w_associated_prp
-		@prp = PersistentRiderProfile.find(params[:id])
+		id = params[:id] || params[:persistent_rider_profile_id]
+		@prp = PersistentRiderProfile.find(id)
 		unless @prp.user == current_user
 			flash[:alert] = "Please log in to your own account to edit your profile."
       redirect_to root_path
