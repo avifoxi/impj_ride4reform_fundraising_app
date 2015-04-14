@@ -101,6 +101,41 @@ class Admin::DonationsController < ApplicationController
 		end
 	end
 
+	def edit
+		@donation = Donation.find(params[:id])
+
+		if @donation.receipt
+			flash[:alert] = 'This donation has already been processed, and cannot be edited.' 
+			redirect_to admin_path
+			return
+		end
+
+		@user = @donation.user
+		@rider = @donation.rider
+	end
+
+	def update
+		@donation = Donation.find(params[:id])
+		if @donation.update_attributes(full_params)
+			redirect_to admin_new_donation_payment_path(@donation)
+		else
+			@errors = @donation.errrors
+			render :edit
+		end
+	end
+
+	def destroy
+		@donation = Donation.find(params[:id])
+		if @donation.receipt
+			flash[:alert] = 'This donation has already been processed, and cannot be deleted.' 
+			redirect_to root_url
+			return
+		end 
+		@donation.destroy
+		flash[:notice] = 'Successfully deleted donation.'
+		redirect_to admin_path
+	end
+
 	private
 
 	def full_params 

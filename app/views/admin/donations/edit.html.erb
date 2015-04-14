@@ -1,0 +1,12 @@
+<h3>Edit Donation</h3>
+
+<%= simple_form_for @donation, url: admin_donation_path(@donation), method: :put do |f| %>
+	
+	<%= render 'donations/form', f: f %>
+	
+	<%= f.button :submit %>
+
+<% end %>
+
+<hr>
+<%= button_to "Delete Donation without Payment?", admin_donation_path(@donation), :method => :delete, class: 'btn btn-danger' %>

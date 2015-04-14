@@ -1,0 +1,27 @@
+<table class="table table-condensed">
+	<tr>
+		<th>Donor Name</th>
+		<th>Email</th>
+		<th>Amount</th>
+		<th>Note to You</th>
+	</tr>
+
+	<% dons.each do |d| %>
+
+		<tr>
+			<td>
+				<%= d.user.full_name %>
+			</td>
+			<td>
+				<%= mail_to d.user.email %>
+			</td>
+			<td>
+				$<%= d.amount %>
+			</td>
+			<td>
+				<%= d.note_to_rider %>
+			</td>
+			
+		</tr>
+	<% end %>
+</table>

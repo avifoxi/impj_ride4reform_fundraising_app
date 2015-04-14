@@ -16,11 +16,15 @@ Rails.application.routes.draw do
   # if no rider spec'd, donate to org
 
   resources :persistent_rider_profiles, :path => "riders" do
-    resources :donations, only: [:new, :create]
+    post '/deactivate'=> 'persistent_rider_profiles#deactivate_current_ryr', as: :deactivate_current_ryr
+    post '/reactivate'=> 'persistent_rider_profiles#reactivate_current_ryr', as: :reactivate_current_ryr
+
+    resources :donations, only: [:new, :create, :index]
+    resources :rider_year_registrations, only: :new
   end
   resources :donations, only: [:new], as: :donation_to_organization
 
-  resources :donations, only: :create
+  resources :donations, only: [:create, :edit, :update, :destroy]
 
   resources :mailing_addresses, except: [:show, :index]
 
@@ -61,7 +65,12 @@ Rails.application.routes.draw do
     end
     resources :donations
     resources :mailing_addresses, except: [:show, :index, :new, :create]
-    resources :rider_year_registrations, except: [:new, :create]
+    
+    resources :rider_year_registrations, except: [:new, :create] do 
+      post '/deactivate'=> 'rider_year_registrations#deactivate', as: :deactivate
+      post '/reactivate'=> 'rider_year_registrations#reactivate', as: :reactivate
+
+    end
 
     get 'donations/:id/new_donation_payment' => 'donations#new_donation_payment', as: :new_donation_payment
 

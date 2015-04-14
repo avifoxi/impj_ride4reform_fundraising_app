@@ -61,10 +61,15 @@
 			<th>Amount Raised</th>
 			<th>Donations Count</th>
 			<th>Edit Link</th>
-			<th>Delete?</th>
+			<th>Delete / Deactivate</th>
 		</tr>
 		<% @all_rides.each do |r| %>
-		  <tr>
+			<% if r.active_for_fundraising %>
+			<tr>
+			<% else %>
+			<tr class='danger'>
+			<% end %>
+		  
 		  	<td>
 		  		<%= r.ride_year.year %>
 		  	</td>
@@ -84,7 +89,21 @@
 		  		<%= link_to 'Edit', edit_admin_rider_year_registration_path(r), class: 'btn btn-default btn-sm'  %>
 		  	</td>
 				<td>
-					<%= link_to 'Delete', admin_rider_year_registration_path(r), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete this Registration" }    %>
+
+					<% if r.deleteable? %>
+						<%= link_to 'Delete', admin_rider_year_registration_path(r), :method => :delete, class: 'btn btn-danger btn-sm', data: { confirm: "Confirm to delete this Registration" }    %>
+
+					<% else %>
+
+						<% if r.active_for_fundraising %>
+							<%= button_to 'Deactivate', admin_rider_year_registration_deactivate_path(r), :method => :post, class: 'btn btn-warning btn-sm', data: { confirm: "Confirm to deactivate this Registration for fundraising" }    %>
+						<% else %>
+							<%= button_to 'Reactivate', admin_rider_year_registration_reactivate_path(r), :method => :post, class: 'btn btn-success btn-sm', data: { confirm: "Confirm to reactivate this Registration for fundraising" }    %>
+						<% end %>
+
+
+					<!-- admin_rider_year_registration_deactivate_current_ryr -->
+					<% end %>
 				</td>
 		  </tr>
 	  <% end %>

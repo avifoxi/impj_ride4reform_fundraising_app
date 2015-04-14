@@ -78,6 +78,21 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		redirect_to admin_user_path(@ryr.user)
 	end
 
+	def deactivate
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration_id])
+		@ryr.deactivate
+		flash[:notice] = "deactivated #{@ryr.full_name} for #{@ryr.ride_year.year}"
+		redirect_to admin_user_path(@ryr.user)
+	end
+
+
+	def reactivate
+		@ryr = RiderYearRegistration.find(params[:rider_year_registration_id])
+		@ryr.reactivate
+		flash[:notice] = "reactivated #{@ryr.full_name} for #{@ryr.ride_year.year}"
+		redirect_to admin_user_path(@ryr.user)
+	end
+
 	private
 
 	def full_params

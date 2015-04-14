@@ -30,4 +30,5 @@
     <th>Make anonymous?</th>
     <td><%= @donation.anonymous_to_public %></td>
   </tr>
+  <%= link_to 'Change donation amount or note?', current_admin ? edit_admin_donation_path(@donation) : edit_donation_path(@donation) %>
 </table>

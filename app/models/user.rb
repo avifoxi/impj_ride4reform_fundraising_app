@@ -39,7 +39,12 @@ class User < ActiveRecord::Base
   end
 
   def primary_address
-  	self.mailing_addresses.max_by{|m| m.users_primary}
+    if self.mailing_addresses.empty? 
+      ""
+    else
+      self.mailing_addresses.first.one_liner
+    end
+  	# self.mailing_addresses.max_by{|m| m.users_primary}
   end
 
   def full_name

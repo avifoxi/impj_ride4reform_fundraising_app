@@ -75,7 +75,7 @@
 		}); 
 		ch.trigger('change'); 
 
-		<% if @mailing_addresses.empty? %>
+		<% if @mailing_addresses && @mailing_addresses.empty? %>
 			ch[0].checked = true;
 			ch.trigger('change');
 			ch.hide();

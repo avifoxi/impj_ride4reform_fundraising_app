@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.boolean  "agree_to_terms"
     t.string   "ride_option"
     t.integer  "registration_payment_receipt_id"
+    t.boolean  "active_for_fundraising",          default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
