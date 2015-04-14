@@ -9,6 +9,7 @@ class PersistentRiderProfilesController < ApplicationController
 
 		if @years_registration.ride_year != RideYear.current
 			@ask_for_current_participation = true
+			flash[:notice] = 'Sign up for this years ride! Click below your photo.'
 		end
 
 		# @years_registration = @rider.rider_year_registrations.find_by(ride_year: RideYear.current )
