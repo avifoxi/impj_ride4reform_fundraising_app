@@ -5,7 +5,7 @@ class Admin::DonationsController < ApplicationController
 	include CSVMaker
 
 	def index
-		Donation.last.call_worker_call_mailer
+		# Donation.last.call_worker_call_mailer
 		@current_ride_year = params[:ride_year_id] ? RideYear.find(params[:ride_year_id]) : RideYear.current
 		@donations = @current_ride_year.donations
 		
@@ -77,13 +77,15 @@ class Admin::DonationsController < ApplicationController
 		receipt_or_errors = pm.process_payment
 		
 		if receipt_or_errors.instance_of?(Receipt)
-			@donation.update_attributes(fee_is_processed: true)	
-			DonationMailer.successful_donation_thank_donor(@donation).deliver
+			@donation.update_attributes(fee_is_processed: true)
+			# @donation.call_worker_call_mailer
+			# DonationMailerWorker.perform_async(@donation.id)	
+			DonationMailer.delay.successful_donation_thank_donor(@donation.id)
 			
-			unless @donation.is_organizational
-				rider = @donation.rider.persistent_rider_profile
-				DonationMailer.successful_donation_alert_rider(@donation).deliver
-			end
+			# unless @donation.is_organizational
+			# 	rider = @donation.rider.persistent_rider_profile
+			# 	DonationMailer.successful_donation_alert_rider(@donation).deliver
+			# end
 			render json: {
 				success: 'no errors what?',
 				redirect_address: admin_donation_url(@donation)
