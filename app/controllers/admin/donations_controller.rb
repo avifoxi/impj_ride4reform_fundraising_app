@@ -5,6 +5,7 @@ class Admin::DonationsController < ApplicationController
 	include CSVMaker
 
 	def index
+		Donation.last.call_worker_call_mailer
 		@current_ride_year = params[:ride_year_id] ? RideYear.find(params[:ride_year_id]) : RideYear.current
 		@donations = @current_ride_year.donations
 		
