@@ -36,6 +36,10 @@ class Donation < ActiveRecord::Base
     end
   end
 
+  def call_worker_call_mailer
+    DonationMailerWorker.perform_async(self.id)
+  end
+
   private
 
   def associate_to_current_ride_year

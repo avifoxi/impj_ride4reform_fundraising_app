@@ -54,6 +54,10 @@ Rails.application.routes.draw do
   get 'admin' => 'admin/admins#index'
 
   namespace :admin do
+    
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+    
     resources :users do 
       resources :rider_year_registrations, only: [:new, :create]
       resources :mailing_addresses, only: [:new, :create]

@@ -34,7 +34,7 @@ gem 'devise'
 gem 'rails_12factor', group: :production
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # why not ? 
 
@@ -68,6 +68,7 @@ gem 'area'
 gem 'faker'
 
 gem 'sidekiq'
+gem 'sinatra', :require => nil
 
 # moving factory girl to here for seed in staging -- ensure the addies are gonna pass the area gem's zip validation against state + city
 gem "factory_girl_rails", "~> 4.0"

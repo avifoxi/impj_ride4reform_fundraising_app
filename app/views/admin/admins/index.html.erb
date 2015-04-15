@@ -1,5 +1,7 @@
 <h3>Active Admins:</h3>
 
+<%= link_to 'Monitoring', admin_sidekiq_web_path %>
+
 <ul>
 	<% @admins.each do |a| %>
 		<li><%= link_to "#{a.username}", admin_admin_path(a)  %> </li>
