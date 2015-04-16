@@ -22,3 +22,5 @@ after_fork do |server, worker|
     config.redis = { size: 1, namespace: 'sidekiq' }
   end
 end
+
+# , namespace: 'sidekiq'

@@ -25,7 +25,7 @@ class DonationMailer < ApplicationMailer
   	@donation = Donation.find(donation_id)
   	@receipt = @donation.receipt
   	@donor = @donation.user
-    org = donation.is_organizational
+    org = @donation.is_organizational
     unless org
   	 @rider = @donation.rider
      @prp = @rider.persistent_rider_profile

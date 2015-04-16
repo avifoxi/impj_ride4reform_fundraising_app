@@ -79,8 +79,12 @@ class Admin::DonationsController < ApplicationController
 		if receipt_or_errors.instance_of?(Receipt)
 			@donation.update_attributes(fee_is_processed: true)
 			# @donation.call_worker_call_mailer
-			# DonationMailerWorker.perform_async(@donation.id)	
-			DonationMailer.delay.successful_donation_thank_donor(@donation.id)
+
+						# DonationMailerWorker.new.perform(@donation.id)	
+
+
+						DonationMailerWorker.perform_async(@donation.id)	
+			# DonationMailer.delay.successful_donation_thank_donor(@donation.id)
 			
 			# unless @donation.is_organizational
 			# 	rider = @donation.rider.persistent_rider_profile
