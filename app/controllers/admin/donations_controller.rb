@@ -82,6 +82,9 @@ class Admin::DonationsController < ApplicationController
 
 						# DonationMailerWorker.new.perform(@donation.id)	
 
+						p '#'*80
+						p 'rails env'
+						p "#{Rails.env}"
 
 						DonationMailerWorker.perform_async(@donation.id)	
 			# DonationMailer.delay.successful_donation_thank_donor(@donation.id)
