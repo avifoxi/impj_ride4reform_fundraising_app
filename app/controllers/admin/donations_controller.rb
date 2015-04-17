@@ -29,8 +29,18 @@ class Admin::DonationsController < ApplicationController
 	end
 
 	def create
+		p '#'*80
+		p 'params'
+		p "#{params.inspect}"
+		p '#'*80
+		p 'fullparams'
+		p "#{full_params.inspect}"
 		@donation = Donation.new(full_params.except(:rider_year_registration, :user_id, :user ))
 
+		p '#'*80
+		p '@donation'
+		p "#{@donation.inspect}"
+		
 		if full_params[:new_donor] == '0'
 			@donation.user = User.find(full_params[:user_id])
 		else

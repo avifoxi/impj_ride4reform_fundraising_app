@@ -11,8 +11,9 @@
 <%= f.input :amount, as: :currency, label: "Amount you would like to donate: $" %>
 <%= f.input :note_to_rider, label: "Note to include on #{@rider ? @rider.full_name + "'s campaign" : 'funders list'}  .", hint: 'This note will display along with your contribution.' %>
 
-<% unless @rider %>
-	<%= f.input :is_organizational,  :as => :hidden %>
+
+<% unless @rider || current_admin %>
+	<%= f.input :is_organizational,  :as => :hidden %> 
 <% end  %>
 
 <%= f.input :anonymous_to_public, label: "Check to make your donation anonymous on our public facing funders list on #{ @rider ? @rider.full_name + "'s fundraising page" : "this site" }." %>
