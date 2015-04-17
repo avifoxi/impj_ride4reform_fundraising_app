@@ -29,18 +29,18 @@ class Admin::DonationsController < ApplicationController
 	end
 
 	def create
-		p '#'*80
-		p 'params'
-		p "#{params.inspect}"
-		p '#'*80
-		p 'fullparams'
-		p "#{full_params.inspect}"
+		# p '#'*80
+		# p 'params'
+		# p "#{params.inspect}"
+		# p '#'*80
+		# p 'fullparams'
+		# p "#{full_params.inspect}"
 		@donation = Donation.new(full_params.except(:rider_year_registration, :user_id, :user ))
 
-		p '#'*80
-		p '@donation'
-		p "#{@donation.inspect}"
-		
+		# p '#'*80
+		# p '@donation'
+		# p "#{@donation.inspect}"
+
 		if full_params[:new_donor] == '0'
 			@donation.user = User.find(full_params[:user_id])
 		else
@@ -50,11 +50,14 @@ class Admin::DonationsController < ApplicationController
 			@donation.user = user
 		end
 
-		if full_params[:is_organizational] == 'false'
+		if @donation.is_organizational == false
 			@donation.rider_year_registration = RiderYearRegistration.find( full_params[:rider_year_registration] )
 		end
 
 		if @donation.save 
+			p '#'*80
+		p '@donation'
+		p "#{@donation.inspect}"
 			redirect_to admin_new_donation_payment_path(@donation)
 		else 
 			@current_riders = RiderYearRegistration.where(ride_year: RideYear.current)
@@ -88,21 +91,10 @@ class Admin::DonationsController < ApplicationController
 		
 		if receipt_or_errors.instance_of?(Receipt)
 			@donation.update_attributes(fee_is_processed: true)
-			# @donation.call_worker_call_mailer
-
-						# DonationMailerWorker.new.perform(@donation.id)	
-
-						p '#'*80
-						p 'rails env'
-						p "#{Rails.env}"
-
-						DonationMailerWorker.perform_async(@donation.id)	
-			# DonationMailer.delay.successful_donation_thank_donor(@donation.id)
-			
-			# unless @donation.is_organizational
-			# 	rider = @donation.rider.persistent_rider_profile
-			# 	DonationMailer.successful_donation_alert_rider(@donation).deliver
-			# end
+			DonationThankDonorWorker.perform_async(@donation.id)	
+			unless @donation.is_organizational
+				DonationAlertRiderWorker.perform_async(@donation.id)	
+			end
 			render json: {
 				success: 'no errors what?',
 				redirect_address: admin_donation_url(@donation)

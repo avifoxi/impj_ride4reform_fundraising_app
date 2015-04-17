@@ -21,8 +21,8 @@ class DonationMailer < ApplicationMailer
   	mail(to: @rider.email, subject: "Donation received from #{@donor.full_name}")
   end
 
-  def successful_donation_thank_donor(donation_id)
-  	@donation = Donation.find(donation_id)
+  def successful_donation_thank_donor(donation)
+  	@donation = donation
   	@receipt = @donation.receipt
   	@donor = @donation.user
     org = @donation.is_organizational
