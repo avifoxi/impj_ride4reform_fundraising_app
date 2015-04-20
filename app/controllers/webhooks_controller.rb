@@ -1,7 +1,7 @@
 class WebhooksController < ApplicationController
 	skip_before_action :authenticate_admin!, :authenticate_user!
 
-	protect_from_forgery :except => :paypal
+	protect_from_forgery :except => [:paypal, :dev_testing_forwarding]
 
 	def paypal
 		p '#'*80
