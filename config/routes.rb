@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'donors' => 'static_pages#donors'  
 
+  post '/paypal_webhook' => 'webhooks#paypal'
+  post '/webhooks/dev_testing_forwarding'
 
   # donations new nested under riders, and ALSO without nesting. 
   # if nested under rider-- donate to rider
