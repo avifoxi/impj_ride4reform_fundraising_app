@@ -13,7 +13,7 @@ class WebhooksController < ApplicationController
 	## because ultra hooks is NOT https ... drrrr
 	def dev_testing_forwarding
 		uri = URI('http://paypal.ride4reform.ultrahook.com')
-		res = Net::HTTP.post_form(uri, 'paypal_response' => 'testing testing 123' )
+		res = Net::HTTP.post_form(uri, params )
 	end
 
 end
