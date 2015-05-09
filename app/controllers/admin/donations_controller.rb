@@ -89,19 +89,19 @@ class Admin::DonationsController < ApplicationController
 
 		receipt_or_errors = pm.process_payment
 		
-		if receipt_or_errors.instance_of?(Receipt)
-			@donation.update_attributes(fee_is_processed: true)
-			DonationThankDonorWorker.perform_async(@donation.id)	
-			unless @donation.is_organizational
-				DonationAlertRiderWorker.perform_async(@donation.id)	
-			end
-			render json: {
-				success: 'no errors what?',
-				redirect_address: admin_donation_url(@donation)
-			} 
-		else
-			render json: receipt_or_errors
-		end
+		# if receipt_or_errors.instance_of?(Receipt)
+		# 	@donation.update_attributes(fee_is_processed: true)
+		# 	DonationThankDonorWorker.perform_async(@donation.id)	
+		# 	unless @donation.is_organizational
+		# 		DonationAlertRiderWorker.perform_async(@donation.id)	
+		# 	end
+		# 	render json: {
+		# 		success: 'no errors what?',
+		# 		redirect_address: admin_donation_url(@donation)
+		# 	} 
+		# else
+		# 	render json: receipt_or_errors
+		# end
 	end
 
 	def show

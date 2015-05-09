@@ -7,6 +7,9 @@ class WebhooksController < ApplicationController
 		p '#'*80
 		p 'params in webhooks'
 		p "#{params.inspect}"
+
+		pp_id = params['resource']['parent_payment']
+		@receipt = Receipt.find_by(paypal_id: pp_id)	
 	end
 
 	## gonna need to deploy with this function in the cloud to enable webhooks in development... 

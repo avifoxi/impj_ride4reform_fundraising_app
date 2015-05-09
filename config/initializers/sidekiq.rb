@@ -1,4 +1,4 @@
-ENV["REDIS_URL"] ||= 'redis://localhost:6379/12'
+ENV["REDISTOGO_URL"] ||= 'redis://localhost:6379/12'
 
 # Sidekiq.configure_server do |config|
 #   config.redis = { url: ENV["REDIS_URL"], namespace: 'sidekiq' }
@@ -19,9 +19,9 @@ ENV["REDIS_URL"] ||= 'redis://localhost:6379/12'
 # end
 
 Sidekiq.configure_server do |config|
-  config.redis = { url: 'redis://localhost:6379/12' }
+  config.redis = { url: ENV["REDISTOGO_URL"] }
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: 'redis://localhost:6379/12' }
+  config.redis = { url: ENV["REDISTOGO_URL"] }
 end
