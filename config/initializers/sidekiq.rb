@@ -1,4 +1,7 @@
-ENV["REDISTOGO_URL"] ||= 'redis://localhost:6379/12'
+ENV["REDIS_PROVIDER"] ||= 'redis://localhost:6379/12'
+
+# uri = URI.parse(ENV["REDISTOGO_URL"])
+# REDIS = Redis.new(:url => uri)
 
 # Sidekiq.configure_server do |config|
 #   config.redis = { url: ENV["REDIS_URL"], namespace: 'sidekiq' }
@@ -19,9 +22,9 @@ ENV["REDISTOGO_URL"] ||= 'redis://localhost:6379/12'
 # end
 
 Sidekiq.configure_server do |config|
-  config.redis = { url: ENV["REDISTOGO_URL"] }
+  config.redis = { url: ENV["REDIS_PROVIDER"] }
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: ENV["REDISTOGO_URL"] }
+  config.redis = { url: ENV["REDIS_PROVIDER"] }
 end
