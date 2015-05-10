@@ -81,5 +81,6 @@ test:
 production:
   <<: *default
   database: r4r_up_from_models_redo_production
+  pool: 25
   username: r4r_up_from_models_redo
   password: <%= ENV['R4R_UP_FROM_MODELS_REDO_DATABASE_PASSWORD'] %>
