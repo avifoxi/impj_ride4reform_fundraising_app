@@ -1,6 +1,7 @@
 class RiderYearRegistrationsController < ApplicationController
 	skip_before_action :authenticate_admin!
 
+	before_action :redirect_if_public_site_is_not_active
 	before_action :validate_user_w_associated_ryr, except: [:new, :create]
 
 	def new 

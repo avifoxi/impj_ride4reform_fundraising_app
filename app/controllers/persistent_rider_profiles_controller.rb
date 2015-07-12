@@ -1,6 +1,7 @@
 class PersistentRiderProfilesController < ApplicationController
 	skip_before_action :authenticate_admin!
 	skip_before_action :authenticate_user!, only: [:show, :index]
+	
 	before_action :validate_user_w_associated_prp, only: [:edit, :update, :deactivate_current_ryr]
 	
 	def show
