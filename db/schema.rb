@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150314200413) do
     t.date     "ride_end_date"
     t.date     "early_bird_cutoff"
     t.integer  "current",                default: 0
+    t.boolean  "disable_public_site",    default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

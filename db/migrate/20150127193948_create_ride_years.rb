@@ -9,6 +9,7 @@ class CreateRideYears < ActiveRecord::Migration
       t.date :ride_end_date
       t.date :early_bird_cutoff
       t.integer :current, :default => 0
+      t.boolean :disable_public_site, default: true
 
       t.timestamps
     end

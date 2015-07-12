@@ -9,6 +9,7 @@ require 'faker'
 	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
 
 	RideYear.last.set_as_current
+  RideYear.last.update_attributes(disable_public_site: false)
 
   goals = (2500..10000).to_a
 

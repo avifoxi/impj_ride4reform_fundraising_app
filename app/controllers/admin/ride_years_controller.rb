@@ -50,6 +50,6 @@ class Admin::RideYearsController < ApplicationController
 	private
 
 	def ride_year_params
-    params.require(:ride_year).permit(:registration_fee, :registration_fee_early, :min_fundraising_goal, :year, :ride_start_date, :ride_end_date, :early_bird_cutoff, :set_current_in_form)
+    params.require(:ride_year).permit(:registration_fee, :registration_fee_early, :min_fundraising_goal, :year, :ride_start_date, :ride_end_date, :early_bird_cutoff, :set_current_in_form, :disable_public_site)
   end
 end

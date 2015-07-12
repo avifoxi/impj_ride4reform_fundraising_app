@@ -1,5 +1,6 @@
 
 <p>Current Ride Year for live registrations and donations on the site is <%= link_to "#{@current.year}", edit_admin_ride_year_path(@current) %></p>
+<p>The public site is currently <%= @current.disable_public_site ? 'closed to donors and riders' : 'open and accepting new donations' %>.</p>
 
 
 <ul>

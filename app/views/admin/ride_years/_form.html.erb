@@ -16,6 +16,7 @@
   
   <%= f.input :set_current_in_form, as: :boolean, label: 'Set this year as "Current" for all registrations + donations?'   %>
 
+	<%= f.input :disable_public_site, label: "Disable the public facing site? This is effective only when set this year is set as current. This closes the public facing site, accepting no new riders, and no new donations." %>
 
   <%= f.button :submit %>
 <% end %>
