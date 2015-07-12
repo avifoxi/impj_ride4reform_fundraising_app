@@ -10,6 +10,9 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def redirect_if_public_site_is_not_active
+    p '#'*80
+    p 'custom before action'
+    redirect_to site_is_not_active_path if RideYear.current.disable_public_site
   end
 
   protected
