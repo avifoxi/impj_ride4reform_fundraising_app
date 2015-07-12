@@ -8,7 +8,8 @@ Rails.application.routes.draw do
 
   root to: "static_pages#home_page"
 
-  get 'donors' => 'static_pages#donors'  
+  get 'donors' => 'static_pages#donors'
+  get '/site_is_not_active' => 'static_pages#site_is_not_active'
 
 
   # donations new nested under riders, and ALSO without nesting. 
