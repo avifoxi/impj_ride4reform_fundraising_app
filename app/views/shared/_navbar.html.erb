@@ -17,7 +17,7 @@
         
         <li><%= link_to "This Year's Riders", persistent_rider_profiles_path %></li>
         <li><%= link_to "Donors List", donors_path %></li>
-        <% if current_user %>
+        <% if current_user.persistent_rider_profile %>
           <li><%= link_to 'My Rider Profile + Dashboard', persistent_rider_profile_path(current_user.persistent_rider_profile) %></li>
         <% else %>
           <li><%= link_to 'Register To Ride!', new_rider_year_registration_path %></li>
