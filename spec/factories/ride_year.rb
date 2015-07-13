@@ -10,6 +10,7 @@ FactoryGirl.define do
 			ride_start_date "2014-03-16"
 			ride_end_date "2014-03-21"
 			early_bird_cutoff "2014-01-15"
+			disable_public_site false
 	  end
 
     trait :current do
@@ -21,6 +22,7 @@ FactoryGirl.define do
 			ride_start_date "2015-03-16"
 			ride_end_date "2015-03-21"
 			early_bird_cutoff "2014-01-15"
+			disable_public_site false
 	  end
 
   end
