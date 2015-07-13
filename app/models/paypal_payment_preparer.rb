@@ -66,6 +66,9 @@ class PaypalPaymentPreparer
     if @payment.create
       true
     else
+      p '$'*80
+      p 'payment hash hopefully'
+      p "#{@payment.inspect}"
       false
     end
   end
