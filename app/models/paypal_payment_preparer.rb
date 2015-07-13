@@ -56,7 +56,7 @@ class PaypalPaymentPreparer
 
   def config_paypal
     PayPal::SDK::REST.set_config(
-      :mode => "sandbox", # "sandbox" or "live"
+      :mode => "live", # "sandbox" or "live"
       :client_id => ENV['PAYPAL_CLIENT_ID'],
       :client_secret =>  ENV['PAYPAL_CLIENT_SECRET'])
   end
