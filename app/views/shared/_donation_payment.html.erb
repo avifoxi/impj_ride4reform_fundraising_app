@@ -17,9 +17,14 @@
 
 <script>
 	
-	var msg;
+	var msg, spanText;
+	var rc = $("#donation_receipt_by_check");
 
 	$( document ).ajaxSend(function() {
+	
+		spanText = rc.is(':checked') ? 'the app' : 'Paypal';
+
+		$('#modal_paypal_switch').text(spanText); 
 		$('.modal').modal({
 			backdrop: 'static'
 		});		
