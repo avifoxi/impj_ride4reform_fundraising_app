@@ -1,9 +1,15 @@
 <h3>Dear <%= @donor.first_name %>,</h3>
 
-<p>Thank you for your generous donation to <%= @rider ? @rider.full_name : 'IMPJ' %>!</p>
+<% if @rider %>
+	<p>
+		Thank you for your contribution to support <%= @rider.full_name %> on the Ride4Reform. This acknowledgement serves as your receipt for tax purposes. This contribution is tax deductible and no goods or services were offered in exchange for the contribution. 
+	</p>
+<% else %> 
+	<p>
+		Thank you for your contribution to the IMPJ. This acknowledgement serves as your receipt for tax purposes. This contribution is tax deductible and no goods or services were offered in exchange for the contribution.
+	</p>
+<% end %>
 
-<p>Please keep this email for your records, as it serves as a receipt.</p>
-<!-- < %= @receipt.inspect %> -->
 
 <table class="table">
 	<tr>
@@ -34,3 +40,4 @@
 <% end %>
 
 <p>Thank you for contributing to the success of this year's Ride4Reform!</p>
+<p style='text-align: center;'>Sincerely, <br>Friends of IMPJ, <br>1155 Alvira Street, <br>Los Angeles, CA 90035</p>
