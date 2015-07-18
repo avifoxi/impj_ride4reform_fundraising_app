@@ -44,10 +44,17 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		
 
 		pm = PaymentMaker.new(@ryr, :registration, full_params, current_admin)
-		receipt_or_errors = pm.process_payment
+		begin
+			@receipt_or_errors = pm.process_payment
+		rescue
+			render json: {
+				errors: "We're very sorry, but there was an error connecting to PayPal."
+			}
+			return  
+		end
 	
-		if receipt_or_errors.instance_of?(Receipt)
-			@ryr.update_attributes(registration_payment_receipt: receipt_or_errors )
+		if @receipt_or_errors.instance_of?(Receipt)
+			@ryr.update_attributes(registration_payment_receipt: @receipt_or_errors )
 			if full_params[:persistent_rider_profile]
 				p = @user.build_persistent_rider_profile(full_params[:persistent_rider_profile])
 				p.save
@@ -58,7 +65,7 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 				redirect_address: admin_user_url(@user)
 			} 
 		else
-			render json: receipt_or_errors
+			render json: @receipt_or_errors
 		end
 	end
 

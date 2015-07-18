@@ -85,9 +85,15 @@ class RiderYearRegistrationsController < ApplicationController
 
 		@ryr = RiderYearRegistration.find(params[:ryr_id])
 		pm = PaymentMaker.new(@ryr, :registration, full_params)
-		receipt_or_errors = pm.process_payment
-
-		if receipt_or_errors.instance_of?(Receipt)
+		begin
+			@receipt_or_errors = pm.process_payment
+		rescue
+			render json: {
+				errors: "We're very sorry, but there was an error connecting to PayPal."
+			}
+			return  
+		end
+		if @receipt_or_errors.instance_of?(Receipt)
 			@rider = current_user.persistent_rider_profile
 			RiderYearRegistrationsMailer.successful_registration_welcome_rider(@ryr).deliver
 			render json: {
@@ -96,7 +102,7 @@ class RiderYearRegistrationsController < ApplicationController
 				ryr: @ryr
 			} 
 		else
-			render json: receipt_or_errors
+			render json: @receipt_or_errors
 		end
 	end
 

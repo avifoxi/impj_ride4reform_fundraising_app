@@ -73,9 +73,16 @@ class Admin::DonationsController < ApplicationController
 		@donation = Donation.find(params[:id])
 		pm = PaymentMaker.new(@donation, :donation, full_params, current_admin)
 
-		receipt_or_errors = pm.process_payment
+		begin
+			@receipt_or_errors = pm.process_payment
+		rescue
+			render json: {
+				errors: "We're very sorry, but there was an error connecting to PayPal."
+			}
+			return  
+		end
 		
-		if receipt_or_errors.instance_of?(Receipt)
+		if @receipt_or_errors.instance_of?(Receipt)
 			@donation.update_attributes(fee_is_processed: true)	
 			DonationMailer.successful_donation_thank_donor(@donation).deliver
 			
@@ -88,7 +95,7 @@ class Admin::DonationsController < ApplicationController
 				redirect_address: admin_donation_url(@donation)
 			} 
 		else
-			render json: receipt_or_errors
+			render json: @receipt_or_errors
 		end
 	end
 
