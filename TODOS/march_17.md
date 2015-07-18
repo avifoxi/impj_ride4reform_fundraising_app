@@ -2,11 +2,6 @@ https://devcenter.heroku.com/articles/request-timeout
 
 DOING
 
-	Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
-	
-	Admin creates user new ryr 
-
-
 
 
 TODO
@@ -103,4 +98,10 @@ integrate mailer into controllers
 integrate mailer into controllers
 	- ryr controller - on successful registration
 	- donation controllers 
+
+
+	Build out admin functions -- allow admin to manually create / edit / destroy users and associated tables, admin export of data, manually add donations for checks received
+	
+	Admin creates user new ryr 
+
 
