@@ -1,4 +1,4 @@
 <%= @admin.username %>
 <br><%= @admin.email %>
 
-<!-- this is all for now -->
+<%= button_to 'Delete',  admin_admin_path(@admin),  method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %><!-- this is all for now -->
