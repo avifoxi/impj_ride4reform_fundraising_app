@@ -1,8 +1,17 @@
 require 'faker'
 
-# case Rails.env
-# when "development"
-	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
+case Rails.env
+
+when "production"
+  Admin.create(username: 'DeleteMe', email: 'delete@me.com', password: 'password')
+
+  now = Time.new
+  RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2500, year: now.year, ride_start_date: Time.new(now.year, now.month + 1, now.day), ride_end_date: Time.new(now.year, now.month + 1, now.day +  6), early_bird_cutoff: now)
+
+
+when "development"
+	
+  Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
 
 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
 
@@ -89,12 +98,4 @@ require 'faker'
   # r = RideYear.create(registration_fee: 650, registration_fee_early: 630, min_fundraising_goal: 2500, year: 2016, ride_start_date: "2016-03-16", ride_end_date: "2016-03-21", early_bird_cutoff: "2016-01-16")
   # r.set_as_current
 
-# when "production"
-# 	Admin.create(username: 'AviAdmin', email:'admin@admin.com', password: 'adminpass')
-# 	RideYear.create(registration_fee: 600, registration_fee_early: 550, min_fundraising_goal: 2200, year: 2014, ride_start_date: "2014-03-15", ride_end_date: "2014-03-20", early_bird_cutoff: "2014-01-15")
-
-# 	RideYear.create(registration_fee: 650, registration_fee_early: 600, min_fundraising_goal: 2500, year: 2015, ride_start_date: "2015-03-16", ride_end_date: "2015-03-21", early_bird_cutoff: "2015-01-15")
-
-# 	RideYear.last.set_as_current
-
-# end
+end
