@@ -134,4 +134,134 @@ http_interactions:
         fee","sku":"item","price":"650.00","currency":"USD","quantity":"1"}]},"related_resources":[{"sale":{"id":"1W324593TU584025T","create_time":"2015-03-20T15:16:35Z","update_time":"2015-03-20T15:16:57Z","amount":{"total":"650.00","currency":"USD"},"state":"completed","parent_payment":"PAY-06P715902C8851623KUGDTUY","links":[{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1W324593TU584025T","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/payments/sale/1W324593TU584025T/refund","rel":"refund","method":"POST"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-06P715902C8851623KUGDTUY","rel":"parent_payment","method":"GET"}]}}]}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-06P715902C8851623KUGDTUY","rel":"self","method":"GET"}]}'
     http_version: 
   recorded_at: Fri, 20 Mar 2015 15:16:57 GMT
+- request:
+    method: post
+    uri: https://AXeLVwBpAtdyfToCZygcCyBLA8-fuyxttmlrKIaqGLGX-NBEmKBs0fR42eda9Z_osSTQEYC6bfvBo8M7:EI9mTKBwUqhVnYfK6MFblpPF5Kc1XGCveRqauiY678EWP6BYLGNZTDhtmKy1l3rQ9axrXeXo0tQk_Ksw@api.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcjavapapi3021a.slc.paypal.com;threadId=36303
+      Paypal-Debug-Id:
+      - 1077aaa237f2f
+      Correlation-Id:
+      - 1077aaa237f2f
+      Date:
+      - Wed, 15 Jul 2015 20:37:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '426'
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.*
+        https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks
+        openid https://uri.paypal.com/payments/payouts https://api.paypal.com/v1/vault/credit-card/.*","access_token":"A015a4M3I122vImXCRRTnCoBls3.9Ds2-L669ZG6eQhWayY","token_type":"Bearer","app_id":"APP-7RR61967UE021545W","expires_in":28800}'
+    http_version: 
+  recorded_at: Wed, 15 Jul 2015 20:37:41 GMT
+- request:
+    method: post
+    uri: https://api.paypal.com/v1/payments/payment
+    body:
+      encoding: UTF-8
+      string: '{"intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"number":"4417119669820331","type":"visa","expire_month":11,"expire_year":2018,"cvv2":"874","first_name":"Rider","last_name":"Test","billing_address":{"line1":"648
+        Koby Shoals","city":"Lake Vince","country_code":"US","postal_code":"11218","state":"NY"}}}]},"transactions":[{"amount":{"currency":"USD","total":"650.00"},"description":"Registration
+        fee for Rider Test, 2015","item_list":{"items":[{"quantity":"1","name":"Registration","price":"650.00","currency":"USD","sku":"item"}]}}]}'
+    headers:
+      X-Paypal-Sandbox-Email-Address:
+      - Platform.sdk.seller@gmail.com
+      Authorization:
+      - Bearer A015a4M3I122vImXCRRTnCoBls3.9Ds2-L669ZG6eQhWayY
+      Content-Type:
+      - application/json
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Paypal-Request-Id:
+      - bed65b6e-4fb6-430b-9fb0-407eee174f3d
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcjavapapi3034a.slc.paypal.com;threadId=34923
+      Paypal-Debug-Id:
+      - 29d09be339ad9
+      Correlation-Id:
+      - 29d09be339ad9
+      Content-Language:
+      - '*'
+      Date:
+      - Wed, 15 Jul 2015 20:37:41 GMT
+      Connection:
+      - close
+      - close
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '191'
+    body:
+      encoding: UTF-8
+      string: '{"name":"CREDIT_CARD_REFUSED","message":"Credit card was refused","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#CREDIT_CARD_REFUSED","debug_id":"29d09be339ad9"}'
+    http_version: 
+  recorded_at: Wed, 15 Jul 2015 20:37:42 GMT
+- request:
+    method: post
+    uri: https://api.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=dcg11javapapi3146.dcg11.slc.paypalinc.com;threadId=31565
+      Paypal-Debug-Id:
+      - ad56b3b1680c2
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 18 Jul 2015 15:27:24 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 18 Jul 2015 15:27:25 GMT
 recorded_with: VCR 2.9.3

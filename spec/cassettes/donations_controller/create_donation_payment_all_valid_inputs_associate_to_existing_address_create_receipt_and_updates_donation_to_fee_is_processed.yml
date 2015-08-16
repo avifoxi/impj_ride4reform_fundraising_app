@@ -135,4 +135,134 @@ http_interactions:
       string: '{"error":"invalid_client","error_description":"Invalid client credentials"}'
     http_version: 
   recorded_at: Mon, 23 Mar 2015 15:58:46 GMT
+- request:
+    method: post
+    uri: https://AXeLVwBpAtdyfToCZygcCyBLA8-fuyxttmlrKIaqGLGX-NBEmKBs0fR42eda9Z_osSTQEYC6bfvBo8M7:EI9mTKBwUqhVnYfK6MFblpPF5Kc1XGCveRqauiY678EWP6BYLGNZTDhtmKy1l3rQ9axrXeXo0tQk_Ksw@api.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcjavapapi3003a.slc.paypal.com;threadId=37782
+      Paypal-Debug-Id:
+      - 7d136f4f329e0
+      Correlation-Id:
+      - 7d136f4f329e0
+      Date:
+      - Wed, 15 Jul 2015 20:37:34 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '426'
+    body:
+      encoding: UTF-8
+      string: '{"scope":"https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.*
+        https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks
+        openid https://uri.paypal.com/payments/payouts https://api.paypal.com/v1/vault/credit-card/.*","access_token":"A015W3V9ahUVU9My3yUzs23.w4Nc5docxabJxCom0.NtuUk","token_type":"Bearer","app_id":"APP-7RR61967UE021545W","expires_in":28800}'
+    http_version: 
+  recorded_at: Wed, 15 Jul 2015 20:37:35 GMT
+- request:
+    method: post
+    uri: https://api.paypal.com/v1/payments/payment
+    body:
+      encoding: UTF-8
+      string: '{"intent":"sale","payer":{"payment_method":"credit_card","funding_instruments":[{"credit_card":{"number":"4417119669820331","type":"visa","expire_month":11,"expire_year":2015,"cvv2":"874","first_name":"Donor","last_name":"Test","billing_address":{"line1":"648
+        Koby Shoals","city":"Lake Vince","country_code":"US","postal_code":"11218","state":"NY"}}}]},"transactions":[{"amount":{"currency":"USD","total":"300.00"},"description":"Donor
+        Test''s donation to Rider Test, in the 2015 ride year.","item_list":{"items":[{"quantity":"1","name":"Donation","price":"300.00","currency":"USD","sku":"item"}]}}]}'
+    headers:
+      X-Paypal-Sandbox-Email-Address:
+      - Platform.sdk.seller@gmail.com
+      Authorization:
+      - Bearer A015W3V9ahUVU9My3yUzs23.w4Nc5docxabJxCom0.NtuUk
+      Content-Type:
+      - application/json
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Paypal-Request-Id:
+      - 55bea9bd-31b7-4bfe-b1c5-2d2010468ecd
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcjavapapi3048a.slc.paypal.com;threadId=33736
+      Paypal-Debug-Id:
+      - ac00c6d83b3b3
+      Correlation-Id:
+      - ac00c6d83b3b3
+      Content-Language:
+      - '*'
+      Date:
+      - Wed, 15 Jul 2015 20:37:36 GMT
+      Connection:
+      - close
+      - close
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '191'
+    body:
+      encoding: UTF-8
+      string: '{"name":"CREDIT_CARD_REFUSED","message":"Credit card was refused","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#CREDIT_CARD_REFUSED","debug_id":"ac00c6d83b3b3"}'
+    http_version: 
+  recorded_at: Wed, 15 Jul 2015 20:37:36 GMT
+- request:
+    method: post
+    uri: https://api.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/PayPal-Ruby-SDK 1.1.1 (paypal-sdk-core 1.1.1; ruby 2.0.0p598-x86_64-darwin14.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcjavapapi3044b.slc.paypal.com;threadId=41428
+      Paypal-Debug-Id:
+      - e3bc6555511c0
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '0'
+      Date:
+      - Sat, 18 Jul 2015 15:27:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 18 Jul 2015 15:27:22 GMT
 recorded_with: VCR 2.9.3
