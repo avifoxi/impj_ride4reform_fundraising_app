@@ -11,6 +11,10 @@ class Admin::RideYearsController < ApplicationController
 	def edit
 		@ride_year = RideYear.find(params[:id])
 		@current = RideYear.current
+		if @ride_year.custom_ride_options.count > 0
+			@custom_ride_options = @ride_year.custom_ride_options
+		end
+		@custom_ride_option = CustomRideOption.new
 	end
 
 	def update 

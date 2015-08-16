@@ -1,5 +1,40 @@
-<h2>Edit Ride Year</h2>
+<h2>Edit <%= @ride_year.year %></h2>
 
 <p>Current Ride Year is <strong><%= @current.year %></strong></p>
+<!-- <h1>is this a thing?</h1>
+< %= admin_ride_year_custom_ride_options_path(@ride_year).inspect %>
+ -->
+
+<!-- < %= @custom_ride_options.inspect %> -->
+
+<% if  @custom_ride_options %>
+	<h3><%= @ride_year.year %> Custom Ride Options</h3>
+	<% @custom_ride_options.each do |option| %>
+		<%= link_to "View #{option.display_name}", nil, data: "show_#{option.id}", class: 'btn btn-default' %>
+	<% end %>
+<% end %>
+
+<div>
+	<%= link_to 'Add New Custom Ride Option', nil, data: 'newCustomRideOption', class: 'btn btn-success' %>
+</div>
 
 <%= render 'form' %>
+
+<%= render 'shared/bootstrap_modal' %>
+
+<script type='text/template' id='custom_ride_option_form'>
+	<%= render 'admin/custom_ride_options/form', 
+		custom_ride_option: @custom_ride_option,
+		c_r_o_url:  admin_ride_year_custom_ride_options_path(@ride_year)
+	%>
+</script>
+
+<script type='text/template' id='custom_ride_option_show'>
+	
+</script>
+
+<script>
+	$(function(){
+		window.jsCont = new CustomRideOptionModalCtrl(<%= @custom_ride_options.to_json.html_safe %>)
+	});
+</script>

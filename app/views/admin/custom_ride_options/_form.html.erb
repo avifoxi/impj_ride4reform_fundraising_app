@@ -1,0 +1,14 @@
+<%= simple_form_for custom_ride_option, url: c_r_o_url, remote: true do |f| %>
+	
+	<%= f.input :display_name %>
+	<%= f.input :description %>
+	<%= f.input :liability_text %>
+	<%= f.input :start_date, as: :bootstrap_datepicker, input_html: { format: :default } %>
+	<%= f.input :end_date, as: :bootstrap_datepicker, input_html: { format: :default } %>
+	<%= f.input :discount_code %>
+	<%= f.input :registration_cutoff %>
+	<%= f.input :registration_fee %>
+
+	<%= f.button :submit %>	
+
+<% end %>

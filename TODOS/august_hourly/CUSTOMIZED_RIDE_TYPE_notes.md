@@ -1,7 +1,16 @@
 Custom Ride Type ---
 
+1 hr, 10 mins, Aug 16
+
+
 Case in point -- 
 Rabbinic shorter ride 
+
+TODOS => 
+
+	- build model (v1 is done)
+	- add creation form to ride year in admin portal
+
 
 functionally -- this should be One to Many on Ride Year
 
