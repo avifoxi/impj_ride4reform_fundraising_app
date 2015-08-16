@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150314200413) do
+ActiveRecord::Schema.define(version: 20150816172837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,22 @@ ActiveRecord::Schema.define(version: 20150314200413) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+
+  create_table "custom_ride_options", force: true do |t|
+    t.string   "display_name"
+    t.text     "description"
+    t.text     "liability_text"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "discount_code"
+    t.date     "registration_cutoff"
+    t.integer  "registration_fee"
+    t.integer  "ride_year_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "custom_ride_options", ["ride_year_id"], name: "index_custom_ride_options_on_ride_year_id", using: :btree
 
   create_table "donations", force: true do |t|
     t.boolean  "anonymous_to_public",        default: false

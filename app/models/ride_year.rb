@@ -2,6 +2,7 @@ class RideYear < ActiveRecord::Base
 
   has_many :rider_year_registrations
   has_many :donations
+  has_many :custom_ride_options
   
   attr_accessor :set_current_in_form
 
