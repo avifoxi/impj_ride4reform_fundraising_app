@@ -11,6 +11,9 @@ class CreateRideYears < ActiveRecord::Migration
       t.integer :current, :default => 0
       t.boolean :disable_public_site, default: true
 
+      t.string :rabbinic_discount_code
+      t.date :rabbinic_discount_
+
       t.timestamps
     end
   end
