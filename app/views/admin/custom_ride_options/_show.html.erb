@@ -1,0 +1,69 @@
+<table class='table'>
+	<tr>
+		<th>
+			display_name
+		</th>
+		<td>
+			<%= custom_ride_option.display_name %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			description
+		</th>
+		<td>
+			<%= custom_ride_option.description %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			liability_text
+		</th>
+		<td>
+			<%= custom_ride_option.liability_text %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			start_date
+		</th>
+		<td>
+			<%= custom_ride_option.start_date %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			end_date
+		</th>
+		<td>
+			<%= custom_ride_option.end_date %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			discount_code
+		</th>
+		<td>
+			<%= custom_ride_option.discount_code %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			registration_cutoff
+		</th>
+		<td>
+			<%= custom_ride_option.registration_cutoff %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			registration_fee
+		</th>
+		<td>
+			<%= custom_ride_option.registration_fee %>
+		</td>
+	</tr>
+</table>
+
+<%= link_to "Edit #{custom_ride_option.display_name}", nil, {'data-custom_ride_option'=> "edit_#{custom_ride_option.id}", class: 'btn btn-warning'} %>
+

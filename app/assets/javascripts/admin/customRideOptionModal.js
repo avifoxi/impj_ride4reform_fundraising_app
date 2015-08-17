@@ -22,16 +22,21 @@ var CustomRideOptionModalCtrl = function(c_r_o_ids) {
 
 	this.showViews = function(){
 		return _views;
-	}
+	};
 	this.showCroIds = function(){
 		return c_r_o_ids;
-	}
+	};
 
-	$('a[data-custom_ride_option]').click(function(e){
-		e.preventDefault();
-		// all relevant buttons in view are tagged with data for this controller 
-		handleClick( $(e.target).attr('data-custom_ride_option') );	
-	});
+	initListeners();
+
+	function initListeners(){
+		// traverse dom on each init, bc a tags are entering + leaving the dom w/ modal entries
+		$('a[data-custom_ride_option]').click(function(e){
+			e.preventDefault();
+			// all relevant buttons in view are tagged with data for this controller 
+			handleClick( $(e.target).attr('data-custom_ride_option') );	
+		});
+	}
 
 	function handleClick(dataAttr) {
 		var splat = dataAttr.split('_'),
@@ -54,10 +59,14 @@ var CustomRideOptionModalCtrl = function(c_r_o_ids) {
 	};
 
 	function render(selectedView, action, id){
+		if ( !id ){
+			id = '';
+		}
 		$title.html(action + ' Custom Ride Option ' + id);
 		$body.html(selectedView);
 		$footer = '';
 		$modal.modal();
+		initListeners();
 	};
 }
 
