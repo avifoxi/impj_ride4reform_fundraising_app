@@ -1,40 +1,62 @@
 <h2>Edit <%= @ride_year.year %></h2>
 
 <p>Current Ride Year is <strong><%= @current.year %></strong></p>
-<!-- <h1>is this a thing?</h1>
-< %= admin_ride_year_custom_ride_options_path(@ride_year).inspect %>
- -->
-
-<!-- < %= @custom_ride_options.inspect %> -->
 
 <% if  @custom_ride_options %>
 	<h3><%= @ride_year.year %> Custom Ride Options</h3>
 	<% @custom_ride_options.each do |option| %>
-		<%= link_to "View #{option.display_name}", nil, data: "show_#{option.id}", class: 'btn btn-default' %>
+		<%= link_to "View #{option.display_name}", nil, {'data-custom_ride_option'=> "show_#{option.id}", class: 'btn btn-default'} %>
 	<% end %>
 <% end %>
 
 <div>
-	<%= link_to 'Add New Custom Ride Option', nil, data: 'newCustomRideOption', class: 'btn btn-success' %>
+	<%= link_to 'Add New Custom Ride Option', nil, {'data-custom_ride_option'=> 'new', class: 'btn btn-success'} %>
 </div>
 
 <%= render 'form' %>
 
 <%= render 'shared/bootstrap_modal' %>
 
-<script type='text/template' id='custom_ride_option_form'>
+<!-- INITIALIZE JS CONTROLLER TO HANDLE ALL CUSTOM RIDE OPTION ACTIONS -->
+<script>
+	$(function(){
+		window.jsCont = new CustomRideOptionModalCtrl(<%= 
+			@custom_ride_options.map{|c_r_o| c_r_o.id }.to_json.html_safe 
+		%>)
+	});
+</script>
+
+
+<!-- TO AVOID JS TEMPLATING -- PRINT ALL SHOW + EDIT TO SCRIPT TAGS, DROP IN VIA JS TO BOOTSTRAP MODAL -->
+
+<!-- new c_r_o form -->
+<script type='text/template' id='new_custom_ride_option'>
 	<%= render 'admin/custom_ride_options/form', 
 		custom_ride_option: @custom_ride_option,
 		c_r_o_url:  admin_ride_year_custom_ride_options_path(@ride_year)
 	%>
 </script>
 
-<script type='text/template' id='custom_ride_option_show'>
-	
-</script>
+<!-- 
+		edit forms, with delete links, for each existing c_r_o, 
+ 			and show with stats on table
+ -->
+<% @custom_ride_options.each do |c_r_o| %>
 
-<script>
-	$(function(){
-		window.jsCont = new CustomRideOptionModalCtrl(<%= @custom_ride_options.to_json.html_safe %>)
-	});
-</script>
+	<script type='text/template' id='show_c_r_o_<%= c_r_o.id %>'>
+		<%= render 'admin/custom_ride_options/show',
+			custom_ride_option: c_r_o
+		%>
+	</script>
+
+	<script type='text/template' id='edit_c_r_o_<%= c_r_o.id %>'>
+		<%= render 'admin/custom_ride_options/form',
+			custom_ride_option: c_r_o,
+			c_r_o_url: edit_admin_custom_ride_option_path(c_r_o)
+		%>
+	</script>
+
+	
+<% end %>
+
+
