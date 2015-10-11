@@ -22,6 +22,19 @@ class Admin::CustomRideOptionsController < ApplicationController
 		end
 	end
 
+	def edit
+		@option = CustomRideOption.find(params[:id])
+	end
+
+	def update
+		@option = CustomRideOption.find(params[:id])
+		if @option.update_attributes( permitted_params )
+			redirect_to admin_ride_year_custom_ride_options_path( @option.ride_year )
+		else
+			render :edit
+		end
+	end
+
 	private
 
 	def ride_year

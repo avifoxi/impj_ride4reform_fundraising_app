@@ -1,7 +1,7 @@
 <table class='table'>
 	<tr>
 		<th>
-			display_name
+			Display Name
 		</th>
 		<td>
 			<%= custom_ride_option.display_name %>
@@ -9,7 +9,7 @@
 	</tr>
 	<tr>
 		<th>
-			description
+			Description
 		</th>
 		<td>
 			<%= custom_ride_option.description %>
@@ -17,7 +17,7 @@
 	</tr>
 	<tr>
 		<th>
-			liability_text
+			Liability Text
 		</th>
 		<td>
 			<%= custom_ride_option.liability_text %>
@@ -25,7 +25,7 @@
 	</tr>
 	<tr>
 		<th>
-			start_date
+			Start Date
 		</th>
 		<td>
 			<%= custom_ride_option.start_date %>
@@ -33,7 +33,7 @@
 	</tr>
 	<tr>
 		<th>
-			end_date
+			End Date
 		</th>
 		<td>
 			<%= custom_ride_option.end_date %>
@@ -41,7 +41,7 @@
 	</tr>
 	<tr>
 		<th>
-			discount_code
+			Discount Code
 		</th>
 		<td>
 			<%= custom_ride_option.discount_code %>
@@ -49,7 +49,7 @@
 	</tr>
 	<tr>
 		<th>
-			registration_cutoff
+			Registration Cutoff
 		</th>
 		<td>
 			<%= custom_ride_option.registration_cutoff %>
@@ -57,7 +57,7 @@
 	</tr>
 	<tr>
 		<th>
-			registration_fee
+			Registration Fee
 		</th>
 		<td>
 			<%= custom_ride_option.registration_fee %>
@@ -65,7 +65,5 @@
 	</tr>
 </table>
 
-<%= link_to "Edit #{custom_ride_option.display_name}", nil, {'data-custom_ride_option'=> "edit_#{custom_ride_option.id}", class: 'btn btn-warning'} %>
-<!-- < %= button_to 'Delete Option', admin_ride_year_custom_ride_option_path(@option), :action => :destroy %> -->
-<!-- < % binding.pry %> -->
-<!-- < %= button_to 'Delete',  admin_ride_year_custom_ride_option_path( custom_ride_option ),  method: :delete %> -->
+<%= link_to "Edit #{custom_ride_option.display_name}", edit_admin_custom_ride_option_path(  custom_ride_option ), class: 'btn btn-warning' %>
+<%= button_to 'Delete',  admin_custom_ride_option_path( custom_ride_option ),  method: :delete, class: 'btn btn-danger'%>

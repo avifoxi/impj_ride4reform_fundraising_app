@@ -4,6 +4,10 @@
 
 <h5><%= link_to 'Manage Ride Options', admin_ride_year_custom_ride_options_path( @ride_year ) %></h5>
 
+<div>
+	<%= link_to 'Add New Custom Ride Option', nil, {'data-custom_ride_option'=> 'new', class: 'btn btn-success'} %>
+</div>
+
 <%= render 'form' %>
 
 <%= render 'shared/bootstrap_modal' %>

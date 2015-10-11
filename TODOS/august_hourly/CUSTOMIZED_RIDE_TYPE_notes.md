@@ -3,7 +3,7 @@ Custom Ride Type ---
 1 hr, 10 mins, Aug 16
 1 hr, 22 mins, aug 16
 
--- on plane  -- Oct 11
+start 10:53am on plane  -- on plane  -- Oct 11
 
 
 Case in point -- 

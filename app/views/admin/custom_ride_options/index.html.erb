@@ -3,5 +3,5 @@
 <%= link_to 'Add Option', new_admin_ride_year_custom_ride_option_path( @year ), class: 'btn btn-default' %>
 
 <% @options.each do |opt| %>
-	<%= render 'show', custom_ride_option: opt %>
+	<%= render 'show', custom_ride_option: opt, year: @year %>
 <% end %>
