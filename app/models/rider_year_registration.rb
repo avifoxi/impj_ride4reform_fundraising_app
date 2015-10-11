@@ -21,7 +21,7 @@ class RiderYearRegistration < ActiveRecord::Base
 
   has_many :donations
 
-  RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding']
+  RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding', 'Custom']
 
   validates :goal, numericality: true, presence: true
   validate :goal_meets_min_for_ride_year  
@@ -30,6 +30,8 @@ class RiderYearRegistration < ActiveRecord::Base
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
   # ammend this validation -- UNLESS has a custom ride option
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
+  validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
+  validate :
 
   before_validation(on: :create) do
     self.ride_year = RideYear.current

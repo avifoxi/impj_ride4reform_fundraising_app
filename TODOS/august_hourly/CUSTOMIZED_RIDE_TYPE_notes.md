@@ -3,7 +3,11 @@ Custom Ride Type ---
 1 hr, 10 mins, Aug 16
 1 hr, 22 mins, aug 16
 
-start 10:53am on plane  -- on plane  -- Oct 11
+2 hrs in transit
+
+starting @ hotel -- 3:15pm
+
+
 
 
 Case in point -- 
@@ -15,7 +19,7 @@ TODOS =>
 	- add creation form to ride year in admin portal
 
  	- determine how custom option is associated with RYR
- 	
+
 
 functionally -- this should be One to Many on Ride Year
 
