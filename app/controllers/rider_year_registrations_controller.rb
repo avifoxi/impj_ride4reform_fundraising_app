@@ -4,12 +4,15 @@ class RiderYearRegistrationsController < ApplicationController
 	before_action :redirect_if_public_site_is_not_active
 	before_action :validate_user_w_associated_ryr, except: [:new, :create]
 
-	def new 
+	def new
 		## assume never registered before - brand new ... and deal with alternative scenario once this is built
 		@ryr = RiderYearRegistration.new
+		no_customs = RideYear.current.custom_ride_options.empty?
+		@options = no_customs ? RiderYearRegistration::RIDE_OPTIONS.select{|o| o != 'Custom'} : RiderYearRegistration::RIDE_OPTIONS
+		# binding.pry
 	end
 
-	def create 
+	def create
 		@ryr = RiderYearRegistration.new(user: current_user)
 		if @ryr.update_attributes(ryr_params)
 			redirect_to rider_year_registrations_agree_to_terms_path(rider_year_registration: @ryr)

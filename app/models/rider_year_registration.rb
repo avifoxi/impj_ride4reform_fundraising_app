@@ -12,7 +12,6 @@ class RiderYearRegistration < ActiveRecord::Base
   accepts_nested_attributes_for :mailing_addresses
   delegate :mailing_addresses, to: :user
 
-
   has_one :persistent_rider_profile, through: :user
   accepts_nested_attributes_for :persistent_rider_profile
   delegate :persistent_rider_profile, to: :user
@@ -30,7 +29,7 @@ class RiderYearRegistration < ActiveRecord::Base
   validates :agree_to_terms, acceptance: { accept: true } 
   validates_associated :user, on: :create
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
-  # ammend this validation -- UNLESS has a custom ride option
+
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
   validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
   validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create, :update ]
@@ -65,7 +64,6 @@ class RiderYearRegistration < ActiveRecord::Base
       true
     end
   end
-
 
   private
 
