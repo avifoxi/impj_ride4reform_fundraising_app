@@ -1,0 +1,7 @@
+<h2><%= @year.year %> Ride Options</h2>
+
+<%= link_to 'Add Option', new_admin_ride_year_custom_ride_option_path( @year ), class: 'btn btn-default' %>
+
+<% @options.each do |opt| %>
+	<%= render 'show', custom_ride_option: opt %>
+<% end %>

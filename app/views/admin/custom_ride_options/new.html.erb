@@ -1,0 +1,5 @@
+<%= simple_form_for( @option, url: admin_ride_year_custom_ride_options_path( @year ) ) do |f| %>
+	
+	<%= render 'form', custom_ride_option: @option, year: @year, f: f %>
+
+<% end %>

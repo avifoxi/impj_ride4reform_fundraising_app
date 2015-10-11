@@ -63,9 +63,9 @@ Rails.application.routes.draw do
     resources :ride_years do
       resources :donations, only: :index
       resources :rider_year_registrations, only: :index
-      resources :custom_ride_options, only: [:new, :create]
+      resources :custom_ride_options#, only: [:new, :create]
     end
-    resources :custom_ride_options, except: [:new, :create]
+    resources :custom_ride_options, only: [:destroy]
     resources :donations
     resources :mailing_addresses, except: [:show, :index, :new, :create]
     

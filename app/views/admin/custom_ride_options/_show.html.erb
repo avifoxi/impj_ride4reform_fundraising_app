@@ -66,4 +66,6 @@
 </table>
 
 <%= link_to "Edit #{custom_ride_option.display_name}", nil, {'data-custom_ride_option'=> "edit_#{custom_ride_option.id}", class: 'btn btn-warning'} %>
-
+<!-- < %= button_to 'Delete Option', admin_ride_year_custom_ride_option_path(@option), :action => :destroy %> -->
+<!-- < % binding.pry %> -->
+<!-- < %= button_to 'Delete',  admin_ride_year_custom_ride_option_path( custom_ride_option ),  method: :delete %> -->
