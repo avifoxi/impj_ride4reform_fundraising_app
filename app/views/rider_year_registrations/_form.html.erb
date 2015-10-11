@@ -2,7 +2,10 @@
 
 <%= simple_form_for @ryr  do |f| %>
   <%= f.input :ride_option, collection: RiderYearRegistration::RIDE_OPTIONS, include_blank: false %>
-  <%= f.input :discount_code %> 
+  <div class='custom_ride_conditional'>
+	  <%= f.input :custom_ride_option, as: :select, collection: @options, label: 'Select the custom ride option' %>
+	  <%= f.input :discount_code, label: 'Discount code for custom ride' %>
+  </div>
   <%= f.input :goal, label: 'Fundraising Goal', hint: "Must be above #{RideYear.current.min_fundraising_goal}" %>
   <%= f.button :submit %>
 <% end %>
@@ -12,17 +15,17 @@
 		var $select = $('#rider_year_registration_ride_option');
 
 		if ( $select.val() !== 'Custom') {
-			var $discount_code = $('.rider_year_registration_discount_code')
+			var $custom = $('.custom_ride_conditional')
 				.hide()
 				.data('hidden', true);
 		}
 
-		$('#rider_year_registration_ride_option').change(function(e){
+		$select.change(function(){
 			if ( this.value === 'Custom' ){
-				$discount_code.data('hidden', false).show(200);
+				$custom.data('hidden', false).show(200);
 			} else {
-				if ( !$discount_code.data('hidden') ) {
-					$discount_code.data('hidden', true).hide(200);
+				if ( !$custom.data('hidden') ) {
+					$custom.data('hidden', true).hide(200);
 				}
 			}
 		});

@@ -7,9 +7,10 @@ class RiderYearRegistrationsController < ApplicationController
 	def new
 		## assume never registered before - brand new ... and deal with alternative scenario once this is built
 		@ryr = RiderYearRegistration.new
-		no_customs = RideYear.current.custom_ride_options.empty?
-		@options = no_customs ? RiderYearRegistration::RIDE_OPTIONS.select{|o| o != 'Custom'} : RiderYearRegistration::RIDE_OPTIONS
-		# binding.pry
+		options = RideYear.current.custom_ride_options
+		unless options.empty?
+			@options = options.map{|o| [ o.display_name, o.id ] }
+		end
 	end
 
 	def create
@@ -121,7 +122,7 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def full_params
-    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses,
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :discount_code,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
