@@ -10,7 +10,7 @@ class CreateCustomRideOptions < ActiveRecord::Migration
       t.date :registration_cutoff
       t.integer :registration_fee
       t.references :ride_year, index: true
-
+      t.boolean :is_disabled, default: false
       t.timestamps
     end
   end

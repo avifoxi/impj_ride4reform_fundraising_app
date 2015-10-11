@@ -35,6 +35,10 @@ class Admin::CustomRideOptionsController < ApplicationController
 		end
 	end
 
+	def destroy 
+		# if any users have chosen this as their option .... don't destroy, just disable
+	end
+
 	private
 
 	def ride_year

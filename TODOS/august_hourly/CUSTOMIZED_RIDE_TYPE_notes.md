@@ -14,6 +14,8 @@ TODOS =>
 	- build model (v1 is done)
 	- add creation form to ride year in admin portal
 
+ 	- determine how custom option is associated with RYR
+ 	
 
 functionally -- this should be One to Many on Ride Year
 

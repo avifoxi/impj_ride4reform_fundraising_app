@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20150816172837) do
     t.date     "registration_cutoff"
     t.integer  "registration_fee"
     t.integer  "ride_year_id"
+    t.boolean  "is_disabled",         default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -134,6 +135,7 @@ ActiveRecord::Schema.define(version: 20150816172837) do
     t.string   "ride_option"
     t.integer  "registration_payment_receipt_id"
     t.boolean  "active_for_fundraising",          default: true
+    t.integer  "custom_ride_option_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

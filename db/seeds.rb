@@ -20,6 +20,16 @@ when "development"
 	RideYear.last.set_as_current
   RideYear.last.update_attributes(disable_public_site: false)
 
+  RideYear.current.custom_ride_options.create({
+    display_name: 'Custom Ride',
+    description: 'For riders for whom a standard ride is not sufficient.',
+    liability_text: 'You are liable for everything oy oy oy',
+    start_date: Time.new + 5.days,
+    end_date: Time.new + 10.days,
+    registration_cutoff: Time.new,
+    registration_fee: 500
+  })
+
   goals = (2500..10000).to_a
 
   User.create(first_name: "Avi", last_name: "Rider", email: "a@a.com", password: 'password', title: User::TITLES.sample)

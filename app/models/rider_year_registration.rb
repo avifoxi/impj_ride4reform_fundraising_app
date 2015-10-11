@@ -1,6 +1,7 @@
 class RiderYearRegistration < ActiveRecord::Base
   belongs_to :ride_year
   belongs_to :user
+  belongs_to :custom_ride_option
 
   # registration_payment_receipt
   belongs_to :registration_payment_receipt, :class_name => 'Receipt'
@@ -27,6 +28,7 @@ class RiderYearRegistration < ActiveRecord::Base
   validates :agree_to_terms, acceptance: { accept: true } 
   validates_associated :user, on: :create
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
+  # ammend this validation -- UNLESS has a custom ride option
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
 
   before_validation(on: :create) do
