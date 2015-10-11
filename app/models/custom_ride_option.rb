@@ -8,5 +8,4 @@ class CustomRideOption < ActiveRecord::Base
   def correct_discount_code?( resource )
   	resource.discount_code == self.discount_code
   end
-
 end

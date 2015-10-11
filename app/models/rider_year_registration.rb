@@ -33,7 +33,7 @@ class RiderYearRegistration < ActiveRecord::Base
   # ammend this validation -- UNLESS has a custom ride option
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
   validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
-  validate :input_discount_code_matches_record, on: [ :create, :update ], if: "ride_option == 'Custom'"
+  validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create, :update ]
 
   before_validation(on: :create) do
     self.ride_year = RideYear.current
@@ -66,10 +66,6 @@ class RiderYearRegistration < ActiveRecord::Base
     end
   end
 
-  def input_discount_code_matches_record
-    option = self.custom_ride_option
-    option.correct_discount_code?( self )
-  end
 
   private
 
