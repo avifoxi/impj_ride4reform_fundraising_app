@@ -21,6 +21,8 @@ class RiderYearRegistration < ActiveRecord::Base
 
   has_many :donations
 
+  attr_accessor :discount_code
+
   RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding', 'Custom']
 
   validates :goal, numericality: true, presence: true
@@ -31,7 +33,7 @@ class RiderYearRegistration < ActiveRecord::Base
   # ammend this validation -- UNLESS has a custom ride option
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
   validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
-  validate :
+  validate :input_discount_code_matches_record, on: [ :create, :update ], if: "ride_option == 'Custom'"
 
   before_validation(on: :create) do
     self.ride_year = RideYear.current
@@ -62,6 +64,11 @@ class RiderYearRegistration < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def input_discount_code_matches_record
+    option = self.custom_ride_option
+    option.correct_discount_code?( self )
   end
 
   private
