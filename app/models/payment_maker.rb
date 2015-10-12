@@ -10,7 +10,6 @@ class PaymentMaker
 		@payment_type = payment_type
 		@full_params = full_params
 		@amount = correct_amount #@payment_type == :registration ? RideYear.current_fee : @host_model.amount
-		binding.pry
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
 		@admin = admin
 	end
