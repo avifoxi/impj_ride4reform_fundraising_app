@@ -82,7 +82,7 @@ class RiderYearRegistrationsController < ApplicationController
 		@ryr = RiderYearRegistration.find(params[:rider_year_registration])
 		@mailing_addresses = @ryr.mailing_addresses
 		@custom_billing_address = MailingAddress.new
-		@registration_fee = RideYear.current_fee
+		# @registration_fee = RideYear.current_fee
 	end
 
 	def create_pay_reg_fee
@@ -122,7 +122,7 @@ class RiderYearRegistrationsController < ApplicationController
 	end
 
 	def full_params
-    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :discount_code,
+    params.require(:rider_year_registration).permit(:ride_option, :goal, :agree_to_terms, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :mailing_addresses, :discount_code, :custom_ride_option,
     	:mailing_addresses_attributes => [
     			:line_1, :line_2, :city, :state, :zip
     		],
@@ -147,7 +147,9 @@ class RiderYearRegistrationsController < ApplicationController
   def ryr_params 
   	{
   		ride_option: full_params[:ride_option],
-  		goal: full_params[:goal]
+  		goal: full_params[:goal],
+  		discount_code: full_params[:discount_code],
+  		custom_ride_option: full_params[:custom_ride_option] ? CustomRideOption.find(full_params[:custom_ride_option]) : nil
   	} 	
   end
 

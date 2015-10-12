@@ -32,7 +32,7 @@ class RiderYearRegistration < ActiveRecord::Base
 
   validates :ride_option, inclusion: { in: RIDE_OPTIONS }
   validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
-  validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create, :update ]
+  validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create ]
 
   before_validation(on: :create) do
     self.ride_year = RideYear.current

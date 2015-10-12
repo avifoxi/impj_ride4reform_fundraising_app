@@ -9,14 +9,22 @@ class PaymentMaker
 		@host_model = host_model
 		@payment_type = payment_type
 		@full_params = full_params
-		@amount = @payment_type == :registration ? RideYear.current_fee : @host_model.amount
+		@amount = correct_amount #@payment_type == :registration ? RideYear.current_fee : @host_model.amount
+		binding.pry
 		@by_check = admin && ( @full_params[:receipt][:by_check] == "1" )
 		@admin = admin
-		# p "#"*80
-		# p "inside pyment maker -- full_params"
-		# p "#{@full_params.inspect}"
-		# p '@by_check boolean coorret ? '
-		# p "#{@by_check}"
+	end
+
+	def correct_amount
+		if @payment_type == :registration 
+			if @host_model.ride_option == 'Custom'
+				@host_model.custom_ride_option.registration_fee
+			else
+				RideYear.current_fee 
+			end
+		else
+			@host_model.amount
+		end
 	end
 
 	def process_payment

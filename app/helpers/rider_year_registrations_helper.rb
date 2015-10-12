@@ -1,5 +1,15 @@
 module RiderYearRegistrationsHelper
 
+	def title_for_reg_payment(ryr)
+		html = ''
+		if ryr.custom_ride_option
+			html << '<h3>Participants in ' + ryr.custom_ride_option.display_name + ' pay a registration rate of $' + ryr.custom_ride_option.registration_fee.to_s + '.</h3>'
+		else
+			html << '<h3>Every participant in the ride must pay a registration fee of $' + RideYear.current.registration_fee  + '. <br><small>Please complete this billing information to finish your registration!</small> </h3>'
+		end
+		html.html_safe
+	end
+
 	def correct_terms_for_ride_option(ryr)
   	html = ''
   	
@@ -30,6 +40,9 @@ module RiderYearRegistrationsHelper
 					<p>Age: Minimum age of entry is 18 unless accompanied by a parent or legal guardian in which case the minimum age is 17. A Parent or legal guardian must accompany minors at all times.</p>
 					<p>Accommodation: Rooms will be shared wherever possible with someone of your choice – numbers per room will vary subject to location. Room standard is youth hostel, or better, when possible.</p>
 					<p>The organizers reserve the right to change the route and/or accommodations should the necessity arise.</p>'
+		
+			when 'Custom'
+				html << '<p>' + ryr.custom_ride_option.liability_text + '</p>'
 		end
 		html.html_safe
   end
