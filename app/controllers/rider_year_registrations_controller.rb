@@ -149,7 +149,7 @@ class RiderYearRegistrationsController < ApplicationController
   		ride_option: full_params[:ride_option],
   		goal: full_params[:goal],
   		discount_code: full_params[:discount_code],
-  		custom_ride_option: full_params[:custom_ride_option] ? CustomRideOption.find(full_params[:custom_ride_option]) : nil
+  		custom_ride_option: full_params[:custom_ride_option].empty? ? nil : CustomRideOption.find(full_params[:custom_ride_option])
   	} 	
   end
 
