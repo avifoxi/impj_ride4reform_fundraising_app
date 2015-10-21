@@ -5,8 +5,10 @@ Custom Ride Type ---
 
 2 hrs in transit
 
-starting @ hotel -- 3:15pm
+@hotel 1.5 hrs
 
+in airport 
+2 hrs
 
 
 
