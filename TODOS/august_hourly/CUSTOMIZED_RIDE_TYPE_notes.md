@@ -7,9 +7,10 @@ Custom Ride Type ---
 
 @hotel 1.5 hrs
 
-in airport 
+in airport
 2 hrs
 
+10/20 - start 8:23pm
 
 
 Case in point -- 
