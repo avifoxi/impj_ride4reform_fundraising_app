@@ -22,15 +22,13 @@ class RiderYearRegistration < ActiveRecord::Base
 
   attr_accessor :discount_code
 
-  RIDE_OPTIONS = ['Original Track', 'Light Track', 'Hiking', 'Combination Hiking/Riding', 'Custom']
-
   validates :goal, numericality: true, presence: true
   validate :goal_meets_min_for_ride_year  
   validates :agree_to_terms, acceptance: { accept: true } 
   validates_associated :user, on: :create
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
 
-  validates :ride_option, inclusion: { in: RIDE_OPTIONS }
+  validates :ride_option, inclusion: { in: RideYear.current.options }
   validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
   validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create ]
 

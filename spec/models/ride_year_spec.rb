@@ -15,4 +15,13 @@ RSpec.describe RideYear, :type => :model do
 		expect(RideYear.current).to eq(old_year)
 	end
 
+	it "returns basic options when NO custom options are assigned" do 
+		expect( old_year.options ).to eq( ["Original Track", "Light Track", "Combination Hiking/Riding"] )
+	end
+
+	it "returns basic and custom options in single array of option names when custom options are assigned" do 
+		old_year.custom_ride_options << FactoryGirl.create( :custom_ride_option )
+		expect( old_year.options ).to eq( ["Original Track", "Light Track", "Combination Hiking/Riding", "Custom Ride"] )
+	end
+
 end
