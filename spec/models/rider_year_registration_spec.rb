@@ -29,16 +29,22 @@ RSpec.describe RiderYearRegistration, :type => :model do
 		end
 
 		it "invalid ride options may not be submitted" do
-			valid_ride_option = FactoryGirl.build(:rider_year_registration)
-			valid_ride_option.ride_option = 'cheese'
-			expect( valid_ride_option.save ).to eq( false )
+			invalid_ride_option = FactoryGirl.build(:rider_year_registration)
+			invalid_ride_option.ride_option = 'cheese'
+			expect( invalid_ride_option.save ).to eq( false )
 		end
 
 		it "valid custom ride option rejected without correct discount code" do
-			
+			valid_sans_code = FactoryGirl.build(:rider_year_registration)
+			valid_sans_code.ride_option = ride_year.custom_ride_options.first.display_name
+			expect( valid_sans_code.save ).to eq( false )
 		end
 
 		it "valid custom_ride_option accepted with correct discount code" do
+			valid = FactoryGirl.build( :rider_year_registration )
+			valid.ride_option = CustomRideOption.first.display_name
+			valid.discount_code = CustomRideOption.first.discount_code
+			expect( valid.save ).to eq( true )
 		end
 	end
 
