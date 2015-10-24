@@ -1,9 +1,8 @@
 class RiderYearRegistration < ActiveRecord::Base
   belongs_to :ride_year
   belongs_to :user
-  belongs_to :custom_ride_option
+  # belongs_to :custom_ride_option
 
-  # registration_payment_receipt
   belongs_to :registration_payment_receipt, :class_name => 'Receipt'
 
   delegate :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, :email, :full_name, :persistent_rider_profile, to: :user
@@ -28,8 +27,8 @@ class RiderYearRegistration < ActiveRecord::Base
   validates_associated :user, on: :create
   validates_uniqueness_of :user, scope: :ride_year, :message => 'You may only register once per ride year. Have you already registered?'
 
-  validates :ride_option, inclusion: { in: RideYear.current.options }
-  validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
+  validates :ride_option, inclusion: { in: Proc.new{ RideYear.current.options } }
+  # validates :custom_ride_option, presence: true, if: "ride_option == 'Custom'" 
   validates_with DiscountCodeValidator, if: "ride_option == 'Custom'", on: [ :create ]
 
   before_validation(on: :create) do
