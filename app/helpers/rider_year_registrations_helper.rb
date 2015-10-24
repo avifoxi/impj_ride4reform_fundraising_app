@@ -2,8 +2,9 @@ module RiderYearRegistrationsHelper
 
 	def title_for_reg_payment(ryr)
 		html = ''
-		if ryr.custom_ride_option
-			html << '<h3>Participants in ' + ryr.custom_ride_option.display_name + ' pay a registration rate of $' + ryr.custom_ride_option.registration_fee.to_s + '.</h3>'
+		if !RideYear::OPTIONS.include?( ryr.ride_option )
+			custom = CustomRideOption.find_by(display_name: ryr.ride_option )
+			html << '<h3>Participants in ' + ryr.ride_option + ' pay a registration rate of $' + custom.registration_fee.to_s + '.</h3>'
 		else
 			html << '<h3>Every participant in the ride must pay a registration fee of $' + RideYear.current.registration_fee.to_s  + '. <br><small>Please complete this billing information to finish your registration!</small> </h3>'
 		end
