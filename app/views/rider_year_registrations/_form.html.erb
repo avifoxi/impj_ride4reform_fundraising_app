@@ -15,12 +15,16 @@
 
 		var $select = $('#rider_year_registration_ride_option');
 
-		var $custom = $('.custom_ride_conditional')
-			.hide()
-			.data('hidden', true);
+		var $custom = $('.custom_ride_conditional');
+
+		toggle_discount_on_select_option();
 
 		$select.change( function(){
-			var option = this.value;
+			toggle_discount_on_select_option();
+		});
+
+		function toggle_discount_on_select_option(){
+			var option = $select.val();
 
 			if ( !_.include(standard_opts, option ) ){
 				$custom.data('hidden', false).show(200);
@@ -29,7 +33,7 @@
 					$custom.data('hidden', true).hide(200);
 				}
 			}
-		});
+		};
 	});
 	
 </script>
