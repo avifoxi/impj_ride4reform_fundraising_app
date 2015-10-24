@@ -10,7 +10,9 @@ Custom Ride Type ---
 in airport
 2 hrs
 
-10/20 - start 8:23pm
+10/20 - start 8:23pm, end 9pm
+
+Sat Oct 24, start 5:40pm
 
 
 Case in point -- 
