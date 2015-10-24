@@ -8,7 +8,7 @@ class CreateRiderYearRegistrations < ActiveRecord::Migration
       t.string :ride_option
       t.references :registration_payment_receipt
       t.boolean :active_for_fundraising, default: true
-      # t.references :custom_ride_option
+      t.references :custom_ride_option
 
       t.timestamps
     end
