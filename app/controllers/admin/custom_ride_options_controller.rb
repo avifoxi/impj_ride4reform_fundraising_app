@@ -1,4 +1,5 @@
 class Admin::CustomRideOptionsController < ApplicationController
+	layout "admins"
 
 	skip_before_action :authenticate_user!
 

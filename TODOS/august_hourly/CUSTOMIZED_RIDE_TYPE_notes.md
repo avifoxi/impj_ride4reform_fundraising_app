@@ -15,6 +15,8 @@ in airport
 Sat Oct 24, start 5:40pm
 
 
+remove liability text
+
 Case in point -- 
 Rabbinic shorter ride 
 

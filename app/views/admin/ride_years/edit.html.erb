@@ -2,15 +2,13 @@
 
 <p>Current Ride Year is <strong><%= @current.year %></strong></p>
 
-<h5><%= link_to 'Manage Ride Options', admin_ride_year_custom_ride_options_path( @ride_year ) %></h5>
-
-<div>
-	<%= link_to 'Add New Custom Ride Option', nil, {'data-custom_ride_option'=> 'new', class: 'btn btn-success'} %>
-</div>
+<h5><%= link_to 'Add and Manage Custom Ride Options', admin_ride_year_custom_ride_options_path( @ride_year ) %></h5>
+<% if @ride_year.custom_ride_options %>
+	<p>Current custom ride options are <strong><%= @ride_year.custom_ride_options.map{|c| c.display_name }.join(', ') %></strong>.</p>
+<% end %>
 
 <%= render 'form' %>
 
-<%= render 'shared/bootstrap_modal' %>
 
 
 
