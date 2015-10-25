@@ -12,7 +12,9 @@ in airport
 
 10/20 - start 8:23pm, end 9pm
 
-Sat Oct 24, start 5:40pm
+Sat Oct 24, start 5:40pm - 8pm
+
+8:40
 
 
 remove liability text

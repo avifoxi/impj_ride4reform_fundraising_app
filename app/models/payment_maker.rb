@@ -17,7 +17,7 @@ class PaymentMaker
 	def correct_amount
 		if @payment_type == :registration 
 			if !RideYear::OPTIONS.include?( @host_model.ride_option )
-				CustomRideOption.find_by( display_name: ryr.ride_option ).registration_fee
+				CustomRideOption.find_by( display_name: @host_model.ride_option ).registration_fee
 			else
 				RideYear.current_fee 
 			end
