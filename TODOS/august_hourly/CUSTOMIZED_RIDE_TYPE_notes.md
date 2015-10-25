@@ -1,21 +1,6 @@
 Custom Ride Type ---
 
-1 hr, 10 mins, Aug 16
-1 hr, 22 mins, aug 16
-
-2 hrs in transit
-
-@hotel 1.5 hrs
-
-in airport
-2 hrs
-
-10/20 - start 8:23pm, end 9pm
-
-Sat Oct 24, start 5:40pm - 8pm
-
-8:40
-
+10 -- round to 10 hrs
 
 remove liability text
 
