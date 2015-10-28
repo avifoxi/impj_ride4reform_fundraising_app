@@ -58,4 +58,11 @@
 </table>
 
 <%= link_to "Edit #{custom_ride_option.display_name}", edit_admin_custom_ride_option_path(  custom_ride_option ), class: 'btn btn-warning' %>
-<%= button_to 'Delete',  admin_custom_ride_option_path( custom_ride_option ),  method: :delete, class: 'btn btn-danger'%>
+
+<% if !custom_ride_option.registered_riders.empty? %>
+	<%= button_to 'Delete',  admin_custom_ride_option_path( custom_ride_option ),  method: :delete, class: 'btn btn-danger', data: {confirm: "Riders have registered for this option, are you sure you want to delete?"}%>
+<% else %>
+	<%= button_to 'Delete',  admin_custom_ride_option_path( custom_ride_option ),  method: :delete, class: 'btn btn-danger' %> 
+<% end %>
+
+

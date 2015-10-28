@@ -4,12 +4,11 @@ FactoryGirl.define do
   factory :custom_ride_option do
     display_name "Custom Ride"
     description "MyText"
-    liability_text "MyText"
     start_date "2015-08-16"
     end_date "2015-08-16"
     discount_code "MyString"
     registration_cutoff "2015-08-16"
     registration_fee 500
-    ride_year nil
+    association :ride_year, factory: [:ride_year, :current]
   end
 end

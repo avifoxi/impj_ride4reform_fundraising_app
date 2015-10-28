@@ -37,7 +37,9 @@ class Admin::CustomRideOptionsController < ApplicationController
 	end
 
 	def destroy 
-		# if any users have chosen this as their option .... don't destroy, just disable
+		@option = CustomRideOption.find(params[:id])
+		@option.destroy
+		redirect_to admin_ride_year_custom_ride_options_path( @option.ride_year )
 	end
 
 	private
