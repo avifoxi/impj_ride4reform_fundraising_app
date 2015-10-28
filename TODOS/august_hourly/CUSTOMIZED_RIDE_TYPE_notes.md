@@ -2,6 +2,8 @@ Custom Ride Type ---
 
 10 -- round to 10 hrs
 
+start @ 8:30pm
+
 remove liability text
 
 Case in point -- 
