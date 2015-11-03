@@ -9,7 +9,7 @@ class RideYear < ActiveRecord::Base
   validates_presence_of :registration_fee, :registration_fee_early, :min_fundraising_goal, :year, :ride_start_date, :ride_end_date, :early_bird_cutoff
   validates_numericality_of :registration_fee, :registration_fee_early, :min_fundraising_goal, :year
 
-  OPTIONS = ['Original Track', 'Light Track'
+  OPTIONS = ['Riding4Reform- Challenge', 'Riding4Reform- Scenic'
     # , 
     # 'Hiking', 
     # 'Combination Hiking/Riding'
