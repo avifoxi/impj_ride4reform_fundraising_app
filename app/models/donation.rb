@@ -11,9 +11,6 @@ class Donation < ActiveRecord::Base
 
   delegate :mailing_addresses, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
 
-
-  # validates_associated :receipt, on: :create
-  validates_associated :rider_year_registration, on: :create#, :unless => :is_organizational
   validates_associated :user, on: :create
 
   validates_presence_of :user
