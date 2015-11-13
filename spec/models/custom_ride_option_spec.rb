@@ -6,7 +6,7 @@ RSpec.describe CustomRideOption, :type => :model do
   it 'has a valid factory' do 
   	expect( build(:custom_ride_option) ).to be_a( CustomRideOption )
   end
-ƒ
+
   describe 'registered riders' do
   	it 'returns no riders if none are registered' do
   		expect( option.registered_riders ).to be_empty
