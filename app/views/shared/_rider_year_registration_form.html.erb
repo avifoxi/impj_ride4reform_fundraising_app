@@ -1,3 +1,2 @@
-<%= f.input :ride_option, collection: RideYear.current.options %>  
+<%= f.input :ride_option, collection: RideYear.current.options, include_blank: false %>  
 <%= f.input :goal, label: 'Fundraising Goal', hint: "Must be above #{RideYear.current.min_fundraising_goal}" %>
-<!-- < %= f.button :submit %> -->

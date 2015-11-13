@@ -78,6 +78,20 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 		end
 	end
 
+	def update
+		@ryr = RiderYearRegistration.find(params[:id])
+		discount_code = nil
+		unless RideYear::OPTIONS.include?( ryr_params['ride_option'] )
+			discount_code = CustomRideOption.find_by(display_name: ryr_params['ride_option']).discount_code
+		end
+
+		if @ryr.update_attributes( ryr_params.merge( discount_code: discount_code ) )
+			redirect_to admin_user_path(@ryr.user)
+		else
+			render :edit
+		end
+	end
+
 	def destroy
 		@ryr = RiderYearRegistration.find(params[:id])
 		@ryr.destroy
