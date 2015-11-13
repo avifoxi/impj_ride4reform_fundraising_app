@@ -40,8 +40,7 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 
 	def create
 		@user = User.find(params[:user_id])
-		@ryr = @user.rider_year_registrations.build(ryr_params)
-		
+		@ryr = @user.rider_year_registrations.build( auto_add_correct_code_if_custom_ride )
 
 		pm = PaymentMaker.new(@ryr, :registration, full_params, current_admin)
 		begin
@@ -80,12 +79,7 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 
 	def update
 		@ryr = RiderYearRegistration.find(params[:id])
-		discount_code = nil
-		unless RideYear::OPTIONS.include?( ryr_params['ride_option'] )
-			discount_code = CustomRideOption.find_by(display_name: ryr_params['ride_option']).discount_code
-		end
-
-		if @ryr.update_attributes( ryr_params.merge( discount_code: discount_code ) )
+		if @ryr.update_attributes( auto_add_correct_code_if_custom_ride )
 			redirect_to admin_user_path(@ryr.user)
 		else
 			render :edit
@@ -138,5 +132,13 @@ class Admin::RiderYearRegistrationsController < ApplicationController
 
   def ryr_params
   	full_params.slice(:ride_option, :goal)
+  end
+
+  def auto_add_correct_code_if_custom_ride
+  	discount_code = nil
+		unless RideYear::OPTIONS.include?( ryr_params['ride_option'] )
+			discount_code = CustomRideOption.find_by(display_name: ryr_params['ride_option']).discount_code
+		end
+		ryr_params.merge( discount_code: discount_code )
   end
 end
