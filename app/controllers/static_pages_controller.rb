@@ -10,7 +10,7 @@ class StaticPagesController < ApplicationController
 
 	def donors
 		if Donation.count > 2
-			@donors = Donation.all.select {|d| !d.anonymous_to_public }.map {|d| d.user}.uniq!.sort_by! { |a| a.last_name }
+			@donors = Donation.all.select {|d| !d.anonymous_to_public && ( d.user != nil )}.map {|d| d.user}.uniq!.sort_by! { |a| a.last_name }
 		else
 			@donors = []
 		end
