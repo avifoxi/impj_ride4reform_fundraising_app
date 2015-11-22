@@ -53,9 +53,6 @@ class DonationsController < ApplicationController
 		@donation.user = @user
 
 		if @donation.save 
-			# p '#'*80
-			# p '@don'
-			# p "#{@donation.inspect}"
 			redirect_to new_donation_payment_path(@donation)
 		else
 			error_n_render
