@@ -114,7 +114,7 @@ class PaymentMaker
 		if @ppp.create_payment
 			prep_and_return_receipt
 		else
-			@host_model.errors.add(:payment, @ppp.payment.error)
+			@host_model.errors.add(:payment, @ppp.payment.error.message + ' ' + @ppp.payment.error.issue )
 			prep_errors_hash
 		end
 	end

@@ -69,6 +69,7 @@ class PaypalPaymentPreparer
       p '$'*80
       p 'payment hash hopefully'
       p "#{@payment.inspect}"
+      # pry.debugger
       false
     end
   end
