@@ -31,8 +31,17 @@ class MailingAddress < ActiveRecord::Base
   end
 
   def zip_num_length_check
-    unless self.zip.to_i.to_s.length == self.zip.length
+    unless recursively_allow_zeroes( self.zip )
       errors.add :zip, "zip code must be 5 digits long"
+    end
+  end
+
+  def recursively_allow_zeroes( zip )
+    len = zip.length
+    if zip[ 0 ] == '0'
+      recursively_allow_zeroes( zip.slice( 1, len - 1 ) )
+    else
+      zip.to_i.to_s.length == len
     end
   end
 
