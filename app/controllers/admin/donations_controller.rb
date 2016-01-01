@@ -71,6 +71,7 @@ class Admin::DonationsController < ApplicationController
 
 	def create_donation_payment
 		@donation = Donation.find(params[:id])
+		
 		pm = PaymentMaker.new(@donation, :donation, full_params, current_admin)
 
 		begin
