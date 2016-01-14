@@ -13,7 +13,7 @@
     
     $asyms.each(function(i, el){ 
       var h = $(el).height(); 
-      h > highest ? highest = h : console.log( h + ' is less than ' + highest );
+      h > highest ? highest = h : null;
     });
     $asyms.each(function(i, el){
     	$(el).height( highest );
