@@ -1,5 +1,5 @@
 <div class="col-sm-6 col-md-4">
-<div class="thumbnail prp-index">
+<div class="thumbnail prp-index"> 
   
   <%= link_to persistent_rider_profile_path(rider) do %>
     
@@ -7,7 +7,6 @@
 			<%= image_tag rider.avatar.url(:thumb) %>
 		<% else %>
 			<i class="fa fa-bicycle"></i>
-			<!-- <h3>update your photo?</h3> -->
 		<% end %>
   
   <% end %>

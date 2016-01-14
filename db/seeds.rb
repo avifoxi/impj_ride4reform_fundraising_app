@@ -37,7 +37,7 @@ when "development"
       user: User.first,
       goal: goals.sample,
       agree_to_terms: true,
-      ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
+      ride_option: RideYear::OPTIONS.sample
     )
   avi.mailing_addresses.create( FactoryGirl.attributes_for(:mailing_address) )
   prp = avi.user.build_persistent_rider_profile
@@ -64,7 +64,7 @@ when "development"
   		user: user,
   		goal: goals.sample,
   		agree_to_terms: true,
-  		ride_option: RiderYearRegistration::RIDE_OPTIONS.sample
+  		ride_option: RideYear::OPTIONS.sample
   	)
     ride_year = RideYear.all.sample
     # rider.update_attributes()

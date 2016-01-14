@@ -6,3 +6,19 @@
 		<% end %>
 </div>
 
+<script>
+  $(document).ready(function(){
+    var highest = 0,
+    	$asyms = $('.prp-index');
+    
+    $asyms.each(function(i, el){ 
+      var h = $(el).height(); 
+      h > highest ? highest = h : console.log( h + ' is less than ' + highest );
+    });
+    $asyms.each(function(i, el){
+    	$(el).height( highest );
+    });
+  });
+
+
+</script>
