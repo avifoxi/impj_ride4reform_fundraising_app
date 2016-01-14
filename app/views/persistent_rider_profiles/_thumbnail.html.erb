@@ -3,11 +3,13 @@
   
   <%= link_to persistent_rider_profile_path(rider) do %>
     
-    <% if rider.avatar_file_name  %>
-			<%= image_tag rider.avatar.url(:thumb) %>
-		<% else %>
-			<i class="fa fa-bicycle"></i>
-		<% end %>
+    <div class='prp-image'>
+      <% if rider.avatar_file_name  %>
+  			<%= image_tag rider.avatar.url(:thumb) %>
+  		<% else %>
+  			<i class="fa fa-bicycle"></i>
+  		<% end %>
+    </div>
   
   <% end %>
   
