@@ -1,7 +1,7 @@
 module ApplicationHelper
 
       def credit_cards
-            [['Visa', 'visa'], ['Mastercard', 'mastercard'], ['Discover', 'discover'], ['AMEX', 'amex']]      
+            [['Visa', 'visa'], ['Mastercard', 'mastercard'], ['Discover', 'discover']]      
       end
 
       def months

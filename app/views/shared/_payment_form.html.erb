@@ -13,7 +13,7 @@
 <% end %>
 
 <div class="cc_fields">
-	<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type' %>
+	<%= f.input :cc_type, collection: credit_cards, label: 'Credit Card Type', include_blank: false %>
 
 	<%= f.input :cc_number, input_html: { maxlength: 16 }, label: 'Credit Card Number', hint: 'No spaces please.' %>
 	<%= f.input :cc_expire_month, collection: months, label: 'Expiration month' %>
