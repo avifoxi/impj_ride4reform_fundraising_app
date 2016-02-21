@@ -85,7 +85,4 @@ group :test do
   gem 'vcr', '~> 2.9.3'
 end
 
-group :development do 
-	gem 'jazz_hands'
-end
 

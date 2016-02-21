@@ -113,9 +113,9 @@ class Admin::DonationsController < ApplicationController
 		@donation = Donation.find(params[:id])
 
 		if @donation.receipt
-			flash[:alert] = 'This donation has already been processed, and cannot be edited.' 
-			redirect_to admin_path
-			return
+			# flash[:alert] = 'This donation has already been processed, and cannot be edited.' 
+			# redirect_to admin_path
+			# return
 		end
 
 		@user = @donation.user

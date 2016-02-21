@@ -9,4 +9,4 @@
 <% end %>
 
 <hr>
-<%= button_to "Delete Donation without Payment?", admin_donation_path(@donation), :method => :delete, class: 'btn btn-danger' %>
+<%= button_to "Delete Donation?", admin_donation_path(@donation), :method => :delete, class: 'btn btn-danger', data: { confirm: "Double checking before deletion?" }%>
