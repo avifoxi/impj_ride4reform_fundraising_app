@@ -1,4 +1,4 @@
-<h3>Donation <%= @donation.id %> <small><%= link_to 'Edit', edit_admin_donation_path(@donation) %></small> </h3>
+<h3>Donation <%= @donation.id %> <small><%= link_to 'Edit or Delete', edit_admin_donation_path(@donation) %></small> </h3>
 <%= render 'donations/stats' %>
 <h4>Receipt Info</h4>
 <%= render 'admin/receipts/stats' %>
