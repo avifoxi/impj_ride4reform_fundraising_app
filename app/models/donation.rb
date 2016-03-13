@@ -9,7 +9,7 @@ class Donation < ActiveRecord::Base
 
   belongs_to :user
 
-  delegate :mailing_addresses, :email, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
+  delegate :email, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
 
   validates_associated :user, on: :create
 
@@ -31,6 +31,10 @@ class Donation < ActiveRecord::Base
     else
       'IMPJ'
     end
+  end
+
+  def mailing_address
+    self.user.mailing_addresses.first
   end
 
   private

@@ -13,7 +13,7 @@ class Admin::DonationsController < ApplicationController
       	@ride_years = RideYear.all.order(created_at: :desc)
       }
       format.csv { 
-      	send_data gen_csv(@donations, [:id, :donor_name, :recipient_name, :amount, :created_at])  
+      	send_data gen_csv(@donations, [:id, :donor_name, :email, :mailing_address, :recipient_name, :amount, :created_at])  
       	response.headers['Content-Disposition'] = 'attachment; filename="' + "donations_stats_#{Time.now.strftime("%Y_%m_%d_%H%M")}" + '.csv"'
       }
     end
