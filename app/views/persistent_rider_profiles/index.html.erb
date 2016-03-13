@@ -9,13 +9,14 @@
 <script>
   $(document).ready(function(){
     var highest = 0,
-    	$asyms = $('.prp-image');
+      images = $('.prp-image img'),
+    	containers = $('.prp-image');
     
-    $asyms.each(function(i, el){ 
+    images.each(function(i, el){ 
       var h = $(el).height(); 
       h > highest ? highest = h : null;
     });
-    $asyms.each(function(i, el){
+    containers.each(function(i, el){
     	$(el).height( highest );
     });
   });

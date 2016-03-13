@@ -9,7 +9,7 @@ class Donation < ActiveRecord::Base
 
   belongs_to :user
 
-  delegate :mailing_addresses, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
+  delegate :mailing_addresses, :email, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
 
   validates_associated :user, on: :create
 
@@ -43,3 +43,8 @@ class Donation < ActiveRecord::Base
     end
   end
 end
+
+# to_kill
+# [347, 432, 402, 199, 408, 293, 287, 314, 377, 350, 392, 87, 383, 400, 394, 311, 278, 279, 280, 281, 155, 145, 127, 141, 170, 147, 59, 132, 157, 171]
+
+

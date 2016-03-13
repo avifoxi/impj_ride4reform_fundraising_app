@@ -113,9 +113,9 @@ class Admin::DonationsController < ApplicationController
 		@donation = Donation.find(params[:id])
 
 		if @donation.receipt
-			flash[:alert] = 'This donation has already been processed, and cannot be edited.' 
-			redirect_to admin_path
-			return
+			# flash[:alert] = 'This donation has already been processed, and cannot be edited.' 
+			# redirect_to admin_path
+			# return
 		end
 
 		@user = @donation.user
@@ -134,11 +134,6 @@ class Admin::DonationsController < ApplicationController
 
 	def destroy
 		@donation = Donation.find(params[:id])
-		if @donation.receipt
-			flash[:alert] = 'This donation has already been processed, and cannot be deleted.' 
-			redirect_to root_url
-			return
-		end 
 		@donation.destroy
 		flash[:notice] = 'Successfully deleted donation.'
 		redirect_to admin_path
