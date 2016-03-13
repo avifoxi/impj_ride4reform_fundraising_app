@@ -34,7 +34,7 @@ class Donation < ActiveRecord::Base
   end
 
   def mailing_address
-    self.user.mailing_addresses.first
+    self.user.mailing_addresses.first.one_liner
   end
 
   private
