@@ -34,7 +34,12 @@ class Donation < ActiveRecord::Base
   end
 
   def mailing_address
-    self.user.mailing_addresses.first.one_liner
+    addy = self.user.mailing_addresses.first
+    if addy
+      addy.one_liner
+    else
+      ''
+    end
   end
 
   private
