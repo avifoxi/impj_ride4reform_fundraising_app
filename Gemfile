@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -65,6 +65,8 @@ gem "paperclip", "~> 4.2"
 # for location, zip / state comparison
 gem 'area'
 
+gem 'faker'
+
 # moving factory girl to here for seed in staging -- ensure the addies are gonna pass the area gem's zip validation against state + city
 gem "factory_girl_rails", "~> 4.0"
 # Use debugger
@@ -73,8 +75,7 @@ gem "factory_girl_rails", "~> 4.0"
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'database_cleaner', '~> 1.4.0'
-  gem 'byebug'
-  gem 'faker'
+  gem 'byebug'	
 end
 
 gem 'simplecov', '~> 0.9.0', :require => false, :group => :test
