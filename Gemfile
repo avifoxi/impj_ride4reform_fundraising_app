@@ -70,7 +70,6 @@ gem 'faker'
 # moving factory girl to here for seed in staging -- ensure the addies are gonna pass the area gem's zip validation against state + city
 gem "factory_girl_rails", "~> 4.0"
 # Use debugger
-# gem 'debugger', group: [:development, :test]
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
