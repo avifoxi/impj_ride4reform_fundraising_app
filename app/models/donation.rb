@@ -9,7 +9,7 @@ class Donation < ActiveRecord::Base
 
   belongs_to :user
 
-  delegate :email, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
+  delegate :email, :mailing_addresses, :cc_type, :cc_number, :cc_expire_month, :cc_expire_year, :cc_cvv2, :custom_billing_address, to: :user
 
   validates_associated :user, on: :create
 
