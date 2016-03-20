@@ -75,7 +75,8 @@ gem "factory_girl_rails", "~> 4.0"
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'database_cleaner', '~> 1.4.0'
-  gem 'byebug'	
+  gem 'byebug'
+  gem 'dotenv-rails'
 end
 
 gem 'simplecov', '~> 0.9.0', :require => false, :group => :test
